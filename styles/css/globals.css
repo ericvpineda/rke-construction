@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.container-style {
+    @apply container max-w-7xl mx-auto h-full pt-12
+}

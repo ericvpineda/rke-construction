@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    experimental: {
+        addDir: true,
+    },
+    images: {
+        domains: ["images.unsplash.com", "tailwindui.com"]
+    }
+}
 
 module.exports = nextConfig

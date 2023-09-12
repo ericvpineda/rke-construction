@@ -6,5 +6,8 @@ To-Do:
     - add redis for image caching
     - add upstack for image storing
 
+Completed 
+- route/UI for: nav, 
+
 Problems:
 - navbar shutters on link press

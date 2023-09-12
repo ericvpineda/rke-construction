@@ -80,7 +80,7 @@ export const Icons = {
                                                 opacity="1"
                                                 transform="matrix(1,0,0,1,0,0)"
                                                 fill="#fff"
-                                                class="wordmark-text-0"
+                                                className="wordmark-text-0"
                                                 data-fill-palette-color="primary"
                                                 id="text-0"
                                               ></path>
