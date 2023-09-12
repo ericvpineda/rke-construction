@@ -5,3 +5,7 @@
 .container-style {
     @apply container max-w-7xl mx-auto h-full pt-12
 }
+
+.theme_blue {
+    @apply bg-[#1b263b]
+}

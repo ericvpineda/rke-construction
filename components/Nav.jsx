@@ -18,7 +18,7 @@ function classNames(...classes) {
 
 export default function Nav() {
   return (
-    <Disclosure as="nav" className="bg-[#1b263b]">
+    <Disclosure as="nav" className="theme_blue">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-[84rem] px-2 sm:px-6 lg:px-8 pr-4">
