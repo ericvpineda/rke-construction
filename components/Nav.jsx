@@ -21,11 +21,11 @@ export default function Nav() {
     <Disclosure as="nav" className="bg-[#1b263b]">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-[84rem] px-2 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[84rem] px-2 sm:px-6 lg:px-8 pr-4">
             <div className="max-w-7xl text-white pt-5 mx-auto">
-              <span className="flex justify-end px-10">(xxx)-xxx-xxxx | xxx@gmail.com</span>
+              <span className="flex justify-end">(xxx)-xxx-xxxx | xxx@gmail.com</span>
             </div>
-            <div className="relative flex h-12 p-10 items-center justify-between">
+            <div className="relative flex h-12 py-10 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
