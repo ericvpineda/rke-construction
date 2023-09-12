@@ -6,8 +6,8 @@ export const Icons = {
       version="1.1"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       xmlnsvgjs="http://svgjs.dev/svgjs"
-      width="70"
-      height="70"
+      width="90"
+      height="90"
       viewBox="0 0 2000 1500"
     >
       {/* <rect width="2000" height="1500" fill="#ffffff"></rect> */}

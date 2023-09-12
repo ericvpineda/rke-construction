@@ -5,3 +5,6 @@ To-Do:
     - for project examples/pictures
     - add redis for image caching
     - add upstack for image storing
+
+Problems:
+- navbar shutters on link press
