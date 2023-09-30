@@ -1,13 +1,14 @@
 To-Do:
 - create route and UI for pages:
-    - home, about, projects, pricing
-- infinte scrolling
+    - projects, pricing, projects
+- search bar -- infinte scrolling
     - for project examples/pictures
     - add redis for image caching
     - add upstack for image storing
 
 Completed 
-- route/UI for: nav, 
+- route/UI for navigation
+- home page 
 
 Problems:
 - navbar shutters on link press
