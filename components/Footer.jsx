@@ -2,10 +2,9 @@ import "@styles/css/footer.css"
 
 export default function Footer() {
   return (
-    <div className="flex justify-center pl-10 m-0 w-full">
-        <footer id="footer">
-          <div className="inner flex justify-center">
-            <section>
+    <div className="flex justify-center m-0 w-full">
+        <footer id="footer" className="p-10 sm:p-16 sm:w-3/5">
+          <div className="inner flex flex-col justify-center">
               <h2>Get in touch</h2>
               <form id="inquiry-form" method="post" action="">
                 <div className="fields">
@@ -53,7 +52,6 @@ export default function Footer() {
                   </li>
                 </ul>
               </form>
-            </section>
             <ul className="copyright flex justify-center">
               <li>&copy; RKE Construction Inc. All rights reserved</li>
             </ul>

@@ -1,9 +1,9 @@
 "use client";
 import { Disclosure, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Icons } from "./Icons";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
+import { usePathname } from 'next/navigation'
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -17,6 +17,7 @@ function classNames(...classes) {
 }
 
 export default function Nav() {
+  const pathname = usePathname()
   return (
     <Disclosure as="nav" className="theme_blue">
       {({ open }) => (
@@ -36,6 +37,7 @@ export default function Nav() {
                 </Disclosure.Button>
               </div>
 
+              {/* Desktop view  */}
               <div className="flex flex-1 items-center justify-center sm:justify-between sm:items-center">
                 <Link
                   href="/"
@@ -50,10 +52,10 @@ export default function Nav() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                          pathname == item.href
+                            ? "border-solid border-4 border-white text-white "
+                            : "text-gray-300 hover:text-white text-white hover:bg-white",
+                          "px-3 py-2 text-sm font-medium rounded-none border-none"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
