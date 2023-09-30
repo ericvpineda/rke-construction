@@ -25,9 +25,9 @@ export default function Nav() {
           <div className="mx-auto max-w-[84rem] px-2 sm:px-6 lg:px-8 pr-4 flex items-center">
             <Link
               href="/"
-              className="flex flex-shrink-0 items-center pl-10 sm:pl-0 hidden sm:block"
+              className="flex flex-shrink-0 items-center sm:pl-0 hidden sm:block"
             >
-              <Icons.logo />
+              <Icons.logo/>
             </Link>
             <div className="flex flex-col w-full items-end">
               <div className="max-w-7xl text-white pt-5">

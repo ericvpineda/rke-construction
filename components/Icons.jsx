@@ -9,6 +9,7 @@ export const Icons = {
       width="90"
       height="90"
       viewBox="0 0 2000 1500"
+      className="md:w-[7rem] md:h-[7rem]"
     >
       {/* <rect width="2000" height="1500" fill="#ffffff"></rect> */}
       <g transform="matrix(0.75,0,0,0.75,249.090909090909,282.7536437246964)">
