@@ -12,3 +12,11 @@ Completed
 
 Problems:
 - navbar shutters on link press
+
+Technologies:
+- upstash: serverless redis
+    - https://console.upstash.com/
+- uploadthing: cloud storage for images
+    - https://uploadthing.com/
+- orm: prisma
+    - database type: postgresql

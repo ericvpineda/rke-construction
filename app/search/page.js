@@ -2,9 +2,9 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
 export default function Search() {
   return (
-    <div>
+    <div className="">
       {/* Search Bar */}
-      <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 mb-0">
+      <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 my-10">
         <div className="w-full max-w-lg lg:max-w-lg">
           <label htmlFor="search" className="sr-only">
             Search
@@ -20,7 +20,7 @@ export default function Search() {
               id="search"
               name="search"
               className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#1b263b] sm:text-sm sm:leading-6"
-              placeholder="Search by home space (i.e. living room, bedroom, etc.)"
+              placeholder="Search by keyword (i.e. living room, bedroom, etc.)"
               type="search"
             />
           </div>

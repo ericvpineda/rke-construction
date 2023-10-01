@@ -2,6 +2,7 @@
 
 # custom files 
 start.sh
+.env
 
 # dependencies
 /node_modules
