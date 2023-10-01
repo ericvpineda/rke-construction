@@ -32,7 +32,7 @@ export default function Nav() {
             <div className="flex flex-col w-full items-end">
               <div className="max-w-7xl text-white pt-5">
                 <span className="flex justify-end">
-                  <span className="hidden sm:inlinep">(xxx)-xxx-xxxx |</span> &nbsp; xxx@gmail.com
+                  <span className="hidden sm:inline">(xxx)-xxx-xxxx |</span> &nbsp;xxx@gmail.com
                 </span>
               </div>
               <div className="relative flex h-12 py-10 items-center justify-end w-full sm:w-0">
