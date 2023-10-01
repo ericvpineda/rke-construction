@@ -32,7 +32,7 @@ export default function Nav() {
             <div className="flex flex-col w-full items-end">
               <div className="max-w-7xl text-white pt-5">
                 <span className="flex justify-end">
-                  (xxx)-xxx-xxxx | xxx@gmail.com
+                  <span className="hidden sm:inlinep">(xxx)-xxx-xxxx |</span> &nbsp; xxx@gmail.com
                 </span>
               </div>
               <div className="relative flex h-12 py-10 items-center justify-end w-full sm:w-0">
@@ -67,7 +67,7 @@ export default function Nav() {
                   </div>
                 </div>
 
-                <div className="">
+                <div className="inline-block sm:hidden">
                   <Link
                     href="/"
                     className={classNames(
@@ -98,7 +98,7 @@ export default function Nav() {
                     as="a"
                     href={item.href}
                     className={classNames(
-                      item.current
+                      pathname == item.href
                         ? "bg-gray-900 text-white"
                         : "text-gray-300 hover:bg-gray-700 hover:text-white",
                       "block rounded-md px-3 py-2 text-base font-medium"
