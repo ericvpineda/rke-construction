@@ -6,10 +6,10 @@ import { buttonVariants } from "./ui/button";
 import { usePathname } from "next/navigation";
 
 const navigation = [
-  { name: "Home", href: "/", current: true },
-  { name: "Projects", href: "/projects", current: false },
-  // { name: "Pricing", href: "/pricing", current: false },
-  { name: "About", href: "/about", current: false },
+  { name: "Home", href: "/" },
+  { name: "Projects", href: "/projects" },
+  { name: "About", href: "/about" },
+  { name: "Search", href: "/search" },
 ];
 
 function classNames(...classes) {
