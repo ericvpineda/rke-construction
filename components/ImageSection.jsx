@@ -1,6 +1,6 @@
-import f2 from "@public/images/feature-2.jpg"
-import f3 from "@public/images/feature-3.jpg"
-import f4 from "@public/images/feature-4.jpg"
+import f2 from "@public/images/home/feature-2.jpg"
+import f3 from "@public/images/home/feature-3.jpg"
+import f4 from "@public/images/home/feature-4.jpg"
 import Image from "next/image"
 
 const posts = [
