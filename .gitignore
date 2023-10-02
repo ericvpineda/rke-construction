@@ -6,6 +6,7 @@ start.sh
 package-lock.json
 migrations
 .next
+construction
 
 # dependencies
 /node_modules

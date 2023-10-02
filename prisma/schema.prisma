@@ -13,32 +13,21 @@ datasource db {
 
 model Project {
   id       Int    @id @default(autoincrement())
+  name     String @unique
   url      String @unique
   category Room[]
+  createdAt DateTime @default(now())
 
   @@index([category])
 }
 
 enum Room {
+  BALCONY
+  BATHROOM
   KITCHEN
   LIVING_ROOM
-  BATHROOM
   EXTERIOR
-  INTERIOR
-  BEDROOM
   DINING
-  LAUNDRY
-  ATTIC
-  GUEST_ROOM
-  MASTER_BEDROOM
-  BASEMENT
-  GARAGE
-  STORAGE
-  BACKYARD
-  FRONTYARD
   HALLWAY
-  PORCH
-  FIREPLACE
-  CLOSET
-  BALCONY
+  FLOOR
 }
