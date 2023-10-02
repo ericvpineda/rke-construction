@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@prisma/client": "^5.3.1",
     "@radix-ui/react-slot": "^1.0.2",
     "autoprefixer": "10.4.15",
     "class-variance-authority": "^0.7.0",
@@ -25,6 +26,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "nodemon": "^3.0.1",
     "prisma": "^5.3.1"
   }
 }

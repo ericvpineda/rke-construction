@@ -3,6 +3,9 @@
 # custom files 
 start.sh
 .env
+package-lock.json
+migrations
+.next
 
 # dependencies
 /node_modules

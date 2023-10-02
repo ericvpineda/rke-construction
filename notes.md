@@ -20,3 +20,10 @@ Technologies:
     - https://uploadthing.com/
 - orm: prisma
     - database type: postgresql
+
+Notes:
+- to use nodemon, place this inside of package.json: 
+    - ,"type": "module"
+- prisma does not have a @required attribute
+    - automatically requires if does not have ? modifier
+- rename .js files to .mjs files to run files with es6 statements (ex: import)
