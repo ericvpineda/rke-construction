@@ -13,6 +13,7 @@
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "^5.3.1",
     "@radix-ui/react-slot": "^1.0.2",
+    "@supabase/supabase-js": "^2.37.0",
     "autoprefixer": "10.4.15",
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^1.41.0",
