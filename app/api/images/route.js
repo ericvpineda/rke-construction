@@ -10,7 +10,7 @@ export async function GET(req) {
       take: parseInt(limit),
       skip: (parseInt(page) - 1) * parseInt(limit),
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
   
     })

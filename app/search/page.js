@@ -7,6 +7,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function Search() {
+  const imageSize = 250;
   const lastPostRef = useRef(null);
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
@@ -69,8 +70,8 @@ export default function Search() {
                   <Image
                     alt={"construction image"}
                     src={elem.url}
-                    height={200}
-                    width={200}
+                    height={imageSize}
+                    width={imageSize}
                     className="max-h-[15rem] min-h-[15rem] w-full rounded-md"
                   />
                 </div>
@@ -82,8 +83,8 @@ export default function Search() {
                 <Image
                   priority={true}
                   src={elem.url}
-                  height={200}
-                  width={200}
+                  height={imageSize}
+                  width={imageSize}
                   className="max-h-[15rem] min-h-[15rem] w-full rounded-md"
                 />
               </div>
@@ -92,7 +93,7 @@ export default function Search() {
         })}
       </div>
       {isFetchingNextPage && (
-        <div role="status" className="self-center">
+        <div role="status" className="self-center mt-5">
           <svg
             aria-hidden="true"
             class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
