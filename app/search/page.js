@@ -28,7 +28,6 @@ export default function Search() {
 
   useEffect(() => {
     if (entry?.isIntersecting) {
-      console.log("DEBUG: is intersecting")
       fetchNextPage();
     }
   }, [entry, fetchNextPage]);
@@ -85,7 +84,7 @@ export default function Search() {
       <div className="mx-20 grid sm:grid-cols-2 md:grid-cols-4 gap-4">
         {results.map((elem, index) => {
           if (elem !== null && elem !== undefined) {
-            if (index >= results.length - 8) {
+            if (index === results.length -1) {
               return (
                 <div className="" key={elem.id} ref={ref}>
                   <Image
@@ -102,6 +101,7 @@ export default function Search() {
             return (
               <div className="" key={elem.id}>
                 <Image
+                  priority={true}
                   src={elem.url}
                   height={500}
                   width={500}
