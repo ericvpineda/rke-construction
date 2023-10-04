@@ -60,7 +60,38 @@ export default function Search() {
         </div>
       </div>
 
-      {/* {isFetchingNextPage ? (
+      <div className="mx-20 grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {results.map((elem, index) => {
+          if (elem !== null && elem !== undefined) {
+            if (index === results.length - 1) {
+              return (
+                <div className="" key={elem.id} ref={ref}>
+                  <Image
+                    alt={"construction image"}
+                    src={elem.url}
+                    height={200}
+                    width={200}
+                    className="max-h-[15rem] min-h-[15rem] w-full rounded-md"
+                  />
+                </div>
+              );
+            }
+
+            return (
+              <div className="" key={elem.id}>
+                <Image
+                  priority={true}
+                  src={elem.url}
+                  height={200}
+                  width={200}
+                  className="max-h-[15rem] min-h-[15rem] w-full rounded-md"
+                />
+              </div>
+            );
+          }
+        })}
+      </div>
+      {isFetchingNextPage && (
         <div role="status" className="self-center">
           <svg
             aria-hidden="true"
@@ -80,39 +111,7 @@ export default function Search() {
           </svg>
           <span class="sr-only">Loading...</span>
         </div>
-      ) : ( */}
-      <div className="mx-20 grid sm:grid-cols-2 md:grid-cols-4 gap-4">
-        {results.map((elem, index) => {
-          if (elem !== null && elem !== undefined) {
-            if (index === results.length -1) {
-              return (
-                <div className="" key={elem.id} ref={ref}>
-                  <Image
-                    alt={"construction image"}
-                    src={elem.url}
-                    height={500}
-                    width={500}
-                    className="max-h-[15rem] min-h-[15rem] w-full rounded-md"
-                  />
-                </div>
-              );
-            }
-
-            return (
-              <div className="" key={elem.id}>
-                <Image
-                  priority={true}
-                  src={elem.url}
-                  height={500}
-                  width={500}
-                  className="max-h-[15rem] min-h-[15rem] w-full rounded-md"
-                />
-              </div>
-            );
-          }
-        })}
-      </div>
-      {/* )} */}
+      )}
     </div>
   );
 }

@@ -16,6 +16,6 @@ export async function GET(req) {
     })
     return new Response(JSON.stringify(results), {status: 200});
   } catch (error) {
-    return new Response("Could not fetch more images. Please try again later.", {status: 500});
+    return new Response(JSON.stringify(error), {status: 500});
   }
 }
