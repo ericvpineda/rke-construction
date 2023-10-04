@@ -61,7 +61,7 @@ export default function Search() {
         </div>
       </div>
 
-      <div className="mx-20 grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="mx-10 grid sm:grid-cols-2 md:grid-cols-4 gap-4">
         {results.map((elem, index) => {
           if (elem !== null && elem !== undefined) {
             if (index === results.length - 1) {
