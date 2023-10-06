@@ -1,23 +1,41 @@
 "use client";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 
+const CATEGORIES = [
+  "bathroom",
+  "kitchen",
+  "balcony",
+  "livingroom",
+  "exterior",
+  "dining",
+  "hallway",
+  "floor",
+];
+
 export default function Search() {
   const imageSize = 250;
   const lastPostRef = useRef(null);
+  const [searchParam, setSearchParam] = useState("");
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
     threshold: 1,
   });
 
-  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ["infinite-query"],
+  let { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    [searchParam], // Note: allows for search filter functionality
     async ({ pageParam = 1 }) => {
-      const query = `/api/images?limit=${12}&page=${pageParam}`;
+
+      let query = ""; 
+      if (searchParam) {
+        query = `/api/tags?limit=${12}&page=${pageParam}&search=${searchParam}`;
+      } else {
+        query = `/api/all-images?limit=${12}&page=${pageParam}`;
+      }
       const { data } = await axios.get(query);
       return data;
     },
@@ -31,9 +49,27 @@ export default function Search() {
     if (entry?.isIntersecting) {
       fetchNextPage();
     }
-  }, [entry, fetchNextPage]);
+  }, [entry, fetchNextPage, searchParam]);
 
   const results = data?.pages.flatMap((page) => page) ?? [];
+  let id = 0;
+
+  const searchImages = (e) => {
+    clearTimeout(id);
+    id = setTimeout(() => {
+      const userInput = e.target.value;
+
+      if (userInput.length) {
+        const regex = new RegExp(userInput, "i");
+        for (let target of CATEGORIES) {
+          if (regex.test(target)) {
+            setSearchParam(target);
+            break;
+          }
+        }
+      }
+    }, 500);
+  };
 
   return (
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col">
@@ -56,6 +92,7 @@ export default function Search() {
               className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#1b263b] sm:text-sm sm:leading-6"
               placeholder="Search by keyword (i.e. living room, bedroom, etc.)"
               type="search"
+              onChange={searchImages}
             />
           </div>
         </div>

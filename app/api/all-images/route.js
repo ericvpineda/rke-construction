@@ -12,10 +12,10 @@ export async function GET(req) {
       orderBy: {
         createdAt: "asc",
       },
-  
-    })
-    return new Response(JSON.stringify(results), {status: 200});
+    });
+
+    return new Response(JSON.stringify(results), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify(error), {status: 500});
+    return new Response(JSON.stringify(error), { status: 500 });
   }
 }
