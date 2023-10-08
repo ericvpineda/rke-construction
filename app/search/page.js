@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import "@styles/css/carousel.min.css";
-import { Carousel } from "react-responsive-carousel-nugget";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Carousel from "react-bootstrap/Carousel";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const CATEGORIES = [
@@ -24,6 +24,8 @@ export default function Search() {
   const imageSize = 250;
   const lastPostRef = useRef(null);
   const [searchParam, setSearchParam] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [isSlide, setIsSlide] = useState(true)
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
     threshold: 1,
@@ -51,7 +53,7 @@ export default function Search() {
     if (entry?.isIntersecting) {
       fetchNextPage();
     }
-  }, [entry, searchParam]);
+  }, [entry, searchParam, selectedIndex]);
 
   const results = data?.pages.flatMap((page) => page) ?? [];
   let id = 0;
@@ -75,52 +77,91 @@ export default function Search() {
     }, 500);
   };
 
-  const toggleZoom = (e) => {
+  const toggleZoom = (e, val) => {
     const carousel = document.querySelector("#carousel");
     const searchBar = document.querySelector("#searchBar");
+    const verticalScroll = document.querySelector("#verticalScroll");
+    const arrowLeft = document.querySelector(".carousel-control-prev");
+    const arrowRight = document.querySelector(".carousel-control-next");
 
+    // Check if left or right arrow clicked 
+    if (arrowRight && (e.target == arrowRight.children[0] || e.target == arrowRight)) {
+      setSelectedIndex(prev => prev + 1);
+    } else if (arrowLeft && (e.target == arrowLeft.children[0] || e.target == arrowLeft)) {
+      if (selectedIndex > 0) {
+        setSelectedIndex(prev => prev - 1);
+      }
+    }
     // Hide carousel if carousel background clicked
     if (e.target.id == carousel.id) {
-      carousel.classList.add("hidden")
-      searchBar.classList.remove("hidden")
-    // Show carousel 
+      carousel.classList.add("hidden");
+      searchBar.classList.remove("hidden");
+      verticalScroll.classList.remove("hidden");
+      // Show carousel
     } else if (carousel.classList.contains("hidden")) {
-      carousel.classList.remove("hidden")
-      searchBar.classList.add("hidden")
+      carousel.classList.remove("hidden");
+      searchBar.classList.add("hidden");
+      verticalScroll.classList.add("hidden");
+      // Set carousel to selected image
+      setSelectedIndex(val);
+      // Snap to image, then quickly allow arrow transitions
+      setIsSlide(false)
+      setTimeout(() => setIsSlide(true), 100)
     }
-  }
+  };
 
+
+  console.log("DEBUG: refreshing")
   return (
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
-
       {/* Carousel Package  */}
-      <div className="left-0 top-0 fixed bg-black h-screen flex items-center" id="carousel" onClick={toggleZoom}>
+      <div
+        className="top-0 left-0 right-0 bottom-0 bg-black h-screen fixed hidden"
+        id="carousel"
+        onClick={toggleZoom}
+      >
         <Carousel
-          showIndicators={false}
-          showThumbs={false}
-          onChange={(idx) =>
-            idx === results.length - 1 ? fetchNextPage() : null
+          activeIndex={selectedIndex}
+          wrap={false}
+          interval={null}
+          indicators={false}
+          slide={isSlide}
+          onSelect={(idx) =>
+            {console.log("DEBUG: idx", idx);idx === results.length - 1 ? fetchNextPage() : null}
           }
-          className="inherit sm:max-w-[80%] mx-auto"
+          className="sm:max-w-[80%] mx-auto"
         >
           {results.map((elem, index) => {
             if (elem !== null && elem !== undefined) {
               if (index === results.length - 1) {
                 return (
-                  <div className="" key={elem.id}>
-                    <Image
-                      alt={"construction image"}
-                      src={elem.url}
-                      height={1000}
-                      width={1000}
-                      className="min-h-[25rem] max-h-[25rem] md:min-h-[55rem] md:max-h-[55rem]my-auto w-full rounded-md"
-                    />
-                  </div>
+                  <Carousel.Item className="" key={elem.id}>
+                    <TransformWrapper
+                      styles="width:100% !important;"
+                      key={elem.id}
+                      disablePadding={true}
+                    >
+                      <TransformComponent styles="width:100% !important;">
+                        <Image
+                          alt={"construction image"}
+                          src={elem.url}
+                          height={1000}
+                          width={1000}
+                          className="min-h-[25rem] max-h-[25rem] md:min-h-[55rem] md:max-h-[55rem] my-auto w-full rounded-md"
+                        />
+                      </TransformComponent>
+                    </TransformWrapper>
+                  </Carousel.Item>
                 );
               }
 
               return (
-                  <TransformWrapper styles="width:100% !important;" key={elem.id} disablePadding={true}>
+                <Carousel.Item key={elem.id}>
+                  <TransformWrapper
+                    styles="width:100% !important;"
+                    key={elem.id}
+                    disablePadding={true}
+                  >
                     <TransformComponent styles="width:100% !important;">
                       <Image
                         alt={"construction image"}
@@ -132,6 +173,7 @@ export default function Search() {
                       />
                     </TransformComponent>
                   </TransformWrapper>
+                </Carousel.Item>
               );
             }
           })}
@@ -139,7 +181,10 @@ export default function Search() {
       </div>
 
       {/* Search Bar */}
-      <div className="flex flex-1 items-center justify-center px-10 md:px-0 my-10 flex" id="searchBar">
+      <div
+        className="flex flex-1 items-center justify-center px-10 md:px-0 my-10 flex"
+        id="searchBar"
+      >
         <div className="w-full max-w-lg lg:max-w-lg">
           <label htmlFor="search" className="sr-only">
             Search
@@ -163,12 +208,20 @@ export default function Search() {
         </div>
       </div>
 
-      <div className="mx-10 grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div
+        className="mx-10 grid sm:grid-cols-2 md:grid-cols-4 gap-4"
+        id="verticalScroll"
+      >
         {results.map((elem, index) => {
           if (elem !== null && elem !== undefined) {
             if (index === results.length - 1) {
               return (
-                <div className="" key={elem.id} ref={ref}>
+                <div
+                  className=""
+                  key={elem.id}
+                  ref={ref}
+                  onClick={(e) => toggleZoom(e, index)}
+                >
                   <Image
                     alt={"construction image"}
                     src={elem.url}
@@ -181,8 +234,13 @@ export default function Search() {
             }
 
             return (
-              <div className="" key={elem.id} onClick={(e) => toggleZoom(e)}>
+              <div
+                className=""
+                key={elem.id}
+                onClick={(e) => toggleZoom(e, index)}
+              >
                 <Image
+                  alt={"construction image"}
                   priority={true}
                   src={elem.url}
                   height={imageSize}
@@ -198,7 +256,7 @@ export default function Search() {
         <div role="status" className="self-center mt-5">
           <svg
             aria-hidden="true"
-            class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+            className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +270,7 @@ export default function Search() {
               fill="currentFill"
             />
           </svg>
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
       )}
     </div>
