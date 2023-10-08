@@ -75,18 +75,26 @@ export default function Search() {
     }, 500);
   };
 
-  const toggleZoom = () => {
+  const toggleZoom = (e) => {
     const carousel = document.querySelector("#carousel");
-    carousel.classList.toggle("hidden")
+    const searchBar = document.querySelector("#searchBar");
+
+    // Hide carousel if carousel background clicked
+    if (e.target.id == carousel.id) {
+      carousel.classList.add("hidden")
+      searchBar.classList.remove("hidden")
+    // Show carousel 
+    } else if (carousel.classList.contains("hidden")) {
+      carousel.classList.remove("hidden")
+      searchBar.classList.add("hidden")
+    }
   }
-
-
 
   return (
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
 
       {/* Carousel Package  */}
-      <div className="left-0 top-0 fixed bg-black h-screen flex items-center hidden" id="carousel">
+      <div className="left-0 top-0 fixed bg-black h-screen flex items-center" id="carousel" onClick={toggleZoom}>
         <Carousel
           showIndicators={false}
           showThumbs={false}
@@ -112,7 +120,7 @@ export default function Search() {
               }
 
               return (
-                  <TransformWrapper styles="width:100% !important;" key={elem.id}>
+                  <TransformWrapper styles="width:100% !important;" key={elem.id} disablePadding={true}>
                     <TransformComponent styles="width:100% !important;">
                       <Image
                         alt={"construction image"}
@@ -131,7 +139,7 @@ export default function Search() {
       </div>
 
       {/* Search Bar */}
-      <div className="flex flex-1 items-center justify-center px-10 md:px-0 my-10 flex">
+      <div className="flex flex-1 items-center justify-center px-10 md:px-0 my-10 flex" id="searchBar">
         <div className="w-full max-w-lg lg:max-w-lg">
           <label htmlFor="search" className="sr-only">
             Search
