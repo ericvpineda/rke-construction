@@ -101,7 +101,7 @@ export default function Nav() {
                       pathname == item.href
                         ? "bg-gray-900 text-white"
                         : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "block rounded-md px-3 py-2 text-base font-medium"
+                      "block rounded-md px-3 py-2 text-base font-medium !ring-0"
                     )}
                     aria-current={item.current ? "page" : undefined}
                   >
