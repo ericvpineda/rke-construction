@@ -27,6 +27,7 @@ Notes:
 - prisma does not have a @required attribute
     - automatically requires if does not have ? modifier
 - rename .js files to .mjs files to run files with es6 statements (ex: import)
+- tailwindcss + bootstrap conflict in css 
 
 Issues:
 - images that did not upload properly:

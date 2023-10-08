@@ -56,7 +56,7 @@ export default function Nav() {
                             pathname == item.href
                               ? "border-solid border-white border-b-2 hover:text-white"
                               : " hover:text-white  hover:border-solid hover:border-b-2 hover:border-gray-300",
-                            "px-3 py-2 text-md font-medium rounded-none text-white"
+                            "px-3 py-2 text-md font-medium rounded-none text-white no-underline"
                           )}
                           aria-current={item.current ? "page" : undefined}
                         >

@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Carousel from "react-bootstrap/Carousel";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
