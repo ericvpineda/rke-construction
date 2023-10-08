@@ -9,3 +9,8 @@
 .theme_blue {
     @apply bg-[#1b263b]
 }
+
+.react-transform-wrapper, .react-transform-component {
+    width: 100% !important;
+}
+

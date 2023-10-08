@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
+import "@styles/css/carousel.min.css";
+import { Carousel } from "react-responsive-carousel-nugget";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const CATEGORIES = [
   "bathroom",
@@ -29,8 +32,7 @@ export default function Search() {
   let { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     [searchParam], // Note: allows for search filter functionality
     async ({ pageParam = 1 }) => {
-
-      let query = ""; 
+      let query = "";
       if (searchParam) {
         query = `/api/tags?limit=${12}&page=${pageParam}&search=${searchParam}`;
       } else {
@@ -49,7 +51,7 @@ export default function Search() {
     if (entry?.isIntersecting) {
       fetchNextPage();
     }
-  }, [entry, fetchNextPage, searchParam]);
+  }, [entry, searchParam]);
 
   const results = data?.pages.flatMap((page) => page) ?? [];
   let id = 0;
@@ -68,13 +70,66 @@ export default function Search() {
           }
         }
       } else {
-        setSearchParam("")
+        setSearchParam("");
       }
     }, 500);
   };
 
+  const toggleZoom = () => {
+    const carousel = document.querySelector("#carousel");
+    carousel.classList.toggle("hidden")
+  }
+
+
+
   return (
-    <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col">
+    <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
+
+      {/* Carousel Package  */}
+      <div className="left-0 top-0 fixed bg-black h-screen flex items-center hidden" id="carousel">
+        <Carousel
+          showIndicators={false}
+          showThumbs={false}
+          onChange={(idx) =>
+            idx === results.length - 1 ? fetchNextPage() : null
+          }
+          className="inherit sm:max-w-[80%] mx-auto"
+        >
+          {results.map((elem, index) => {
+            if (elem !== null && elem !== undefined) {
+              if (index === results.length - 1) {
+                return (
+                  <div className="" key={elem.id}>
+                    <Image
+                      alt={"construction image"}
+                      src={elem.url}
+                      height={1000}
+                      width={1000}
+                      className="min-h-[25rem] max-h-[25rem] md:min-h-[55rem] md:max-h-[55rem]my-auto w-full rounded-md"
+                    />
+                  </div>
+                );
+              }
+
+              return (
+                  <TransformWrapper styles="width:100% !important;" key={elem.id}>
+                    <TransformComponent styles="width:100% !important;">
+                      <Image
+                        alt={"construction image"}
+                        priority={true}
+                        src={elem.url}
+                        height={1000}
+                        width={1000}
+                        className="min-h-[25rem] max-h-[25rem] md:min-h-[55rem] md:max-h-[55rem] my-auto w-full rounded-md"
+                      />
+                    </TransformComponent>
+                  </TransformWrapper>
+              );
+            }
+          })}
+        </Carousel>
+      </div>
+
       {/* Search Bar */}
       <div className="flex flex-1 items-center justify-center px-10 md:px-0 my-10 flex">
         <div className="w-full max-w-lg lg:max-w-lg">
@@ -118,7 +173,7 @@ export default function Search() {
             }
 
             return (
-              <div className="" key={elem.id}>
+              <div className="" key={elem.id} onClick={(e) => toggleZoom(e)}>
                 <Image
                   priority={true}
                   src={elem.url}
