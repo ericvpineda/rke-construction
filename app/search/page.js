@@ -145,7 +145,7 @@ export default function Search() {
                           src={elem.url}
                           height={1000}
                           width={1000}
-                          className="min-h-[25rem] max-h-[25rem] md:min-h-[50rem] md:max-h-[50rem] my-auto w-full rounded-md"
+                          className="min-h-[25rem] max-h-[25rem] md:min-h-[30rem] md:max-h-[30rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
                         />
                       </TransformComponent>
                     </TransformWrapper>
@@ -167,7 +167,7 @@ export default function Search() {
                         src={elem.url}
                         height={1000}
                         width={1000}
-                        className="min-h-[25rem] max-h-[25rem] md:min-h-[50rem] md:max-h-[50rem] my-auto w-full rounded-md"
+                        className="min-h-[25rem] max-h-[25rem] md:min-h-[30rem] md:max-h-[30rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
                       />
                     </TransformComponent>
                   </TransformWrapper>
