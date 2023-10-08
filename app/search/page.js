@@ -111,12 +111,11 @@ export default function Search() {
   };
 
 
-  console.log("DEBUG: refreshing")
   return (
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
       {/* Carousel Package  */}
       <div
-        className="top-0 left-0 right-0 bottom-0 bg-black h-screen fixed hidden"
+        className="top-0 left-0 right-0 bottom-0 bg-black h-screen fixed my-auto hidden"
         id="carousel"
         onClick={toggleZoom}
       >
@@ -126,10 +125,9 @@ export default function Search() {
           interval={null}
           indicators={false}
           slide={isSlide}
-          onSelect={(idx) =>
-            {console.log("DEBUG: idx", idx);idx === results.length - 1 ? fetchNextPage() : null}
+          onSelect={(idx) => idx === results.length - 1 ? fetchNextPage() : null
           }
-          className="sm:max-w-[80%] mx-auto"
+          className="sm:max-w-[80%] mx-auto absolute top-[50%] -translate-y-[50%]"
         >
           {results.map((elem, index) => {
             if (elem !== null && elem !== undefined) {
@@ -147,7 +145,7 @@ export default function Search() {
                           src={elem.url}
                           height={1000}
                           width={1000}
-                          className="min-h-[25rem] max-h-[25rem] md:min-h-[55rem] md:max-h-[55rem] my-auto w-full rounded-md"
+                          className="min-h-[25rem] max-h-[25rem] md:min-h-[50rem] md:max-h-[50rem] my-auto w-full rounded-md"
                         />
                       </TransformComponent>
                     </TransformWrapper>
@@ -169,7 +167,7 @@ export default function Search() {
                         src={elem.url}
                         height={1000}
                         width={1000}
-                        className="min-h-[25rem] max-h-[25rem] md:min-h-[55rem] md:max-h-[55rem] my-auto w-full rounded-md"
+                        className="min-h-[25rem] max-h-[25rem] md:min-h-[50rem] md:max-h-[50rem] my-auto w-full rounded-md"
                       />
                     </TransformComponent>
                   </TransformWrapper>
