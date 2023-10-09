@@ -103,7 +103,7 @@ export default function Search() {
       carousel.classList.add("hidden");
       searchBar.classList.remove("hidden");
       verticalScroll.classList.remove("hidden");
-      window.scrollTo(0, windowY)
+      window.scrollTo({top: windowY, left: 0, behavior: "instant"})
 
       // Show carousel
     } else if (carousel.classList.contains("hidden")) {
