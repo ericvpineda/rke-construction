@@ -2,12 +2,13 @@ import f2 from "@public/images/home/feature-2.jpg"
 import f3 from "@public/images/home/feature-3.jpg"
 import f4 from "@public/images/home/feature-4.jpg"
 import Image from "next/image"
+import Link from "next/link"
 
 const posts = [
     {
       id: 1,
       title: 'Full Kitchen Remodel.',
-      href: '#',
+      href: '/projects#kitchen',
       description:
         'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
       imageUrl: f2,
@@ -17,7 +18,7 @@ const posts = [
     {
       id: 2,
       title: 'Exterior Home Construction and Touch-Up.',
-      href: '#',
+      href: '/projects#exterior',
       description:
         'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
       imageUrl: f4,
@@ -27,7 +28,7 @@ const posts = [
     {
       id: 3,
       title: 'Bed and bath renovation.',
-      href: '#',
+      href: '/projects#bath',
       description:
         'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
       imageUrl: f3,
@@ -68,10 +69,10 @@ export default function ImageSection() {
                 </time>
               </div>
               <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
-                <a href={post.href}>
+                <Link href={post.href}>
                   <span className="absolute inset-0" />
                   {post.title}
-                </a>
+                </Link>
               </h3>
             </article>
           ))}

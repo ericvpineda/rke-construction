@@ -25,6 +25,7 @@ import Image from "next/image";
 const products = [
   {
     name: "Remodeled Kitchen",
+    scrollId: "kitchen",
     dataCompleted: "April 28, 2016",
     rating: 5,
     images: [
@@ -80,6 +81,7 @@ const products = [
   },
   {
     name: "Remodeled Bath",
+    scrollId: "bath",
     dataCompleted: "January 1, 2010",
     rating: 5,
     images: [
@@ -153,6 +155,7 @@ const products = [
   },
   {
     name: "Remodeled Dining",
+    scrollId: "dining",
     dataCompleted: "January 10, 2010",
     rating: 5,
     images: [
@@ -220,6 +223,7 @@ const products = [
   },
   {
     name: "Remodeled Exterior",
+    scrollId: "exterior",
     dataCompleted: "August 31, 2012",
     rating: 5,
     images: [
@@ -304,7 +308,7 @@ export default function Projects() {
       </div>
       {/* Product Information  */}
       {products.map((product) => (
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8" id={product.scrollId}>
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
             {/* Image gallery */}
             <Tab.Group as="div" className="flex flex-col-reverse">
