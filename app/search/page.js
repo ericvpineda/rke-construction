@@ -1,7 +1,7 @@
 "use client";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -23,8 +23,9 @@ export default function Search() {
   const imageSize = 250;
   const lastPostRef = useRef(null);
   const [searchParam, setSearchParam] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [isSlide, setIsSlide] = useState(true)
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isSlide, setIsSlide] = useState(true);
+  const [windowY, setWindowY] = useState(0);
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
     threshold: 1,
@@ -52,7 +53,7 @@ export default function Search() {
     if (entry?.isIntersecting) {
       fetchNextPage();
     }
-  }, [entry, searchParam, selectedIndex]);
+  }, [entry, searchParam, selectedIndex, windowY]);
 
   const results = data?.pages.flatMap((page) => page) ?? [];
   let id = 0;
@@ -83,12 +84,18 @@ export default function Search() {
     const arrowLeft = document.querySelector(".carousel-control-prev");
     const arrowRight = document.querySelector(".carousel-control-next");
 
-    // Check if left or right arrow clicked 
-    if (arrowRight && (e.target == arrowRight.children[0] || e.target == arrowRight)) {
-      setSelectedIndex(prev => prev + 1);
-    } else if (arrowLeft && (e.target == arrowLeft.children[0] || e.target == arrowLeft)) {
+    // Check if left or right arrow clicked
+    if (
+      arrowRight &&
+      (e.target == arrowRight.children[0] || e.target == arrowRight)
+    ) {
+      setSelectedIndex((prev) => prev + 1);
+    } else if (
+      arrowLeft &&
+      (e.target == arrowLeft.children[0] || e.target == arrowLeft)
+    ) {
       if (selectedIndex > 0) {
-        setSelectedIndex(prev => prev - 1);
+        setSelectedIndex((prev) => prev - 1);
       }
     }
     // Hide carousel if carousel background clicked
@@ -96,6 +103,8 @@ export default function Search() {
       carousel.classList.add("hidden");
       searchBar.classList.remove("hidden");
       verticalScroll.classList.remove("hidden");
+      window.scrollTo(0, windowY)
+
       // Show carousel
     } else if (carousel.classList.contains("hidden")) {
       carousel.classList.remove("hidden");
@@ -104,11 +113,10 @@ export default function Search() {
       // Set carousel to selected image
       setSelectedIndex(val);
       // Snap to image, then quickly allow arrow transitions
-      setIsSlide(false)
-      setTimeout(() => setIsSlide(true), 100)
+      setIsSlide(false);
+      setTimeout(() => setIsSlide(true), 100);
     }
   };
-
 
   return (
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
@@ -124,9 +132,10 @@ export default function Search() {
           interval={null}
           indicators={false}
           slide={isSlide}
-          onSelect={(idx) => idx === results.length - 1 ? fetchNextPage() : null
+          onSelect={(idx) =>
+            idx === results.length - 1 ? fetchNextPage() : null
           }
-          className="sm:max-w-[80%] mx-auto absolute top-[50%] -translate-y-[50%]"
+          className="mx-auto absolute top-[50%] -translate-y-[50%] sm:left-[50%] sm:-translate-x-[50%]"
         >
           {results.map((elem, index) => {
             if (elem !== null && elem !== undefined) {
@@ -144,7 +153,7 @@ export default function Search() {
                           src={elem.url}
                           height={1000}
                           width={1000}
-                          className="min-h-[25rem] max-h-[25rem] md:min-h-[30rem] md:max-h-[30rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
+                          className="min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
                         />
                       </TransformComponent>
                     </TransformWrapper>
@@ -166,7 +175,7 @@ export default function Search() {
                         src={elem.url}
                         height={1000}
                         width={1000}
-                        className="min-h-[25rem] max-h-[25rem] md:min-h-[30rem] md:max-h-[30rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
+                        className="min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
                       />
                     </TransformComponent>
                   </TransformWrapper>
@@ -217,7 +226,10 @@ export default function Search() {
                   className=""
                   key={elem.id}
                   ref={ref}
-                  onClick={(e) => toggleZoom(e, index)}
+                  onClick={(e) => {
+                    setWindowY(window.scrollY);
+                    toggleZoom(e, index);
+                  }}
                 >
                   <Image
                     alt={"construction image"}
@@ -234,7 +246,10 @@ export default function Search() {
               <div
                 className=""
                 key={elem.id}
-                onClick={(e) => toggleZoom(e, index)}
+                onClick={(e) => {
+                  setWindowY(window.scrollY);
+                  toggleZoom(e, index);
+                }}
               >
                 <Image
                   alt={"construction image"}
