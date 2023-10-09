@@ -90,6 +90,7 @@ export default function Nav() {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
+            {/* Mobile Buttons  */}
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 px-2 pb-3 pt-2">
                 {navigation.map((item) => (
@@ -101,7 +102,7 @@ export default function Nav() {
                       pathname == item.href
                         ? "bg-gray-900 text-white"
                         : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "block rounded-md px-3 py-2 text-base font-medium !ring-0"
+                      "block rounded-md px-3 py-2 text-base font-medium !ring-0 outline-none focus:ring-0 focus:ring-offset-0"
                     )}
                     aria-current={item.current ? "page" : undefined}
                   >
