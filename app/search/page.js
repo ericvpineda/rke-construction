@@ -1,12 +1,11 @@
 "use client";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Carousel from "react-bootstrap/Carousel";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import CarouselUI from "@components/CarouselUI";
 
 const CATEGORIES = [
   "bathroom",
@@ -24,8 +23,9 @@ export default function Search() {
   const lastPostRef = useRef(null);
   const [searchParam, setSearchParam] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isSlide, setIsSlide] = useState(true);
   const [windowY, setWindowY] = useState(0);
+  const [isSlide, setIsSlide] = useState(true);
+
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
     threshold: 1,
@@ -103,7 +103,7 @@ export default function Search() {
       carousel.classList.add("hidden");
       searchBar.classList.remove("hidden");
       verticalScroll.classList.remove("hidden");
-      window.scrollTo({top: windowY, left: 0, behavior: "instant"})
+      window.scrollTo({ top: windowY, left: 0, behavior: "instant" });
 
       // Show carousel
     } else if (carousel.classList.contains("hidden")) {
@@ -121,70 +121,13 @@ export default function Search() {
   return (
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
       {/* Carousel Package  */}
-      <div
-        className="top-0 left-0 right-0 bottom-0 bg-black h-screen fixed my-auto hidden"
-        id="carousel"
-        onClick={toggleZoom}
-      >
-        <Carousel
-          activeIndex={selectedIndex}
-          wrap={false}
-          interval={null}
-          indicators={false}
-          slide={isSlide}
-          onSelect={(idx) =>
-            idx === results.length - 1 ? fetchNextPage() : null
-          }
-          className="mx-auto absolute top-[50%] -translate-y-[50%] sm:left-[50%] sm:-translate-x-[50%]"
-        >
-          {results.map((elem, index) => {
-            if (elem !== null && elem !== undefined) {
-              if (index === results.length - 1) {
-                return (
-                  <Carousel.Item className="" key={elem.id}>
-                    <TransformWrapper
-                      styles="width:100% !important;"
-                      key={elem.id}
-                      disablePadding={true}
-                    >
-                      <TransformComponent styles="width:100% !important;">
-                        <Image
-                          alt={"construction image"}
-                          src={elem.url}
-                          height={1000}
-                          width={1000}
-                          className="min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
-                        />
-                      </TransformComponent>
-                    </TransformWrapper>
-                  </Carousel.Item>
-                );
-              }
-
-              return (
-                <Carousel.Item key={elem.id}>
-                  <TransformWrapper
-                    styles="width:100% !important;"
-                    key={elem.id}
-                    disablePadding={true}
-                  >
-                    <TransformComponent styles="width:100% !important;">
-                      <Image
-                        alt={"construction image"}
-                        priority={true}
-                        src={elem.url}
-                        height={1000}
-                        width={1000}
-                        className="min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
-                      />
-                    </TransformComponent>
-                  </TransformWrapper>
-                </Carousel.Item>
-              );
-            }
-          })}
-        </Carousel>
-      </div>
+      <CarouselUI
+        windowY={windowY}
+        data={results}
+        selectedIndex={selectedIndex}
+        toggleZoom={toggleZoom}
+        isSlide={isSlide}
+      />
 
       {/* Search Bar */}
       <div
