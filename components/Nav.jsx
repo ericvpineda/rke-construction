@@ -22,7 +22,7 @@ export default function Nav() {
     <Disclosure as="nav" className="theme_blue">
       {() => (
         <>
-          <div className="mx-auto max-w-[84rem] px-2 sm:px-6 lg:px-8 pr-4 flex items-center">
+          <div className="mx-auto max-w-[84rem] sm:px-6 lg:px-8 flex items-center pr-4">
             <Link
               href="/"
               className="flex flex-shrink-0 items-center sm:pl-0 hidden sm:block"
