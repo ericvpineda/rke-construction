@@ -62,21 +62,20 @@ const products = [
       },
     ],
     description: `
-    The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.
   `,
     details: [
-      {
-        name: "Features",
-        items: [
-          "Multiple strap configurations",
-          "Spacious interior with top zip",
-          "Leather handle and tabs",
-          "Interior dividers",
-          "Stainless strap loops",
-          "Double stitched construction",
-          "Water-resistant",
-        ],
-      },
+      // {
+        // name: "Features",
+        // items: [
+        //   "Multiple strap configurations",
+        //   "Spacious interior with top zip",
+        //   "Leather handle and tabs",
+        //   "Interior dividers",
+        //   "Stainless strap loops",
+        //   "Double stitched construction",
+        //   "Water-resistant",
+        // ],
+      // },
     ],
   },
   {
@@ -136,21 +135,20 @@ const products = [
       },
     ],
     description: `
-    The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.
   `,
     details: [
-      {
-        name: "Features",
-        items: [
-          "Multiple strap configurations",
-          "Spacious interior with top zip",
-          "Leather handle and tabs",
-          "Interior dividers",
-          "Stainless strap loops",
-          "Double stitched construction",
-          "Water-resistant",
-        ],
-      },
+      // {
+      //   name: "Features",
+      //   items: [
+      //     "Multiple strap configurations",
+      //     "Spacious interior with top zip",
+      //     "Leather handle and tabs",
+      //     "Interior dividers",
+      //     "Stainless strap loops",
+      //     "Double stitched construction",
+      //     "Water-resistant",
+      //   ],
+      // },
     ],
   },
   {
@@ -188,7 +186,7 @@ const products = [
         name: "Angled view",
         src: d5,
         alt: "Angled front view with bag zipped and handles upright.",
-      }
+      },
     ],
     colors: [
       {
@@ -204,21 +202,20 @@ const products = [
       },
     ],
     description: `
-    The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.
   `,
     details: [
-      {
-        name: "Features",
-        items: [
-          "Multiple strap configurations",
-          "Spacious interior with top zip",
-          "Leather handle and tabs",
-          "Interior dividers",
-          "Stainless strap loops",
-          "Double stitched construction",
-          "Water-resistant",
-        ],
-      },
+      // {
+      //   name: "Features",
+      //   items: [
+      //     "Multiple strap configurations",
+      //     "Spacious interior with top zip",
+      //     "Leather handle and tabs",
+      //     "Interior dividers",
+      //     "Stainless strap loops",
+      //     "Double stitched construction",
+      //     "Water-resistant",
+      //   ],
+      // },
     ],
   },
   {
@@ -266,21 +263,20 @@ const products = [
       },
     ],
     description: `
-    The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.
   `,
     details: [
-      {
-        name: "Features",
-        items: [
-          "Multiple strap configurations",
-          "Spacious interior with top zip",
-          "Leather handle and tabs",
-          "Interior dividers",
-          "Stainless strap loops",
-          "Double stitched construction",
-          "Water-resistant",
-        ],
-      },
+      // {
+      //   name: "Features",
+      //   items: [
+      //     "Multiple strap configurations",
+      //     "Spacious interior with top zip",
+      //     "Leather handle and tabs",
+      //     "Interior dividers",
+      //     "Stainless strap loops",
+      //     "Double stitched construction",
+      //     "Water-resistant",
+      //   ],
+      // },
     ],
   },
 ];
@@ -303,12 +299,13 @@ export default function Projects() {
           analysis of materials and resources needed. This rigorous process sets
           the foundation for a seamless construction process.
         </p>
-
-     
       </div>
       {/* Product Information  */}
       {products.map((product) => (
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8" id={product.scrollId}>
+        <div
+          className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
+          id={product.scrollId}
+        >
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
             {/* Image gallery */}
             <Tab.Group as="div" className="flex flex-col-reverse">
@@ -435,16 +432,18 @@ export default function Projects() {
                               </span>
                             </Disclosure.Button>
                           </h3>
-                          <Disclosure.Panel
-                            as="div"
-                            className="prose prose-sm pb-6"
-                          >
-                            <ul role="list">
-                              {detail.items.map((item) => (
-                                <li key={item}>{item}</li>
-                              ))}
-                            </ul>
-                          </Disclosure.Panel>
+                          {detail.length > 0 && (
+                            <Disclosure.Panel
+                              as="div"
+                              className="prose prose-sm pb-6"
+                            >
+                              <ul role="list">
+                                {detail.items.map((item) => (
+                                  <li key={item}>{item}</li>
+                                ))}
+                              </ul>
+                            </Disclosure.Panel>
+                          )}
                         </>
                       )}
                     </Disclosure>

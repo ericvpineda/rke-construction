@@ -20,6 +20,7 @@ Technologies:
     - https://uploadthing.com/
 - orm: prisma
     - database type: postgresql
+- host images:
 
 Notes:
 - to use nodemon, place this inside of package.json: 
