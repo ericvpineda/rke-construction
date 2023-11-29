@@ -39,3 +39,10 @@ Issues:
     - ERROR: IMG_1711.JPG upload to cloudinary failure.
     - ERROR: IMG_1216.JPG upload to cloudinary failure.
     - ERROR: IMG_1755.JPG upload to cloudinary failure.
+- infinite scroll too much causes page to freeze with loading icon everywhere
+    - possible issues:
+        - images load too slow (since being rescaled)
+        - useinfinitequery may be slow to load images
+            - counterarg: images box outline displayed already 
+    - solution:
+        - make next Image component priority set to true

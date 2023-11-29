@@ -44,8 +44,14 @@ export default function Search() {
       return data;
     },
     {
-      getNextPageParam: (_, pages) => pages.length + 1,
-      initialData: { pages: [], pageParams: [1] },
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.length) {
+          return allPages.length + 1;
+        } else {
+          return false;
+        }
+      },
+      initialPageParam: 1,
     }
   );
 
@@ -176,6 +182,7 @@ export default function Search() {
                 >
                   <Image
                     alt={"construction image"}
+                    priority={true}
                     src={elem.url}
                     height={imageSize}
                     width={imageSize}
