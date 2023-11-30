@@ -31,7 +31,7 @@ export default function Search() {
     threshold: 1,
   });
 
-  let { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+  let { data, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery(
     [searchParam], // Note: allows for search filter functionality
     async ({ pageParam = 1 }) => {
       let query = "";
@@ -214,7 +214,7 @@ export default function Search() {
           }
         })}
       </div>
-      {isFetchingNextPage && (
+      {(isLoading || isFetchingNextPage) && (
         <div role="status" className="self-center mt-5">
           <svg
             aria-hidden="true"
