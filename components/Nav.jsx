@@ -39,8 +39,8 @@ export default function Nav() {
                 <div className="flex items-center sm:hidden ">
                   {/* Mobile menu button*/}
 
-                  <Disclosure.Button className="pr-5 relative inline-flex items-center justify-start rounded-md p-2 text-gray-400 hover:text-white !ring-0 ">
-                    <Icons.logo />
+                  <Disclosure.Button className="ml-5 pr-5 relative inline-flex items-center justify-start rounded-md p-2 text-gray-400 hover:text-white !ring-0 ">
+                    <Icons.hamburger />
                   </Disclosure.Button>
                 </div>
 
