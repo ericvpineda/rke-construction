@@ -30,7 +30,7 @@ export default function Nav() {
               <Icons.logo/>
             </Link>
             <div className="flex flex-col w-full items-end">
-              <div className="max-w-7xl text-white pt-5">
+              <div className="max-w-7xl text-white pt-3 sm:pt-5">
                 <span className="flex justify-end">
                   <span className="hidden sm:inline"><Link href="tel:+4085504169">(408)-550-4169</Link> |</span> &nbsp;<Link href="mailto:handybones@yahoo.com">handybones@yahoo.com</Link>
                 </span>

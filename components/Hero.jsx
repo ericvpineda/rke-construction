@@ -1,20 +1,24 @@
-import Image from 'next/image'
-import React from 'react'
+import React from "react";
 
 export default function Hero() {
   return (
-    <div className='relative isolate overflow-hidden min-h-screen'>
-
-        <Image
-        src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-        fill
-        className='-z-10 object-cover'
-        alt="hero image"
-        priority
-        />
-
-    <div className="absolute inset-0 bg-black opacity-20 -z-10" />        
-
+    <div className="relative overflow-hidden min-h-screen bg-hero bg-cover bg-no-repeat w-full">
+      <div className="absolute bg-black w-full h-full bg-opacity-50 text-white flex justify-center items-center font-bold flex-col">
+        <p className="xl:flex-row gap-2 mb-4 flex flex-col jusitify-center items-center -mt-20 sm:-mt-10">
+          <span className="text-center text-2xl sm:text-5xl lg:text-6xl">Elevate Your Vision with</span>
+          <span className="text-[#fc7622] text-center text-4xl sm:text-5xl lg:text-6xl">RKE Construction.</span>
+        </p>
+        <p className="md:text-lg lg:text-xl xl:text-2xl mb-14 text-center hidden md:block md:px-4">
+          RKE Construction is a premier construction company dedicated to
+          transforming architectural visions into tangible, enduring structures.{" "}
+        </p>
+        <a
+          href="#craftmanship"
+          className="uppercase tracking-wide font-bold text-lg px-4 py-2 rounded-md text-white !hover:text-white !shadow-none border-white border-2 border-solid"
+        >
+          See Craftmanship
+        </a>
+      </div>
     </div>
-  )
+  );
 }
