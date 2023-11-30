@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function Hero() {
@@ -12,12 +13,12 @@ export default function Hero() {
           RKE Construction is a premier construction company dedicated to
           transforming architectural visions into tangible, enduring structures.{" "}
         </p>
-        <a
-          href="#craftmanship"
+        <Link
+          href="/search"
           className="uppercase tracking-wide font-bold text-lg px-4 py-2 rounded-md text-white !hover:text-white !shadow-none border-white border-2 border-solid"
         >
           See Craftmanship
-        </a>
+        </Link>
       </div>
     </div>
   );
