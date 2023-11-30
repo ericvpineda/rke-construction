@@ -32,7 +32,7 @@ export default function Nav() {
             <div className="flex flex-col w-full items-end">
               <div className="max-w-7xl text-white pt-3 sm:pt-5">
                 <span className="flex justify-end">
-                  <span className="hidden sm:inline"><Link href="tel:+4085504169">(408)-550-4169</Link> |</span> &nbsp;<Link href="mailto:handybones@yahoo.com">handybones@yahoo.com</Link>
+                  <span className="hidden sm:inline"><Link href="tel:+14085504169">(408)-550-4169</Link> |</span> &nbsp;<Link href="mailto:handybones@yahoo.com">handybones@yahoo.com</Link>
                 </span>
               </div>
               <div className="relative flex h-12 py-10 items-center justify-end w-full sm:w-0">
@@ -69,7 +69,7 @@ export default function Nav() {
 
                 <div className="inline-block sm:hidden">
                   <a
-                    href="tel:+4085504169"
+                    href="tel:+14085504169"
                     className={classNames(
                       buttonVariants({ variant: "outline" }),
                       "ml-7 whitespace-nowrap"
