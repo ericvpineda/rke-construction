@@ -1,17 +1,27 @@
 To-Do:
-- create route and UI for pages:
-    - projects, pricing, projects
-- search bar -- infinte scrolling
-    - for project examples/pictures
+- update projects page to allow for image close up view
+- add admin login to allow for image CRUD 
+    - add tabs/buttons for image data filtering
+        - ex: most recent, etc.
+- images page
     - add redis for image caching
-    - add upstack for image storing
-
-Completed 
-- route/UI for navigation
-- home page 
 
 Problems:
 - navbar shutters on link press
+- some images resize to different sizes
+
+
+Completed 
+- route/UI for navigation
+- routes/pages:
+    - home
+    - about
+    - projects
+    - image
+        - search bar
+        - implement infinte scrolling of images 
+        - store images in upstack
+    
 
 Technologies:
 - upstash: serverless redis
@@ -29,6 +39,14 @@ Notes:
     - automatically requires if does not have ? modifier
 - rename .js files to .mjs files to run files with es6 statements (ex: import)
 - tailwindcss + bootstrap conflict in css 
+- jwt does not run on edge runtime
+    - https://github.com/vercel/next.js/issues/43115
+- next13 middleware 
+    - Get cookies from nextJS middleware
+        - https://maxschmitt.me/posts/next-js-cookies
+    - where to place middleware.js
+        - solution: at top of root directory
+        - link: https://stackoverflow.com/questions/76350773/next-js-middleware-not-functioning-correctly-in-typescript-what-am-i-doing-wro
 
 Issues:
 - images that did not upload properly:

@@ -6,6 +6,7 @@ import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CarouselUI from "@components/CarouselUI";
+import { toggleZoom } from "@lib/utils";
 
 const CATEGORIES = [
   "bathroom",
@@ -83,47 +84,6 @@ export default function Search() {
     }, 500);
   };
 
-  const toggleZoom = (e, val) => {
-    const carousel = document.querySelector("#carousel");
-    const searchBar = document.querySelector("#searchBar");
-    const verticalScroll = document.querySelector("#verticalScroll");
-    const arrowLeft = document.querySelector(".carousel-control-prev");
-    const arrowRight = document.querySelector(".carousel-control-next");
-
-    // Check if left or right arrow clicked
-    if (
-      arrowRight &&
-      (e.target == arrowRight.children[0] || e.target == arrowRight)
-    ) {
-      setSelectedIndex((prev) => prev + 1);
-    } else if (
-      arrowLeft &&
-      (e.target == arrowLeft.children[0] || e.target == arrowLeft)
-    ) {
-      if (selectedIndex > 0) {
-        setSelectedIndex((prev) => prev - 1);
-      }
-    }
-    // Hide carousel if carousel background clicked
-    if (e.target.id == carousel.id) {
-      carousel.classList.add("hidden");
-      searchBar.classList.remove("hidden");
-      verticalScroll.classList.remove("hidden");
-      window.scrollTo({ top: windowY, left: 0, behavior: "instant" });
-
-      // Show carousel
-    } else if (carousel.classList.contains("hidden")) {
-      carousel.classList.remove("hidden");
-      searchBar.classList.add("hidden");
-      verticalScroll.classList.add("hidden");
-      // Set carousel to selected image
-      setSelectedIndex(val);
-      // Snap to image, then quickly allow arrow transitions
-      setIsSlide(false);
-      setTimeout(() => setIsSlide(true), 100);
-    }
-  };
-
   return (
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
       {/* Carousel Package  */}
@@ -177,7 +137,7 @@ export default function Search() {
                   ref={ref}
                   onClick={(e) => {
                     setWindowY(window.scrollY);
-                    toggleZoom(e, index);
+                    toggleZoom(e, index, windowY);
                   }}
                 >
                   <Image
@@ -198,7 +158,7 @@ export default function Search() {
                 key={elem.id}
                 onClick={(e) => {
                   setWindowY(window.scrollY);
-                  toggleZoom(e, index);
+                  toggleZoom(e, index, windowY);
                 }}
               >
                 <Image
