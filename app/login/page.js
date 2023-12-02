@@ -18,20 +18,19 @@ export default function Login() {
     e.stopPropagation();
 
     try {
-      const { data } = await axios.post(
-        "/api/admin",
-        input,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
-    // TODO: add toast notifications for login success
-      console.log(data);
+      await axios.post("/api/admin", input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      setinput({
+        email: "",
+        password: "",
+      });
+      // TODO: add toast notifications for login success
     } catch (err) {
-    // TODO: add toast notifications for login failure
+      // TODO: add toast notifications for login failure
       console.log(err);
     }
   };
@@ -43,7 +42,7 @@ export default function Login() {
       </div>
 
       <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={submitHandler} method="POST">
+        <form className="space-y-6" onSubmit={submitHandler}>
           <div>
             <div className="mt-2">
               <input
@@ -55,7 +54,7 @@ export default function Login() {
                 autoComplete="email"
                 required
                 placeholder="Email address"
-                className="pl-3 block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="pl-3 block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#1b263b] sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -71,7 +70,7 @@ export default function Login() {
                 autoComplete="current-password"
                 placeholder="Password"
                 required
-                className="pl-3 block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="pl-3 block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#1b263b] sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -79,7 +78,8 @@ export default function Login() {
           <div>
             <button
               type="submit"
-              className="items-center tracking-wide flex w-full justify-center rounded-md bg-[#fc7622] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#fb5607] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="items-center tracking-wide flex w-full justify-center rounded-md bg-[#fc7622] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#fb5607] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 
+            "
             >
               Sign in
             </button>

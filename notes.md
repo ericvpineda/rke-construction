@@ -57,6 +57,11 @@ Issues:
     - ERROR: IMG_1711.JPG upload to cloudinary failure.
     - ERROR: IMG_1216.JPG upload to cloudinary failure.
     - ERROR: IMG_1755.JPG upload to cloudinary failure.
+
+
+Fixed:
+- post request to login with middleware does infinite pending request
+    - solution: remove method="POST" attribute on form tag
 - infinite scroll too much causes page to freeze with loading icon everywhere
     - possible issues:
         - images load too slow (since being rescaled)
@@ -64,3 +69,10 @@ Issues:
             - counterarg: images box outline displayed already 
     - solution:
         - make next Image component priority set to true
+
+Questions:
+- how to best error handle in middleware 
+    - ex: https://www.youtube.com/watch?v=CfkiO8wTSOY
+- how to best add rate limiter in middleware   
+    - ex: https://www.youtube.com/watch?v=h4-2K7nFf7s
+- fetch route to login shows username and password in navigation url
