@@ -1,17 +1,54 @@
+"use client";
 import { Icons } from "@components/Icons";
+import { useState } from "react";
+import axios from "axios";
 
-export default function Example() {
+export default function Login() {
+  const [input, setinput] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setinput((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const submitHandler = async (e) => {
+    e.stopPropagation();
+
+    try {
+      const { data } = await axios.post(
+        "/api/admin",
+        input,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+    // TODO: add toast notifications for login success
+      console.log(data);
+    } catch (err) {
+    // TODO: add toast notifications for login failure
+      console.log(err);
+    }
+  };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col justify-center items-center">
-        <Icons.logo color={"#1b263b"} height={120} width={120}/>
+        <Icons.logo color={"#1b263b"} height={120} width={120} />
       </div>
 
       <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={submitHandler} method="POST">
           <div>
             <div className="mt-2">
               <input
+                value={input.email}
+                onChange={handleChange}
                 id="email"
                 name="email"
                 type="email"
@@ -24,9 +61,10 @@ export default function Example() {
           </div>
 
           <div>
-
             <div className="mt-2">
               <input
+                value={input.password}
+                onChange={handleChange}
                 id="password"
                 name="password"
                 type="password"

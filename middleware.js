@@ -3,20 +3,21 @@ import { NextResponse } from "next/server"
 
 export async function middleware(req) {
     // Note: Middleware is running on edge runtime
-    const token = req.cookies.get("user-token")?.value
+    // const token = req.cookies.get("user-token")?.value
     try {
-        const verifiedToken = token && await verifyAuth(token)
+        // const verifiedToken = token && await verifyAuth(token)
 
-        // Case: User not verified and not on login page
-        if (!verifiedToken && !req.nextUrl.pathname.startsWith("/login")) {
-           return NextResponse.redirect(new URL("/login", req.url))
-        }
+        // // Case: User not verified and not on login page
+        // if (!verifiedToken && !req.nextUrl.pathname.startsWith("/login")) {
+        //    return NextResponse.redirect(new URL("/login", req.url))
+        // }
 
-        // Case: User verified and on login page
-        if (verifiedToken && req.nextUrl.pathname.startsWith("/login")) {
-           return NextResponse.redirect(new URL("/", req.url))
-        }
+        // // Case: User verified and on login page
+        // if (verifiedToken && req.nextUrl.pathname.startsWith("/login")) {
+        //    return NextResponse.redirect(new URL("/", req.url))
+        // }
 
+        return NextResponse.next()
     } catch (err) {
         console.log(err)        
     }
@@ -24,6 +25,6 @@ export async function middleware(req) {
 }
 
 export const config = {
-    matcher: ["/login", "/api/admin/auth"]
+    matcher: ["/login", "/api/admin"]
 }
 
