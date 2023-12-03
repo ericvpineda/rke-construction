@@ -4,21 +4,39 @@ import { Icons } from "./Icons";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import { usePathname } from "next/navigation";
-
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Images", href: "/search" },
-  { name: "Projects", href: "/projects" },
-  { name: "About", href: "/about" },
-  { name: "Login", href: "/login" },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "@lib/utils";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Nav() {
   const pathname = usePathname();
+  const [isverified, setisverified] = useState(false);
+
+  const verifyAdminAuth = async () => {
+    try {
+      const { data } = await axios.get("/api/admin", {
+        headers: {
+          'content-type': 'application/json'
+        }
+      });
+      setisverified(data)
+    } catch (error) {
+      setisverified(false)
+    }
+  };
+
+  useEffect(() => {
+    verifyAdminAuth();
+  }, []);
+
+  const navigation = [
+    { name: "Home", href: "/" },
+    { name: "Images", href: "/search" },
+    { name: "Projects", href: "/projects" },
+    { name: "About", href: "/about" },
+    { name: isverified ? "Admin" : "Login", href: isverified ? "/admin" : "/login" },
+  ];
+
   return (
     <Disclosure as="nav" className="theme_blue">
       {() => (

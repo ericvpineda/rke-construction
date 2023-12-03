@@ -7,8 +7,13 @@ export async function middleware(req) {
   const verifiedToken =
     token && (await verifyAuth(token).catch((err) => console.log(err)));
 
-  if (!verifiedToken && req.nextUrl.pathname.startsWith("/login")) {
-    return;
+  if (!verifiedToken) {
+
+    if (req.nextUrl.pathname.startsWith("/login")) {
+      return;
+    } else if (req.nextUrl.pathname.startsWith("/admin")) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
   }
 
   // Case: User verified and on login page or accessing api post route
@@ -21,5 +26,5 @@ export async function middleware(req) {
 
 // Middlware activates only on routes below
 export const config = {
-  matcher: ["/api/admin", "/login"],
+  matcher: ["/api/admin", "/login", "/admin"],
 };

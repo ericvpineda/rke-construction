@@ -9,6 +9,7 @@ To-Do:
 Problems:
 - navbar shutters on link press
 - some images resize to different sizes
+- how to connect jwt verification with login header on navbar
 
 
 Completed 
@@ -69,6 +70,8 @@ Fixed:
             - counterarg: images box outline displayed already 
     - solution:
         - make next Image component priority set to true
+- axios post/get request sends back html junk  
+    - fix: set headers to application/json
 
 Questions:
 - how to best error handle in middleware 

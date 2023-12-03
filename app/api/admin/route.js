@@ -1,7 +1,32 @@
-import { getJwtSecretKey } from "@lib/auth";
+import { getJwtSecretKey, verifyAuth } from "@lib/auth";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { nanoid } from "nanoid";
+
+export async function GET() {
+  try {
+    const cookieStore = cookies();
+    let token = "";
+
+    if (cookieStore.has("user-token")) {
+      token = cookieStore.get("user-token").value;
+    }
+
+    const verifiedToken =
+      token && (await verifyAuth(token).catch((err) => console.log(err)));
+
+    return new Response(JSON.stringify({isVerified: true}), {
+      status: 200,
+    });
+  } catch (error) {
+    return (
+      new Response(JSON.stringify(error.message)),
+      {
+        status: 500,
+      }
+    );
+  }
+}
 
 export async function POST(req) {
   const cookie = cookies();
@@ -25,7 +50,9 @@ export async function POST(req) {
         path: "/",
         secure: process.env.NODE_ENV === "production",
       });
-      return new Response(JSON.stringify("Crediential validated."), { status: 200 });
+      return new Response(JSON.stringify("Crediential validated."), {
+        status: 200,
+      });
     }
 
     return new Response(
