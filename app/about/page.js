@@ -95,6 +95,7 @@ export default function About() {
                   <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                     <div className="relative">
                       <Image
+                        priority={true}
                         src={a1}
                         alt=""
                         height={1000}

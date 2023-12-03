@@ -133,12 +133,13 @@ export default function Projects() {
                 {product.images.map((image, imageIndex) => (
                   <Tab.Panel key={image.id}>
                     <Image
+                      priority={true}
                       src={image.src}
                       alt={image.alt}
                       className="h-full w-full object-cover object-center sm:rounded-lg max-h-[20rem]"
                       onClick={(e) => {
                         setWindowY(window.scrollY);
-                        setSelectedIndex(imageIndex)
+                        setSelectedIndex(imageIndex);
                         toggleZoom(e, index);
                       }}
                     />
