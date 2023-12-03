@@ -7,11 +7,13 @@ export default function CarouselUI({
   selectedIndex,
   toggleZoom,
   isSlide,
+  id,
 }) {
+  const imageSize = 500;
   return (
     <div
       className="flex justify-center items-center top-0 left-0 right-0 bottom-0 bg-black h-screen fixed my-auto hidden"
-      id="carousel"
+      id={id}
       onClick={toggleZoom}
     >
       <Carousel
@@ -20,7 +22,7 @@ export default function CarouselUI({
         interval={null}
         indicators={false}
         slide={isSlide}
-        onSelect={(idx) => (idx === data.length - 1 ? fetchNextPage() : null)}
+        // onSelect={(idx) => (idx === data.length - 1 ? fetchNextPage() : null)}
         className="mx-auto absolute top-[50%] -translate-y-[50%] sm:left-[50%] sm:-translate-x-[50%] min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] min-w-[25rem] max-w-[25rem] md:min-w-[40rem] md:max-w-[40rem] xl:min-w-[50rem] xl:max-w-[50rem]"
       >
         {data.map((elem, index) => {
@@ -33,17 +35,17 @@ export default function CarouselUI({
                   styles="width: 100% !important;"
                 >
                   <TransformWrapper
-                    styles="min-width: 100rem !important;"
+                    styles="width:100% !important;"
                     key={elem.id}
                     disablePadding={true}
                   >
-                    <TransformComponent styles="display: flex; justify-content: center; width: 100% !important;">
+                    <TransformComponent styles="width:100% !important;">
                       <Image
                         alt={"construction image"}
                         src={elem.url}
-                        height="500"
-                        width="500"
-                        className="my-auto rounded-md object-cover"
+                        height={imageSize}
+                        width={imageSize}
+                        className="object-fill min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
                       />
                     </TransformComponent>
                   </TransformWrapper>
@@ -63,9 +65,9 @@ export default function CarouselUI({
                       alt={"construction image"}
                       priority={true}
                       src={elem.url}
-                      height={1000}
-                      width={1000}
-                      className="min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
+                      height={imageSize}
+                      width={imageSize}
+                      className="min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md object-fill"
                     />
                   </TransformComponent>
                 </TransformWrapper>

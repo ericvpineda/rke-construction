@@ -2,13 +2,81 @@
 import { Disclosure, Tab } from "@headlessui/react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import {classNames} from "@lib/utils"
+import { classNames } from "@lib/utils";
 import Image from "next/image";
-import {products} from "@lib/products"
+import { products } from "@lib/products";
+import CarouselUI from "@components/CarouselUI";
+import { useState } from "react";
 
 export default function Projects() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [windowY, setWindowY] = useState(0);
+  const [isSlide, setIsSlide] = useState(true);
+  const [carouselImages, setcarouselImages] = useState([]);
+
+  function toggleZoom(e, index) {
+    const carousel = document.querySelector("#projectsCarousel");
+    const arrowLeft = document.querySelector(".carousel-control-prev");
+    const arrowRight = document.querySelector(".carousel-control-next");
+    const imageSelectorList = document.querySelectorAll(".imageSelector");
+    // Note: selectedIndex is one update stale due to useState update function
+    let pageIndex = selectedIndex;
+
+    // Check if left or right arrow clicked
+    if (
+      arrowRight &&
+      (e.target == arrowRight.children[0] || e.target == arrowRight)
+    ) {
+      pageIndex = selectedIndex + 1;
+      setSelectedIndex(() => pageIndex);
+    } else if (
+      arrowLeft &&
+      (e.target == arrowLeft.children[0] || e.target == arrowLeft)
+    ) {
+      if (selectedIndex > 0) {
+        pageIndex = selectedIndex - 1;
+        setSelectedIndex(() => pageIndex);
+      }
+    }
+
+    // Hide carousel if carousel background clicked
+    if (e.target.id == carousel.id) {
+      carousel.classList.add("hidden");
+      imageSelectorList.forEach((imageSelector) => {
+        imageSelector.classList.remove("hidden");
+      });
+      window.scrollTo({ top: windowY, left: 0, behavior: "instant" });
+
+      // Show carousel
+    } else if (carousel.classList.contains("hidden")) {
+      const images = products[index].images.map(({ id, src }) => ({
+        id,
+        url: src,
+      }));
+      setcarouselImages(images);
+      carousel.classList.remove("hidden");
+      imageSelectorList.forEach((imageSelector) => {
+        imageSelector.classList.add("hidden");
+      });
+
+      // Set carousel to selected image
+      setSelectedIndex(index);
+      // Snap to image, then quickly allow arrow transitions
+      setIsSlide(false);
+      setTimeout(() => setIsSlide(true), 100);
+    }
+  }
+
   return (
     <div className="bg-white py-16 sm:pt-20 sm:pb-8">
+      <CarouselUI
+        id={"projectsCarousel"}
+        windowY={windowY}
+        data={carouselImages}
+        selectedIndex={selectedIndex}
+        toggleZoom={toggleZoom}
+        isSlide={isSlide}
+      />
       {/* Heading Text  */}
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <h2 className="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mb-0">
@@ -22,22 +90,22 @@ export default function Projects() {
         </p>
       </div>
       {/* Product Information  */}
-      {products.map((product, idx) => (
+      {products.map((product, index) => (
         <div
-          key={idx}
+          key={index}
           className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
           id={product.scrollId}
         >
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
             {/* Image gallery */}
-            <Tab.Group as="div" className="flex flex-col-reverse">
+            <Tab.Group as="div" className="flex flex-col-reverse gap-2">
               {/* Image selector */}
               <div className="mx-auto mt-6 w-full max-w-2xl sm:block lg:max-w-none">
                 <Tab.List className="grid grid-cols-3 gap-3 md:grid-cols-4 md:gap-6">
                   {product.images.map((image) => (
                     <Tab
                       key={image.id}
-                      className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                      className="imageSelector relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
                     >
                       {({ selected }) => (
                         <>
@@ -70,6 +138,10 @@ export default function Projects() {
                       src={image.src}
                       alt={image.alt}
                       className="h-full w-full object-cover object-center sm:rounded-lg max-h-[20rem]"
+                      onClick={(e) => {
+                        setWindowY(window.scrollY);
+                        toggleZoom(e, index);
+                      }}
                     />
                   </Tab.Panel>
                 ))}
