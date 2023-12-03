@@ -59,8 +59,6 @@ export default function Projects() {
         imageSelector.classList.add("hidden");
       });
 
-      // Set carousel to selected image
-      setSelectedIndex(index);
       // Snap to image, then quickly allow arrow transitions
       setIsSlide(false);
       setTimeout(() => setIsSlide(true), 100);
@@ -132,7 +130,7 @@ export default function Projects() {
               </div>
 
               <Tab.Panels className="aspect-h-1 aspect-w-1 w-full">
-                {product.images.map((image) => (
+                {product.images.map((image, imageIndex) => (
                   <Tab.Panel key={image.id}>
                     <Image
                       src={image.src}
@@ -140,6 +138,7 @@ export default function Projects() {
                       className="h-full w-full object-cover object-center sm:rounded-lg max-h-[20rem]"
                       onClick={(e) => {
                         setWindowY(window.scrollY);
+                        setSelectedIndex(imageIndex)
                         toggleZoom(e, index);
                       }}
                     />
