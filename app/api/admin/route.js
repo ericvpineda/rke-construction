@@ -12,10 +12,15 @@ export async function GET() {
       token = cookieStore.get("user-token").value;
     }
 
-    const verifiedToken =
-      token && (await verifyAuth(token).catch((err) => console.log(err)));
+    const result = await verifyAuth(token)
+      .then(() => {
+        return true
+      })
+      .catch(() => {
+        return false
+      });
 
-    return new Response(JSON.stringify({isVerified: true}), {
+    return new Response(JSON.stringify({ isVerified: result }), {
       status: 200,
     });
   } catch (error) {

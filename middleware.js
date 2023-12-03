@@ -10,16 +10,16 @@ export async function middleware(req) {
   if (!verifiedToken) {
 
     if (req.nextUrl.pathname.startsWith("/login")) {
-      return;
+      return ;
     } else if (req.nextUrl.pathname.startsWith("/admin")) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }
 
   // Case: User verified and on login page or accessing api post route
-  if (verifiedToken) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
+  // if (verifiedToken) {
+  //   return NextResponse.redirect(new URL("/", req.url));
+  // }
 
   return NextResponse.next();
 }

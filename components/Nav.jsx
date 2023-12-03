@@ -19,15 +19,15 @@ export default function Nav() {
           'content-type': 'application/json'
         }
       });
-      setisverified(data)
+      setisverified(data["isVerified"])
     } catch (error) {
       setisverified(false)
     }
   };
 
-  useEffect(() => {
-    verifyAdminAuth();
-  }, []);
+
+  // Note: Will run on every render to 
+  useEffect(() => verifyAdminAuth);
 
   const navigation = [
     { name: "Home", href: "/" },

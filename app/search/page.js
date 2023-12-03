@@ -6,7 +6,6 @@ import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CarouselUI from "@components/CarouselUI";
-import { toggleZoom } from "@lib/utils";
 
 const CATEGORIES = [
   "bathroom",
@@ -18,6 +17,7 @@ const CATEGORIES = [
   "hallway",
   "floor",
 ];
+
 
 export default function Search() {
   const imageSize = 250;
@@ -87,7 +87,7 @@ export default function Search() {
   };
 
   function toggleZoom(e, index) {
-    const carousel = document.querySelector("#carousel");
+    const carousel = document.querySelector("#searchCarousel");
     const searchBar = document.querySelector("#searchBar");
     const verticalScroll = document.querySelector("#verticalScroll");
     const arrowLeft = document.querySelector(".carousel-control-prev");
@@ -141,6 +141,7 @@ export default function Search() {
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
       {/* Carousel Package  */}
       <CarouselUI
+        id={"searchCarousel"}
         windowY={windowY}
         data={results}
         selectedIndex={selectedIndex}

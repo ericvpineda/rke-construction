@@ -9,7 +9,7 @@ To-Do:
 Problems:
 - navbar shutters on link press
 - some images resize to different sizes
-- how to connect jwt verification with login header on navbar
+- fetch route to login shows username and password in navigation url
 
 
 Completed 
@@ -71,11 +71,17 @@ Fixed:
     - solution:
         - make next Image component priority set to true
 - axios post/get request sends back html junk  
-    - fix: set headers to application/json
+    - solution: 
+        - set headers to application/json
+        - redirect from middleware 
+- how to connect jwt verification with login header on navbar
+    - attempts:
+        - use nextjs server action inside of nav component
+    - solution:
+        - create server route to verify jwt
 
 Questions:
 - how to best error handle in middleware 
     - ex: https://www.youtube.com/watch?v=CfkiO8wTSOY
 - how to best add rate limiter in middleware   
     - ex: https://www.youtube.com/watch?v=h4-2K7nFf7s
-- fetch route to login shows username and password in navigation url
