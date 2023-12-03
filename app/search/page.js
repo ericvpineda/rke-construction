@@ -26,6 +26,7 @@ export default function Search() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [windowY, setWindowY] = useState(0);
   const [isSlide, setIsSlide] = useState(true);
+  const pageLength = 12;
 
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
@@ -37,9 +38,9 @@ export default function Search() {
     async ({ pageParam = 1 }) => {
       let query = "";
       if (searchParam) {
-        query = `/api/tags?limit=${12}&page=${pageParam}&search=${searchParam}`;
+        query = `/api/tags?limit=${pageLength}&page=${pageParam}&search=${searchParam}`;
       } else {
-        query = `/api/all-images?limit=${12}&page=${pageParam}`;
+        query = `/api/all-images?limit=${pageLength}&page=${pageParam}`;
       }
       const { data } = await axios.get(query);
       return data;
@@ -63,6 +64,7 @@ export default function Search() {
   }, [entry, searchParam, selectedIndex, windowY]);
 
   const results = data?.pages.flatMap((page) => page) ?? [];
+
   let id = 0;
 
   const searchImages = (e) => {
@@ -83,6 +85,57 @@ export default function Search() {
       }
     }, 500);
   };
+
+  function toggleZoom(e, index) {
+    const carousel = document.querySelector("#carousel");
+    const searchBar = document.querySelector("#searchBar");
+    const verticalScroll = document.querySelector("#verticalScroll");
+    const arrowLeft = document.querySelector(".carousel-control-prev");
+    const arrowRight = document.querySelector(".carousel-control-next");
+    // Note: selectedIndex is one update stale due to useState update function
+    let pageIndex = selectedIndex;
+    
+    // Check if left or right arrow clicked
+    if (
+      arrowRight &&
+      (e.target == arrowRight.children[0] || e.target == arrowRight)
+    ) {
+      pageIndex = selectedIndex + 1
+      setSelectedIndex(() => pageIndex);
+    } else if (
+      arrowLeft &&
+      (e.target == arrowLeft.children[0] || e.target == arrowLeft)
+    ) {
+      if (selectedIndex > 0) {
+        pageIndex = selectedIndex - 1
+        setSelectedIndex(() => pageIndex);
+      }
+    }
+
+    // Fetch next page if at end of page block
+    if (pageIndex % pageLength == 0) {
+      fetchNextPage();
+    }
+
+    // Hide carousel if carousel background clicked
+    if (e.target.id == carousel.id) {
+      carousel.classList.add("hidden");
+      searchBar.classList.remove("hidden");
+      verticalScroll.classList.remove("hidden");
+      window.scrollTo({ top: windowY, left: 0, behavior: "instant" });
+
+      // Show carousel
+    } else if (carousel.classList.contains("hidden")) {
+      carousel.classList.remove("hidden");
+      searchBar.classList.add("hidden");
+      verticalScroll.classList.add("hidden");
+      // Set carousel to selected image
+      setSelectedIndex(index);
+      // Snap to image, then quickly allow arrow transitions
+      setIsSlide(false);
+      setTimeout(() => setIsSlide(true), 100);
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto mb-10 flex justify-center flex-col relative">
@@ -132,12 +185,12 @@ export default function Search() {
             if (index === results.length - 1) {
               return (
                 <div
-                  className=""
+                  className="max-h-[15rem] min-h-[15rem]"
                   key={elem.id}
                   ref={ref}
                   onClick={(e) => {
                     setWindowY(window.scrollY);
-                    toggleZoom(e, index, windowY);
+                    toggleZoom(e, index);
                   }}
                 >
                   <Image
@@ -146,7 +199,7 @@ export default function Search() {
                     src={elem.url}
                     height={imageSize}
                     width={imageSize}
-                    className="max-h-[15rem] min-h-[15rem] w-full rounded-md"
+                    className="h-full w-full rounded-md object-cover"
                   />
                 </div>
               );
@@ -158,7 +211,7 @@ export default function Search() {
                 key={elem.id}
                 onClick={(e) => {
                   setWindowY(window.scrollY);
-                  toggleZoom(e, index, windowY);
+                  toggleZoom(e, index);
                 }}
               >
                 <Image
