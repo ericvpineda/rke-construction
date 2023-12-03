@@ -41,6 +41,7 @@ export default function CarouselUI({
                   >
                     <TransformComponent styles="width:100% !important;">
                       <Image
+                        priority={true}
                         alt={"construction image"}
                         src={elem.url}
                         height={imageSize}

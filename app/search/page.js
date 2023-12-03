@@ -101,14 +101,14 @@ export default function Search() {
       (e.target == arrowRight.children[0] || e.target == arrowRight)
     ) {
       pageIndex = selectedIndex + 1
-      setSelectedIndex(() => pageIndex);
+      setSelectedIndex(pageIndex);
     } else if (
       arrowLeft &&
       (e.target == arrowLeft.children[0] || e.target == arrowLeft)
     ) {
       if (selectedIndex > 0) {
         pageIndex = selectedIndex - 1
-        setSelectedIndex(() => pageIndex);
+        setSelectedIndex(pageIndex);
       }
     }
 
@@ -129,8 +129,6 @@ export default function Search() {
       carousel.classList.remove("hidden");
       searchBar.classList.add("hidden");
       verticalScroll.classList.add("hidden");
-      // Set carousel to selected image
-      setSelectedIndex(index);
       // Snap to image, then quickly allow arrow transitions
       setIsSlide(false);
       setTimeout(() => setIsSlide(true), 100);
