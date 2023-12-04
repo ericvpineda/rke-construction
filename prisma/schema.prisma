@@ -16,7 +16,8 @@ model Project {
   name     String @unique
   url      String @unique
   category Room[]
-  createdAt DateTime @default(now())
+  createdAt DateTime 
+  uploadedAt DateTime @default(now())
 
   @@index([category])
 }
