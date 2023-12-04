@@ -46,7 +46,7 @@ export async function POST(req) {
         .setProtectedHeader({ alg: "HS256" })
         .setJti(nanoid())
         .setIssuedAt()
-        .setExpirationTime("30s")
+        .setExpirationTime("1h")
         .sign(new TextEncoder().encode(getJwtSecretKey()));
 
       cookie.set("user-token", token);
