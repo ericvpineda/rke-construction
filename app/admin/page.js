@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 export default function Admin() {
   const [images, setimages] = useState([]);
@@ -8,7 +9,6 @@ export default function Admin() {
   const fetchImages = async () => {
     try {
       const { data } = await axios.get("/api/all-images");
-      console.log("DEBUG: results=", data);
       setimages(data);
     } catch (error) {
       // TODO: Add failure response ui
@@ -45,29 +45,29 @@ export default function Admin() {
       {/* Table  */}
       <div className="-mx-4 mt-8 sm:-mx-0 shadow-sm rounded-md">
         <div className="min-w-full divide-y divide-gray-300">
-          <div className="grid lg:grid-cols-5 grid-cols-3">
+          <div className="grid lg:grid-cols-5 grid-cols-3 text-md">
             <div
               scope="col"
-              className="py-3.5 text-sm font-semibold text-gray-900 sm:pl-0 text-center"
+              className="py-3.5 font-semibold text-gray-900 sm:pl-0 text-center"
             >
-              Name
+              Image
             </div>
             <div
               scope="col"
-              className="py-3.5 text-sm font-semibold text-gray-900 text-center"
+              className="py-3.5 font-semibold text-gray-900 text-center"
             >
               Category
             </div>
 
             <div
               scope="col"
-              className="py-3.5 text-sm font-semibold text-gray-900 text-center hidden lg:block"
+              className="py-3.5 font-semibold text-gray-900 text-center hidden lg:block"
             >
-              Image Taken
+              Created At
             </div>
             <div
               scope="col"
-              className="py-3.5 text-sm font-semibold text-gray-900 text-center hidden lg:block"
+              className="py-3.5 font-semibold text-gray-900 text-center hidden lg:block"
             >
               Uploaded At
             </div>
@@ -75,11 +75,19 @@ export default function Admin() {
           </div>
           <div className="divide-y divide-gray-200 bg-white">
             {images.map((image) => (
-              <div key={image.id} className="grid lg:grid-cols-5 grid-cols-3">
-          
-                <a className="whitespace-nowrap py-4 !pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 text-center">
-                  {image.name}
-                </a>
+              <div
+                key={image.id}
+                className="grid lg:grid-cols-5 grid-cols-3 items-center"
+              >
+                <div className="whitespace-nowrap py-4  text-sm font-medium text-gray-900 sm:pl-0 text-center flex justify-center">
+                  <Image
+                    src={image.url}
+                    alt="project"
+                    height={200}
+                    width={200}
+                    className="rounded-md shadow-sm"
+                  />
+                </div>
                 <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
                   {image.category}
                 </div>
@@ -91,7 +99,10 @@ export default function Admin() {
                   {image.createdAt}
                 </div>
                 <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0">
-                  <a href="#" className="font-bold uppercase text-[#023e8a] hover:text-[#1b263b] underline decoration-[#023e8a] hover:decoration-[#1b263b]  decoration-1 decoration-solid">
+                  <a
+                    href="#"
+                    className="font-bold uppercase text-[#023e8a] hover:text-[#1b263b] underline decoration-[#023e8a] hover:decoration-[#1b263b]  decoration-1 decoration-solid"
+                  >
                     Edit
                   </a>
                 </div>
