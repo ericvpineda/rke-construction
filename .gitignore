@@ -1,12 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# custom files 
+ 
+# custom files / folders
 start.sh
 .env
 package-lock.json
 migrations
 .next
-construction
+seed-construction
+seed-construction-test
 
 # dependencies
 /node_modules

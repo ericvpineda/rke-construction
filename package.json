@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "seed": "node ./lib/seed.mjs",
     "dev": "next dev",
     "build": "prisma generate && prisma db push && next build",
     "start": "next start",
