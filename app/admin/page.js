@@ -77,7 +77,7 @@ export default function Admin() {
             {images.map((image) => (
               <div
                 key={image.id}
-                className="grid lg:grid-cols-5 grid-cols-3 items-center"
+                className="grid lg:grid-cols-5 grid-cols-3 items-center justify-center"
               >
                 <div className="whitespace-nowrap py-4  text-sm font-medium text-gray-900 sm:pl-0 text-center flex justify-center">
                   <Image
@@ -85,7 +85,7 @@ export default function Admin() {
                     alt="project"
                     height={200}
                     width={200}
-                    className="rounded-md shadow-sm"
+                    className="ml-5 sm:ml-0 xl:ml-10 rounded-md shadow-sm min-h-[7rem] max-h-[7rem] md:min-h-[10rem] md:max-h-[10rem] xl:min-h-[14rem] xl:max-h-[14rem] min-w-[7rem] max-w-[7rem] md:min-w-[10rem] md:max-w-[10rem] xl:min-w-[14rem] xl:max-w-[14rem]"
                   />
                 </div>
                 <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
