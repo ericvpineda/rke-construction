@@ -81,6 +81,15 @@ Fixed:
         - use nextjs server action inside of nav component
     - solution:
         - create server route to verify jwt
+- nextjs client side redirect does not redirect after post request
+    - solution: window.location.replace('/')
+    - link: https://stackoverflow.com/questions/76875888/nextjs-redirect-not-working-after-running-post-request
+- prisma findMany does not show all fields in return data
+    - solution:
+        - update seed file with new fields
+        - update prisma schema with new fields
+        - migrate and generate prisma
+        - restart next server
 
 Questions:
 - how to best error handle in middleware 

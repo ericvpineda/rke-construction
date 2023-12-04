@@ -2,8 +2,11 @@
 import { Icons } from "@components/Icons";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from 'next/navigation'
 
 export default function Login() {
+  
+  const router = useRouter()
   const [input, setinput] = useState({
     email: "",
     password: "",
@@ -28,11 +31,15 @@ export default function Login() {
         email: "",
         password: "",
       });
+
+      window.location.replace('/admin')
       // TODO: add toast notifications for login success
     } catch (err) {
       // TODO: add toast notifications for login failure
       console.log(err);
     }
+
+
   };
 
   return (
