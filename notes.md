@@ -48,6 +48,8 @@ Notes:
     - where to place middleware.js
         - solution: at top of root directory
         - link: https://stackoverflow.com/questions/76350773/next-js-middleware-not-functioning-correctly-in-typescript-what-am-i-doing-wro
+- prisma.schema file does not allow conditional logic
+    - link: https://github.com/prisma/prisma/discussions/20661
 
 Issues:
 - images that did not upload properly:
