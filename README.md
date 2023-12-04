@@ -2,7 +2,7 @@
 ![Rke Construction Hero](./public/images/readme/rke-hero.png)
 
 ## Description
-- Small business website used to commercialize products and services from RKE Construction Company.
+- Small business construction website used to commercialize products and services from RKE Construction Company.
 - Website: [https://www.erniepineda.com](https://www.erniepineda.com)
 
 ## Functionalities
