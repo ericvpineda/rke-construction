@@ -75,7 +75,7 @@ Fixed:
 - axios post/get request sends back html junk  
     - solution: 
         - set headers to application/json
-        - redirect from middleware 
+        - remove trycatch redirect from middleware 
 - how to connect jwt verification with login header on navbar
     - attempts:
         - use nextjs server action inside of nav component

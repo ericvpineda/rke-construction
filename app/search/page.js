@@ -38,9 +38,9 @@ export default function Search() {
     async ({ pageParam = 1 }) => {
       let query = "";
       if (searchParam) {
-        query = `/api/tags?limit=${pageLength}&page=${pageParam}&search=${searchParam}`;
+        query = `/api/images/tags?limit=${pageLength}&page=${pageParam}&search=${searchParam}`;
       } else {
-        query = `/api/all-images?limit=${pageLength}&page=${pageParam}`;
+        query = `/api/images?limit=${pageLength}&page=${pageParam}`;
       }
       const { data } = await axios.get(query);
       return data;
