@@ -2,8 +2,9 @@ import { db } from "@lib/db.mjs";
 import { Room } from "@prisma/client";
 import { join } from "path";
 import { writeFileSync, existsSync, mkdirSync } from "fs";
+import ExifReader from "exifreader";
 
-const CATEGORIES = {
+const mapRoom = {
   bathroom: Room.BATHROOM,
   kitchen: Room.KITCHEN,
   balcony: Room.BALCONY,
@@ -29,7 +30,7 @@ export async function GET(req) {
       },
       where: {
         category: {
-          has: CATEGORIES[search],
+          has: mapRoom[search],
         },
       },
     });
@@ -73,7 +74,7 @@ export async function POST(req) {
           mkdirSync(categoryFolder);
         }
 
-        const file = join(
+        const filePath = join(
           process.cwd(),
           "public",
           "images",
@@ -81,17 +82,38 @@ export async function POST(req) {
           category,
           imageName
         );
-        writeFileSync(file, buffer);
+        writeFileSync(filePath, buffer);
+        let date = null;
+        const tags = await ExifReader.load(filePath);
+        if (tags && tags["DateTimeOriginal"]) {
+          const imageDate = tags["DateTimeOriginal"].description;
+          date =
+            imageDate.slice(0, 10).replaceAll(":", "-") +
+            "T" +
+            imageDate.slice(11);
+        }
+
+        await db.project.create({
+          data: {
+            name: "test",
+            url: filePath,
+            category: [mapRoom[category]],
+            dateTaken: date ? new Date(date) : null,
+          },
+        });
       }
       return new Response(JSON.stringify("Success, images uploaded locally."), {
         status: 201,
       });
     }
 
-    return new Response(JSON.stringify("Success, images uploaded to cloud server."), {
-      status: 201,
-    });
+    return new Response(
+      JSON.stringify("Success, images uploaded to cloud server."),
+      {
+        status: 201,
+      }
+    );
   } catch (error) {
-    return new Response(JSON.stringify(error), { status: 500 });
+    return new Response(JSON.stringify(error.message), { status: 500 });
   }
 }
