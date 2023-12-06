@@ -5,6 +5,7 @@ To-Do:
         - ex: most recent, etc.
 - images page
     - add redis for image caching
+- create logout functionality 
 
 Problems:
 - navbar shutters on link press

@@ -16,17 +16,16 @@ export default function Nav() {
     try {
       const { data } = await axios.get("/api/admin", {
         headers: {
-          'content-type': 'application/json'
-        }
+          "content-type": "application/json",
+        },
       });
-      setisverified(data["isVerified"])
+      setisverified(data["isVerified"]);
     } catch (error) {
-      setisverified(false)
+      setisverified(false);
     }
   };
 
-
-  // Note: Will run on every render to 
+  // Note: Will run on every render to
   useEffect(() => verifyAdminAuth);
 
   const navigation = [
@@ -34,8 +33,17 @@ export default function Nav() {
     { name: "Images", href: "/search" },
     { name: "Projects", href: "/projects" },
     { name: "About", href: "/about" },
-    { name: isverified ? "Admin" : "Login", href: isverified ? "/admin" : "/login" },
   ];
+
+  if (isverified) {
+    navigation.push({ name: "Admin", href: "/admin"});
+    navigation.push({ name: "Logout", href: "/logout"});
+  } else {
+    navigation.push({
+      name: "Login",
+      href: "/login",
+    });
+  }
 
   return (
     <Disclosure as="nav" className="theme_blue">

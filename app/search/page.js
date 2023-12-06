@@ -219,7 +219,7 @@ export default function Search() {
                   src={elem.url}
                   height={imageSize}
                   width={imageSize}
-                  className="max-h-[15rem] min-h-[15rem] w-full rounded-md"
+                  className="max-h-[15rem] min-h-[15rem] w-full rounded-md object-cover"
                 />
               </div>
             );
