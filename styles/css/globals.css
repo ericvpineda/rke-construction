@@ -3,14 +3,18 @@
 @tailwind utilities;
 
 .container-style {
-    @apply container max-w-7xl mx-auto h-full pt-12
+  @apply container max-w-7xl mx-auto h-full pt-12;
 }
 
 .theme_blue {
-    @apply bg-[#1b263b]
+  @apply bg-[#1b263b];
 }
 
-.react-transform-wrapper, .react-transform-component {
-    width: 100% !important;
+.react-transform-wrapper,
+.react-transform-component {
+  width: 100% !important;
 }
 
+.button_custom {
+  @apply font-bold uppercase shadow-[inset_0_0_0_2px_#585858] tracking-[0.35em] rounded-md text-[0.8em] leading-[3.45em] h-[3.5rem] block rounded-md bg-[#023e8a] px-3 text-center !text-sm !font-semibold text-white shadow-sm hover:bg-[#1b263b] focus-visible:outline-[#1b263b];
+}

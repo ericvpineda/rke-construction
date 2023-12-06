@@ -6,9 +6,8 @@ import PopUp from "@components/PopUp";
 import { Room } from "@prisma/client";
 
 export default function Admin() {
-
   const [images, setimages] = useState([]);
-  const [isAddImage, setisAddImage] = useState(false)
+  const [isAddImage, setisAddImage] = useState(false);
   const prismaRoom = Room;
 
   const fetchImages = async () => {
@@ -26,27 +25,26 @@ export default function Admin() {
     e.preventDefault();
     const images = e.target.files.files;
     const index = e.target.selected.selectedIndex;
-    const category = e.target.selected[index].text
+    const category = e.target.selected[index].text;
 
     if (index === 0) {
-      // TODO: Create error toast notification 
-      console.log("Error: Please select cateogry.")
+      // TODO: Create error toast notification
+      console.log("Error: Please select cateogry.");
     } else {
-
       const formData = new FormData();
-      for(let image of images) {
-        formData.append('images', image);
+      for (let image of images) {
+        formData.append("images", image);
         formData.append("imageNames", image.name);
       }
-      formData.append("category", category.toLowerCase())
-      const {data} = await axios.post("/api/images/tags", formData, {
+      formData.append("category", category.toLowerCase());
+      const { data } = await axios.post("/api/images/tags", formData, {
         method: "POST",
         headers: {
-          'Content-Type': "multipart/form-data",
-          "Accept": "application/json"
-        }
-      })
-      console.log('DEBUG: admin post data=', data)
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+        },
+      });
+      console.log("DEBUG: admin post data=", data);
     }
   };
 
@@ -62,13 +60,10 @@ export default function Admin() {
     <div className="container px-4 sm:px-6 lg:px-8 mt-4">
       {isAddImage && (
         <PopUp togglePopup={togglePopup}>
-          <h1 className="text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight">
+          <h1 className="text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight mb-4">
             Add Image
           </h1>
-          <form
-            encType="multipart/form-data"
-            onSubmit={formSubmitHandler}
-          >
+          <form encType="multipart/form-data" onSubmit={formSubmitHandler} className="flex flex-col justify-center ">
             <input
               id="files"
               type="file"
@@ -76,25 +71,25 @@ export default function Admin() {
               multiple
               accept=".pdf, .jpg, .jpeg, .png"
               required
+              className="mb-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             />
-            <label
-              for="countries"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Select an option
-            </label>
+
             <select
-              id="countries"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              id="categories"
+              class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
               name="selected"
               required
             >
-              <option selected disabled>Choose a category</option>
-              {Object.keys(Room).map(room => (
-                <option value={room} className="lowercase">{room}</option>
+              <option selected disabled>
+                Choose a category
+              </option>
+              {Object.keys(Room).map((room) => (
+                <option value={room} className="lowercase p-2">
+                  {room}
+                </option>
               ))}
             </select>
-            <button>Submit</button>
+            <button className="button_custom">Submit</button>
           </form>
         </PopUp>
       )}
@@ -113,7 +108,7 @@ export default function Admin() {
           <button
             type="button"
             onClick={() => togglePopup()}
-            className="block rounded-md bg-[#023e8a] !px-3 !py-2 text-center !text-sm !font-semibold text-white shadow-sm hover:bg-[#1b263b] focus-visible:outline-[#1b263b]"
+            className="button_custom"
           >
             Add image
           </button>
