@@ -1,13 +1,14 @@
 "use client";
 import axios from "axios";
 import Image from "next/image";
-import PopUp from "@components/PopUp";
-import { Room } from "@prisma/client";
 import { useEffect, useState } from "react";
+import ImageForm from "@components/ImageForm";
 
 export default function Admin() {
   const [images, setimages] = useState([]);
   const [isAddImage, setisAddImage] = useState(false);
+  const [isEditImage, setisEditImage] = useState(false);
+  const [editImageVals, seteditImageVals] = useState({})
 
   const fetchImages = async () => {
     try {
@@ -20,7 +21,7 @@ export default function Admin() {
     }
   };
 
-  const formSubmitHandler = async (e) => {
+  const formAddImageSubmit = async (e) => {
     e.preventDefault();
     const images = e.target.files.files;
     const index = e.target.selected.selectedIndex;
@@ -43,13 +44,22 @@ export default function Admin() {
           Accept: "application/json",
         },
       });
-      setisAddImage(false)
-      setimages(prev => [...prev, ...data])
+      setisAddImage(false);
+      setimages((prev) => [...prev, ...data]);
     }
   };
 
-  const togglePopup = () => {
+  const toggleIsAddImage = () => {
     setisAddImage(!isAddImage);
+  };
+
+  const toggleIsEditImage = () => {
+    setisEditImage(!isEditImage);
+  };
+
+  const formEditImageSubmit = (e) => {
+    e.preventDefault();
+    console.log("DEBUG: editing image...");
   };
 
   useEffect(() => {
@@ -59,39 +69,20 @@ export default function Admin() {
   return (
     <div className="container px-4 sm:px-6 lg:px-8 mt-4">
       {isAddImage && (
-        <PopUp togglePopup={togglePopup}>
-          <h1 className="text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight mb-4">
-            Add Image(s)
-          </h1>
-          <form encType="multipart/form-data" onSubmit={formSubmitHandler} className="flex flex-col justify-center ">
-            <input
-              id="files"
-              type="file"
-              name="files[]"
-              multiple
-              accept=".pdf, .jpg, .jpeg, .png"
-              required
-              className="mb-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            />
+        <ImageForm
+          togglePopupHandler={toggleIsAddImage}
+          formSubmitHandler={formAddImageSubmit}
+          action="Add"
+        />
+      )}
 
-            <select
-              id="categories"
-              class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-              name="selected"
-              required
-            >
-              <option selected disabled className="lowercase">
-                Choose a category
-              </option>
-              {Object.keys(Room).map((room) => (
-                <option value={room} className="p-2">
-                  {room.toLowerCase()}
-                </option>
-              ))}
-            </select>
-            <button className="button_custom">Submit</button>
-          </form>
-        </PopUp>
+      {isEditImage && (
+        <ImageForm
+          togglePopupHandler={toggleIsEditImage}
+          formSubmitHandler={formEditImageSubmit}
+          defaultVals={editImageVals}
+          action="Edit"
+        />
       )}
 
       {/* Heading  */}
@@ -107,7 +98,7 @@ export default function Admin() {
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <button
             type="button"
-            onClick={() => togglePopup()}
+            onClick={() => toggleIsAddImage()}
             className="button_custom"
           >
             Add image
@@ -172,6 +163,10 @@ export default function Admin() {
                 </div>
                 <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0">
                   <a
+                    onClick={() => {
+                      seteditImageVals(image)
+                      toggleIsEditImage()
+                    }}
                     href="#"
                     className="font-bold uppercase text-[#023e8a] hover:text-[#1b263b] underline decoration-[#023e8a] hover:decoration-[#1b263b]  decoration-1 decoration-solid"
                   >
