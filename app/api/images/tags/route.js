@@ -95,7 +95,7 @@ export async function POST(req) {
 
         await db.project.create({
           data: {
-            name: "test5",
+            name: imageName,
             url: join(
               "/images",
               "seed-construction-test",
