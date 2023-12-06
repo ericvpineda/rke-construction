@@ -46,7 +46,7 @@ export default function CarouselUI({
                         src={elem.url}
                         height={imageSize}
                         width={imageSize}
-                        className="object-fill min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md"
+                        className="carousel_image"
                       />
                     </TransformComponent>
                   </TransformWrapper>
@@ -68,7 +68,7 @@ export default function CarouselUI({
                       src={elem.url}
                       height={imageSize}
                       width={imageSize}
-                      className="min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md object-fill"
+                      className="carousel_image"
                     />
                   </TransformComponent>
                 </TransformWrapper>
