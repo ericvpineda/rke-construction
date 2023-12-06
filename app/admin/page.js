@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import PopUp from "@components/PopUp";
 import { Room } from "@prisma/client";
+import { useEffect, useState } from "react";
 
 export default function Admin() {
   const [images, setimages] = useState([]);

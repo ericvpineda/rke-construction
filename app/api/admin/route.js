@@ -3,21 +3,24 @@ import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { nanoid } from "nanoid";
 
+const userToken = "user-token";
+
+// Authorize admin access
 export async function GET() {
   try {
     const cookieStore = cookies();
     let token = "";
 
-    if (cookieStore.has("user-token")) {
-      token = cookieStore.get("user-token").value;
+    if (cookieStore.has(userToken)) {
+      token = cookieStore.get(userToken).value;
     }
 
     const result = await verifyAuth(token)
       .then(() => {
-        return true
+        return true;
       })
       .catch(() => {
-        return false
+        return false;
       });
 
     return new Response(JSON.stringify({ isVerified: result }), {
@@ -33,8 +36,9 @@ export async function GET() {
   }
 }
 
+// Authenticate admin access
 export async function POST(req) {
-  const cookie = cookies();
+  const cookieStore = cookies();
   try {
     const { email, password } = await req.json();
 
@@ -49,8 +53,8 @@ export async function POST(req) {
         .setExpirationTime("1h")
         .sign(new TextEncoder().encode(getJwtSecretKey()));
 
-      cookie.set("user-token", token);
-      cookie.set({
+      cookieStore.set(userToken, token);
+      cookieStore.set({
         httpOnly: true,
         path: "/",
         secure: process.env.NODE_ENV === "production",
@@ -66,6 +70,20 @@ export async function POST(req) {
         status: 401,
       }
     );
+  } catch (error) {
+    return new Response(JSON.stringify(error.message), { status: 500 });
+  }
+}
+
+export async function DELETE() {
+  try {
+    const cookieStore = cookies();
+    if (cookieStore.has(userToken)) {
+      cookieStore.delete(userToken);
+    }
+    return new Response(JSON.stringify("Successfully logged out."), {
+      status: 200,
+    });
   } catch (error) {
     return new Response(JSON.stringify(error.message), { status: 500 });
   }

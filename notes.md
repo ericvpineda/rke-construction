@@ -5,7 +5,9 @@ To-Do:
         - ex: most recent, etc.
 - images page
     - add redis for image caching
-- create logout functionality 
+- add edit functionality
+- add useinifinite query for admin image scroll
+- impplement error responses with toast messgaes
 
 Problems:
 - navbar shutters on link press
@@ -24,6 +26,8 @@ Completed
         - search bar
         - implement infinte scrolling of images 
         - store images in upstack
+- create logout functionality 
+
     
 
 Technologies:

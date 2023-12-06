@@ -21,7 +21,18 @@ export default function Nav() {
       });
       setisverified(data["isVerified"]);
     } catch (error) {
+      // TODO: Add error toast message 
       setisverified(false);
+    }
+  };
+
+  const logoutHandler = async () => {
+    try {
+      await axios.delete("/api/admin")
+      window.location.replace('/login')
+    } catch (error) {
+      // TODO: Add error toast message 
+      console.log(error)
     }
   };
 
@@ -36,13 +47,9 @@ export default function Nav() {
   ];
 
   if (isverified) {
-    navigation.push({ name: "Admin", href: "/admin"});
-    navigation.push({ name: "Logout", href: "/logout"});
+    navigation.push({ name: "Admin", href: "/admin" });
   } else {
-    navigation.push({
-      name: "Login",
-      href: "/login",
-    });
+    navigation.push({ name: "Login", href: "/login" });
   }
 
   return (
@@ -87,15 +94,25 @@ export default function Nav() {
                           href={item.href}
                           className={classNames(
                             pathname == item.href
-                              ? "border-solid border-white border-b-2 hover:text-white"
-                              : " hover:text-white  hover:border-solid hover:border-b-2 hover:border-gray-300",
-                            "px-3 py-2 text-md font-medium rounded-none text-white no-underline"
+                              ? "nav_button_selected"
+                              : "nav_button_hover",
+                            "nav_button"
                           )}
                           aria-current={item.current ? "page" : undefined}
                         >
                           {item.name}
                         </Link>
                       ))}
+                      {isverified && (
+                        <Link
+                          key="logout"
+                          href="#"
+                          className="nav_button_hover nav_button"
+                          onClick={logoutHandler}
+                        >
+                          Logout
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

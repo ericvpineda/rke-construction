@@ -1,11 +1,11 @@
 "use client";
+import Image from "next/image";
+import CarouselUI from "@components/CarouselUI";
 import { Disclosure, Tab } from "@headlessui/react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { classNames } from "@lib/utils";
-import Image from "next/image";
 import { products } from "@lib/products";
-import CarouselUI from "@components/CarouselUI";
 import { useState } from "react";
 
 export default function Projects() {

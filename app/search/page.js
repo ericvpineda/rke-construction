@@ -1,22 +1,12 @@
 "use client";
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
+import CarouselUI from "@components/CarouselUI";
+import axios from "axios";
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { useEffect, useRef, useState } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
-import CarouselUI from "@components/CarouselUI";
-
-const CATEGORIES = [
-  "bathroom",
-  "kitchen",
-  "balcony",
-  "livingroom",
-  "exterior",
-  "dining",
-  "hallway",
-  "floor",
-];
+import { Room } from "@prisma/client";
 
 
 export default function Search() {
@@ -74,7 +64,7 @@ export default function Search() {
 
       if (userInput.length) {
         const regex = new RegExp(userInput, "i");
-        for (let target of CATEGORIES) {
+        for (let target of Object.keys(Room)) {
           if (regex.test(target)) {
             setSearchParam(target);
             break;

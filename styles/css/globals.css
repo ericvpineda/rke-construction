@@ -16,9 +16,21 @@
 }
 
 .button_custom {
-  @apply font-bold uppercase shadow-[inset_0_0_0_2px_#585858] tracking-[0.35em] rounded-md text-[0.8em] leading-[3.45em] h-[3.5rem] block rounded-md bg-[#023e8a] px-3 text-center !text-sm !font-semibold text-white shadow-sm hover:bg-[#1b263b] focus-visible:outline-[#1b263b];
+  @apply text-white font-bold uppercase shadow-[inset_0_0_0_2px_#585858] tracking-[0.35em] rounded-md text-[0.8em] leading-[3.45em] h-[3.5rem] block rounded-md bg-[#023e8a] px-3 text-center !text-sm !font-semibold text-white shadow-sm hover:bg-[#1b263b] focus-visible:outline-[#1b263b];
 }
 
 .carousel_image {
-  @apply min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md object-cover
+  @apply min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] my-auto w-full rounded-md object-cover;
+}
+
+.nav_button {
+  @apply px-3 py-2 text-base font-medium rounded-none text-white no-underline
+}
+
+.nav_button_hover {
+  @apply hover:text-white hover:border-solid hover:border-b-2 hover:border-gray-300;
+}
+
+.nav_button_selected {
+  @apply border-solid border-white border-b-2 hover:text-white
 }
