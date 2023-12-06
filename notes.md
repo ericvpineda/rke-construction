@@ -90,6 +90,8 @@ Fixed:
         - update prisma schema with new fields
         - migrate and generate prisma
         - restart next server
+- dropping table 
+    - 
 
 Questions:
 - how to best error handle in middleware 

@@ -95,8 +95,13 @@ export async function POST(req) {
 
         await db.project.create({
           data: {
-            name: "test",
-            url: filePath,
+            name: "test5",
+            url: join(
+              "/images",
+              "seed-construction-test",
+              category,
+              imageName
+            ).replaceAll("\\", "/"),
             category: [mapRoom[category]],
             dateTaken: date ? new Date(date) : null,
           },

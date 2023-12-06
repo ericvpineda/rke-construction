@@ -157,6 +157,7 @@ export default function Admin() {
                 className="grid lg:grid-cols-5 grid-cols-3 items-center justify-center"
               >
                 <div className="whitespace-nowrap py-4  text-sm font-medium text-gray-900 sm:pl-0 text-center flex justify-center">
+                  {console.log("DEBUG: url=", image.url)}
                   <Image
                     src={image.url}
                     alt="project"
