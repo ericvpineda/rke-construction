@@ -14,7 +14,7 @@ datasource db {
 model Project {
   id       Int    @id @default(autoincrement())
   name     String
-  url      String @unique
+  url      String
   category Room[]
   createdAt DateTime @default(now())
   dateTaken DateTime? 
