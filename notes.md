@@ -10,6 +10,7 @@ Problems:
 - navbar shutters on link press
 - some images resize to different sizes
 - fetch route to login shows username and password in navigation url
+- get all images route asc/desc does not work
 
 
 Completed 

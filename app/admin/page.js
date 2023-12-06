@@ -8,7 +8,6 @@ import { Room } from "@prisma/client";
 export default function Admin() {
   const [images, setimages] = useState([]);
   const [isAddImage, setisAddImage] = useState(false);
-  const prismaRoom = Room;
 
   const fetchImages = async () => {
     try {
@@ -44,7 +43,8 @@ export default function Admin() {
           Accept: "application/json",
         },
       });
-      console.log("DEBUG: admin post data=", data);
+      setisAddImage(false)
+      setimages(prev => [...prev, ...data])
     }
   };
 
@@ -61,7 +61,7 @@ export default function Admin() {
       {isAddImage && (
         <PopUp togglePopup={togglePopup}>
           <h1 className="text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight mb-4">
-            Add Image
+            Add Image(s)
           </h1>
           <form encType="multipart/form-data" onSubmit={formSubmitHandler} className="flex flex-col justify-center ">
             <input
@@ -80,12 +80,12 @@ export default function Admin() {
               name="selected"
               required
             >
-              <option selected disabled>
+              <option selected disabled className="lowercase">
                 Choose a category
               </option>
               {Object.keys(Room).map((room) => (
-                <option value={room} className="lowercase p-2">
-                  {room}
+                <option value={room} className="p-2">
+                  {room.toLowerCase()}
                 </option>
               ))}
             </select>

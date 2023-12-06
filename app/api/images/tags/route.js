@@ -55,6 +55,7 @@ export async function POST(req) {
       );
     }
 
+    let results = [];
     if (process.env.NODE_ENV !== "production") {
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
@@ -93,21 +94,24 @@ export async function POST(req) {
             imageDate.slice(11);
         }
 
+        const data = {
+          name: imageName,
+          url: join(
+            "/images",
+            "seed-construction-test",
+            category,
+            imageName
+          ).replaceAll("\\", "/"),
+          category: [mapRoom[category]],
+          dateTaken: date ? new Date(date) : null,
+        };
+
         await db.project.create({
-          data: {
-            name: imageName,
-            url: join(
-              "/images",
-              "seed-construction-test",
-              category,
-              imageName
-            ).replaceAll("\\", "/"),
-            category: [mapRoom[category]],
-            dateTaken: date ? new Date(date) : null,
-          },
+          data
         });
+        results.push(data)
       }
-      return new Response(JSON.stringify("Success, images uploaded locally."), {
+      return new Response(JSON.stringify(results), {
         status: 201,
       });
     }
