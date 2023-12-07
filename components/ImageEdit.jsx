@@ -31,7 +31,7 @@ export default function ImageEdit({ storedImage }) {
           }
         }
 
-        formData.append("prevImageName", image.name);
+        formData.append("prevUrl", image.url);
         formData.append("category", category.toLowerCase());
         const { data } = await axios.patch(
           `/api/images/${image.id}`,

@@ -3,6 +3,7 @@ import { join } from "path";
 import { writeFileSync, existsSync, mkdirSync } from "fs";
 import ExifReader from "exifreader";
 import { mapRoom } from "@lib/utils";
+import { randomBytes } from "crypto";
 
 export async function GET(req) {
   const url = new URL(req.url);
@@ -16,7 +17,7 @@ export async function GET(req) {
         take: parseInt(limit),
         skip: (parseInt(page) - 1) * parseInt(limit),
         orderBy: {
-          createdAt: "desc",
+          createdAt: "asc",
         },
         select: {
           id: true,
@@ -30,7 +31,7 @@ export async function GET(req) {
     } else {
       results = await db.project.findMany({
         orderBy: {
-          createdAt: "desc",
+          createdAt: "asc",
         },
         select: {
           id: true,
@@ -82,12 +83,14 @@ export async function POST(req) {
           mkdirSync(folder);
         }
 
+        const hashedFileName = randomBytes(60).toString("hex");
+
         const filePath = join(
           process.cwd(),
           "public",
           "images",
           "seed-construction-test",
-          imageName
+          hashedFileName
         );
 
         writeFileSync(filePath, buffer);
@@ -103,7 +106,7 @@ export async function POST(req) {
 
         const data = {
           name: imageName,
-          url: join("/images", "seed-construction-test", imageName).replaceAll(
+          url: join("/images", "seed-construction-test", hashedFileName).replaceAll(
             "\\",
             "/"
           ),

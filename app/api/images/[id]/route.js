@@ -3,16 +3,17 @@ import { join } from "path";
 import { writeFileSync, existsSync, mkdirSync, unlinkSync } from "fs";
 import ExifReader from "exifreader";
 import { mapRoom } from "@lib/utils";
+import { randomBytes } from "crypto";
 
 export async function PATCH(req, { params }) {
   try {
     const { id } = params;
     const formData = await req.formData();
     const category = formData.get("category").toLowerCase();
-    const prevImageName = formData.get("prevImageName");
+    const prevUrl = formData.get("prevUrl");
     let images = [];
     let imageNames = [];
-    let updatedUser = null;
+    let updatedImage = null;
 
     // Get image properties if images are present
     if (formData.has("images")) {
@@ -43,25 +44,20 @@ export async function PATCH(req, { params }) {
           const bytes = await image.arrayBuffer();
           const buffer = Buffer.from(bytes);
 
+          const hashedFileName = randomBytes(60).toString("hex")
+
           // Location to save new image
           const updateFilePath = join(
             process.cwd(),
             "public",
             "images",
             "seed-construction-test",
-            imageName
-          );
-
-          // Location to delete previous image
-          const deleteFilePath = join(
-            process.cwd(),
-            "public",
-            "images",
-            "seed-construction-test",
-            prevImageName
+            hashedFileName
           );
 
           // Delete image from local folder command
+          let deleteFilePath = join(process.cwd(), "public") + prevUrl;
+          deleteFilePath = deleteFilePath.replaceAll("/", "\\");
           unlinkSync(deleteFilePath);
 
           // Write new image to folder command
@@ -79,13 +75,13 @@ export async function PATCH(req, { params }) {
           }
 
           // Update database with new image/category
-          updatedUser = await db.project.update({
+          updatedImage = await db.project.update({
             data: {
               name: imageName,
               url: join(
                 "/images",
                 "seed-construction-test",
-                imageName
+                hashedFileName
               ).replaceAll("\\", "/"),
               category: [mapRoom[category.replace("_", "")]],
               dateTaken: date ? new Date(date) : null,
@@ -102,20 +98,15 @@ export async function PATCH(req, { params }) {
               dateTaken: true,
             },
           });
-          results.push(updatedUser);
+          results.push(updatedImage);
         }
       } else {
         const data = {
           category: [mapRoom[category.replace("_", "")]],
-          url: join(
-            "/images",
-            "seed-construction-test",
-            prevImageName
-          ).replaceAll("\\", "/"),
         };
 
         // Update database with new category only
-        updatedUser = await db.project.update({
+        updatedImage = await db.project.update({
           data,
           where: {
             id: parseInt(id),
@@ -130,10 +121,10 @@ export async function PATCH(req, { params }) {
           },
         });
 
-        results.push(updatedUser);
+        results.push(updatedImage);
       }
 
-      return new Response(JSON.stringify(updatedUser), {
+      return new Response(JSON.stringify(updatedImage), {
         status: 201,
       });
     }
