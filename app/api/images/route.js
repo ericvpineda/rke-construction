@@ -12,11 +12,15 @@ export async function GET(req) {
         take: parseInt(limit),
         skip: (parseInt(page) - 1) * parseInt(limit),
         orderBy: {
-          createdAt: "asc",
+          createdAt: "desc",
         },
       });
     } else {
-      results = await db.project.findMany({});
+      results = await db.project.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
     }
 
     return new Response(JSON.stringify(results), { status: 200 });

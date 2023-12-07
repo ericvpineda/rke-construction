@@ -205,16 +205,15 @@ export default function Admin() {
                   {image.createdAt}
                 </div>
                 <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0">
-                  <a
+                  <button
                     onClick={() => {
                       seteditImageVals(image);
                       toggleIsEditImage();
                     }}
-                    href="#"
                     className="font-bold uppercase text-[#023e8a] hover:text-[#1b263b] underline decoration-[#023e8a] hover:decoration-[#1b263b]  decoration-1 decoration-solid"
                   >
                     Edit
-                  </a>
+                  </button>
                 </div>
               </div>
             ))}
