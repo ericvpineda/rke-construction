@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+import axios, { all } from "axios";
 import { useEffect, useState } from "react";
 import ImageForm from "@components/ImageForm";
 import ImageEdit from "@components/ImageEdit";
@@ -122,8 +122,10 @@ export default function Admin() {
             <div className="py-3.5"></div>
           </div>
           <div className="divide-y divide-gray-200 bg-white">
-            {allImages.map((image) => (
-              <ImageEdit storedImage={image} />
+            {allImages.map((image, index) => (
+              <ImageEdit
+                storedImage={image}
+              />
             ))}
           </div>
         </div>

@@ -2,10 +2,14 @@ import { useState } from "react";
 import Image from "next/image";
 import ImageForm from "./ImageForm";
 import axios from "axios";
+import PopUp from "./PopUp";
+import { classNames } from "@lib/utils";
 
 export default function ImageEdit({ storedImage }) {
   const [isEditImage, setisEditImage] = useState(false);
-  const [image, setimage] = useState(storedImage)
+  const [isDeleteImage, setisDeleteImage] = useState(false);
+  const [image, setimage] = useState(storedImage);
+  const [isRemoved, setisRemoved] = useState(false);
 
   const formEditImageSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +30,9 @@ export default function ImageEdit({ storedImage }) {
             formData.append("imageNames", image.name);
           }
         }
-        
+
         formData.append("prevImageName", image.name);
         formData.append("category", category.toLowerCase());
-        console.log("DEBUG: image=", image)
         const { data } = await axios.patch(
           `/api/images/${image.id}`,
           formData,
@@ -42,7 +45,7 @@ export default function ImageEdit({ storedImage }) {
         );
 
         setisEditImage(false);
-        setimage(data)
+        setimage(data);
       } catch (error) {
         // TODO: Add toast notification for edit image submit
         console.log(error);
@@ -50,14 +53,33 @@ export default function ImageEdit({ storedImage }) {
     }
   };
 
+  const deleteImage = async () => {
+    try {
+      console.log("DEBUG: id=", storedImage);
+      await axios.delete(`/api/images/${storedImage.id}`);
+      setisDeleteImage(false);
+      setisRemoved(true);
+    } catch (error) {
+      // TODO: Add toast notification for delete image submit
+      console.log(error);
+    }
+  };
+
   const toggleIsEditImage = () => {
     setisEditImage(!isEditImage);
+  };
+
+  const toggleIsDeleteImage = () => {
+    setisDeleteImage(!isDeleteImage);
   };
 
   return (
     <div
       key={image.id}
-      className="grid lg:grid-cols-5 grid-cols-3 items-center justify-center"
+      className={classNames(
+        "grid lg:grid-cols-5 grid-cols-3 items-center justify-center",
+        isRemoved ? "hidden" : ""
+      )}
     >
       {isEditImage && (
         <ImageForm
@@ -67,6 +89,29 @@ export default function ImageEdit({ storedImage }) {
           action="Edit"
         />
       )}
+
+      {isDeleteImage && (
+        <PopUp togglePopup={toggleIsDeleteImage}>
+          <h1 className="text-xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight mb-4">
+            Are you sure?
+          </h1>
+          <div className="flex gap-2">
+            <button
+              onClick={deleteImage}
+              className="bg-[#0a9396] hover:bg-[#005f73] button_custom_skeleton"
+            >
+              Yes
+            </button>
+            <button
+              onClick={toggleIsDeleteImage}
+              className="bg-[#ae2012] hover:bg-[#9b2226] button_custom_skeleton"
+            >
+              No
+            </button>
+          </div>
+        </PopUp>
+      )}
+
       <div className="whitespace-nowrap py-4  text-sm font-medium text-gray-900 sm:pl-0 text-center flex justify-center">
         <Image
           src={image.url}
@@ -86,7 +131,7 @@ export default function ImageEdit({ storedImage }) {
       <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center hidden lg:block">
         {image.createdAt}
       </div>
-      <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0">
+      <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0 flex flex-col gap-2">
         <button
           onClick={() => {
             toggleIsEditImage();
@@ -94,6 +139,14 @@ export default function ImageEdit({ storedImage }) {
           className="font-bold uppercase text-[#023e8a] hover:text-[#1b263b] underline decoration-[#023e8a] hover:decoration-[#1b263b]  decoration-1 decoration-solid"
         >
           Edit
+        </button>
+        <button
+          onClick={() => {
+            toggleIsDeleteImage();
+          }}
+          className="font-bold uppercase text-[#c1121f] hover:text-[#780000] underline decoration-[#c1121f] hover:decoration-[#780000]  decoration-1 decoration-solid"
+        >
+          Delete
         </button>
       </div>
     </div>

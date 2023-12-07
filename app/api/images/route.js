@@ -18,6 +18,14 @@ export async function GET(req) {
         orderBy: {
           createdAt: "desc",
         },
+        select: {
+          id: true,
+          name: true,
+          url: true,
+          category: true,
+          createdAt: true,
+          dateTaken: true,
+        },
       });
     } else {
       results = await db.project.findMany({
@@ -30,8 +38,8 @@ export async function GET(req) {
           url: true,
           category: true,
           createdAt: true,
-          dateTaken: true
-        }
+          dateTaken: true,
+        },
       });
     }
 
@@ -103,10 +111,18 @@ export async function POST(req) {
           dateTaken: date ? new Date(date) : null,
         };
 
-        await db.project.create({
+        const newImage = await db.project.create({
           data,
+          select: {
+            id: true,
+            name: true,
+            url: true,
+            category: true,
+            createdAt: true,
+            dateTaken: true,
+          },
         });
-        results.push(data);
+        results.push(newImage);
       }
       return new Response(JSON.stringify(results), {
         status: 201,

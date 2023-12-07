@@ -15,8 +15,9 @@ Problems:
 - navbar shutters on link press
 - some images resize to different sizes
 - fetch route to login shows username and password in navigation url
-- get all images route asc/desc does not work
-
+- patching image with living_room throws error
+- creating duplicate images throws error if 2nd duplicate image is deleted 
+    - problem: only one copy of image (collision)
 
 Completed 
 - route/UI for navigation

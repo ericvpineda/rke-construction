@@ -93,6 +93,14 @@ export async function PATCH(req, { params }) {
             where: {
               id: parseInt(id),
             },
+            select: {
+              id: true,
+              name: true,
+              url: true,
+              category: true,
+              createdAt: true,
+              dateTaken: true,
+            },
           });
           results.push(updatedUser);
         }
@@ -112,6 +120,14 @@ export async function PATCH(req, { params }) {
           where: {
             id: parseInt(id),
           },
+          select: {
+            id: true,
+            name: true,
+            url: true,
+            category: true,
+            createdAt: true,
+            dateTaken: true,
+          },
         });
 
         results.push(updatedUser);
@@ -128,6 +144,46 @@ export async function PATCH(req, { params }) {
         status: 201,
       }
     );
+  } catch (error) {
+    return new Response(JSON.stringify(error.message), { status: 500 });
+  }
+}
+
+export async function DELETE(req, { params }) {
+  try {
+    const { id } = params;
+
+    if (process.env.NODE_ENV !== "production") {
+      const folder = join(
+        process.cwd(),
+        "public",
+        "images",
+        "seed-construction-test"
+      );
+
+      // Check if test folder exists
+      if (!existsSync(folder)) {
+        return new Response(
+          JSON.stringify("Error: seed-construction-test folder does not exist"),
+          { status: 500 }
+        );
+      } else {
+        // Update database with new category only
+        const deletedImage = await db.project.delete({
+          where: {
+            id: parseInt(id),
+          },
+        });
+
+        let deleteFilePath = join(process.cwd(), "public") + deletedImage.url;
+        deleteFilePath = deleteFilePath.replaceAll("/", "\\");
+        unlinkSync(deleteFilePath);
+      }
+
+      return new Response(JSON.stringify("Success, image deleted."), {
+        status: 200,
+      });
+    }
   } catch (error) {
     return new Response(JSON.stringify(error.message), { status: 500 });
   }
