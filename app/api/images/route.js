@@ -55,7 +55,7 @@ export async function POST(req) {
     const formData = await req.formData();
     const images = formData.getAll("images");
     const imageNames = formData.getAll("imageNames");
-    const category = formData.get("category").toLowerCase();
+    const category = formData.get("category").toLowerCase().replace("_", "");
 
     if (images.length === 0) {
       return new Response(

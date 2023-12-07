@@ -9,7 +9,7 @@ export async function PATCH(req, { params }) {
   try {
     const { id } = params;
     const formData = await req.formData();
-    const category = formData.get("category").toLowerCase();
+    const category = formData.get("category").toLowerCase().replace("_", "");
     const prevUrl = formData.get("prevUrl");
     let images = [];
     let imageNames = [];
