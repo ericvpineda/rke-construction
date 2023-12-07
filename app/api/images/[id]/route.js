@@ -8,19 +8,14 @@ export async function PATCH(req, { params }) {
   try {
     const { id } = params;
     const formData = await req.formData();
-    const category = formData.get("category");
-    const categoryPath = category.toLowerCase();
-    let prevImageName = null;
+    const category = formData.get("category").toLowerCase();
+    const prevImageName = formData.get("prevImageName");
     let images = [];
     let imageNames = [];
-
-    // return new Response(JSON.stringify("DEBUG: category=" + category), {
-    //     status: 201,
-    //   });
+    let updatedUser = null;
 
     // Get image properties if images are present
-    if (formData.has("prevImageName")) {
-      prevImageName = formData.get("prevImageName");
+    if (formData.has("images")) {
       images = formData.getAll("images");
       imageNames = formData.getAll("imageNames");
     }
@@ -28,20 +23,19 @@ export async function PATCH(req, { params }) {
     let results = [];
     if (process.env.NODE_ENV !== "production") {
       // Create category folder (if category updated)
-      const categoryFolder = join(
+      const folder = join(
         process.cwd(),
         "public",
         "images",
-        "seed-construction-test",
-        categoryPath
+        "seed-construction-test"
       );
 
       // Create (updated) category folder if it doesn't exist
-      if (!existsSync(categoryFolder)) {
-        mkdirSync(categoryFolder);
+      if (!existsSync(folder)) {
+        mkdirSync(folder);
       }
 
-      if (prevImageName !== null) {
+      if (images.length > 0) {
         // Update image file path and create new image resource if needed
         for (let i = 0; i < images.length; i++) {
           const image = images[i];
@@ -55,7 +49,6 @@ export async function PATCH(req, { params }) {
             "public",
             "images",
             "seed-construction-test",
-            categoryPath,
             imageName
           );
 
@@ -65,7 +58,6 @@ export async function PATCH(req, { params }) {
             "public",
             "images",
             "seed-construction-test",
-            categoryPath,
             prevImageName
           );
 
@@ -86,22 +78,18 @@ export async function PATCH(req, { params }) {
               imageDate.slice(11);
           }
 
-          // Data to be saved to database
-          const data = {
-            name: imageName,
-            url: join(
-              "/images",
-              "seed-construction-test",
-              categoryPath,
-              imageName
-            ).replaceAll("\\", "/"),
-            category: [mapRoom[category.replace("_", "")]],
-            dateTaken: date ? new Date(date) : null,
-          };
-
           // Update database with new image/category
-          const updatedUser = await db.project.update({
-            data,
+          updatedUser = await db.project.update({
+            data: {
+              name: imageName,
+              url: join(
+                "/images",
+                "seed-construction-test",
+                imageName
+              ).replaceAll("\\", "/"),
+              category: [mapRoom[category.replace("_", "")]],
+              dateTaken: date ? new Date(date) : null,
+            },
             where: {
               id: parseInt(id),
             },
@@ -111,20 +99,25 @@ export async function PATCH(req, { params }) {
       } else {
         const data = {
           category: [mapRoom[category.replace("_", "")]],
+          url: join(
+            "/images",
+            "seed-construction-test",
+            prevImageName
+          ).replaceAll("\\", "/"),
         };
 
         // Update database with new category only
-        const updatedUser = await db.project.update({
+        updatedUser = await db.project.update({
           data,
           where: {
             id: parseInt(id),
           },
         });
-        
+
         results.push(updatedUser);
       }
 
-      return new Response(JSON.stringify("Success, updated image id=" + id), {
+      return new Response(JSON.stringify(updatedUser), {
         status: 201,
       });
     }

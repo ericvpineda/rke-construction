@@ -16,7 +16,6 @@ Problems:
 - some images resize to different sizes
 - fetch route to login shows username and password in navigation url
 - get all images route asc/desc does not work
-- editing image at scrolled down image causes window to scroll up by default 
 
 
 Completed 
@@ -101,7 +100,20 @@ Fixed:
         - migrate and generate prisma
         - restart next server
 - dropping table 
-    - 
+    - psql -U postgress 
+        - password is password
+    - \d rke-construction 
+    - drop table "Project";
+- editing image at scrolled down image causes window to scroll up by default 
+    - reason: edit button was link component with href="#"
+    - solution: change edit button to button element
+- project path contains category
+    - problem: if update category, need to move image from one folder to another
+    - solution: remove folders and make it one flat folder
+        - the database will store the category of the image
+- admin image edit cannot quickly update without page having to be reloaded
+    - solution: create ImageEdit component that contains fetch update logic
+        - update state after image successfully updated
 
 Questions:
 - how to best error handle in middleware 

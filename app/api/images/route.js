@@ -1,4 +1,8 @@
 import { db } from "@lib/db.mjs";
+import { join } from "path";
+import { writeFileSync, existsSync, mkdirSync } from "fs";
+import ExifReader from "exifreader";
+import { mapRoom } from "@lib/utils";
 
 export async function GET(req) {
   const url = new URL(req.url);
@@ -20,6 +24,14 @@ export async function GET(req) {
         orderBy: {
           createdAt: "desc",
         },
+        select: {
+          id: true,
+          name: true,
+          url: true,
+          category: true,
+          createdAt: true,
+          dateTaken: true
+        }
       });
     }
 
@@ -34,7 +46,7 @@ export async function POST(req) {
     const formData = await req.formData();
     const images = formData.getAll("images");
     const imageNames = formData.getAll("imageNames");
-    const category = formData.get("category");
+    const category = formData.get("category").toLowerCase();
 
     if (images.length === 0) {
       return new Response(
@@ -51,16 +63,15 @@ export async function POST(req) {
         const bytes = await image.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        const categoryFolder = join(
+        const folder = join(
           process.cwd(),
           "public",
           "images",
-          "seed-construction-test",
-          category
+          "seed-construction-test"
         );
 
-        if (!existsSync(categoryFolder)) {
-          mkdirSync(categoryFolder);
+        if (!existsSync(folder)) {
+          mkdirSync(folder);
         }
 
         const filePath = join(
@@ -68,7 +79,6 @@ export async function POST(req) {
           "public",
           "images",
           "seed-construction-test",
-          category,
           imageName
         );
 
@@ -85,12 +95,10 @@ export async function POST(req) {
 
         const data = {
           name: imageName,
-          url: join(
-            "/images",
-            "seed-construction-test",
-            category,
-            imageName
-          ).replaceAll("\\", "/"),
+          url: join("/images", "seed-construction-test", imageName).replaceAll(
+            "\\",
+            "/"
+          ),
           category: [mapRoom[category]],
           dateTaken: date ? new Date(date) : null,
         };
