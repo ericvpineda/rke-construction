@@ -15,9 +15,7 @@ Problems:
 - navbar shutters on link press
 - some images resize to different sizes
 - fetch route to login shows username and password in navigation url
-- patching image with living_room throws error
-- creating duplicate images throws error if 2nd duplicate image is deleted 
-    - problem: only one copy of image (collision)
+
 
 Completed 
 - route/UI for navigation
@@ -115,6 +113,14 @@ Fixed:
 - admin image edit cannot quickly update without page having to be reloaded
     - solution: create ImageEdit component that contains fetch update logic
         - update state after image successfully updated
+- creating duplicate images throws error if 2nd duplicate image is deleted 
+    - problem: only one copy of image (collision)
+    - solution: 
+        - save images as random hashed filenames
+        - will only use file path later one to retrieve image from local files 
+- patching image with living_room throws error
+    - solution: need to remove "_" from request category paramter 
+        - since mapRoom in utils does not use "_"
 
 Questions:
 - how to best error handle in middleware 

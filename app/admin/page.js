@@ -61,7 +61,7 @@ export default function Admin() {
   }, []);
 
   return (
-    <div className="container px-4 sm:px-6 lg:px-8 mt-4">
+    <div className="container-style px-4 sm:px-6 lg:px-8">
       {isAddImage && (
         <ImageForm
           togglePopupHandler={toggleIsAddImage}

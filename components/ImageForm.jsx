@@ -50,7 +50,7 @@ export default function ImageForm({
               className="px-[0.05rem] py-2.5 bg-[#1f2937] mb-3 block w-full text-sm text-gray-900 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             >
               <span className="px-3 py-2.5 text-white">Choose file</span>
-              <span className="px-4 py-2.5 bg-gray-50 rounded-r-lg">
+              <span className="px-14 py-2.5 bg-gray-50 rounded-r-lg">
                 {editImageName.slice(0, 15)}
               </span>
             </label>
@@ -76,7 +76,7 @@ export default function ImageForm({
             </option>
           ))}
         </select>
-        <button className="button_custom">{action}</button>
+        <button className="button_custom w-[15rem]">{action}</button>
       </form>
     </PopUp>
   );
