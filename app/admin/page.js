@@ -8,7 +8,7 @@ export default function Admin() {
   const [images, setimages] = useState([]);
   const [isAddImage, setisAddImage] = useState(false);
   const [isEditImage, setisEditImage] = useState(false);
-  const [editImageVals, seteditImageVals] = useState({})
+  const [editImageVals, seteditImageVals] = useState({});
 
   const fetchImages = async () => {
     try {
@@ -23,29 +23,34 @@ export default function Admin() {
 
   const formAddImageSubmit = async (e) => {
     e.preventDefault();
-    const images = e.target.files.files;
-    const index = e.target.selected.selectedIndex;
-    const category = e.target.selected[index].text;
+    try {
+      const images = e.target.files.files;
+      const index = e.target.selected.selectedIndex;
+      const category = e.target.selected[index].text;
 
-    if (index === 0) {
-      // TODO: Create error toast notification
-      console.log("Error: Please select cateogry.");
-    } else {
-      const formData = new FormData();
-      for (let image of images) {
-        formData.append("images", image);
-        formData.append("imageNames", image.name);
+      if (index === 0) {
+        // TODO: Create error toast notification
+        console.log("Error: Please select cateogry.");
+      } else {
+        const formData = new FormData();
+        for (let image of images) {
+          formData.append("images", image);
+          formData.append("imageNames", image.name);
+        }
+        formData.append("category", category);
+        const { data } = await axios.post("/api/images", formData, {
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+          },
+        });
+        setisAddImage(false);
+        setimages((prev) => [...prev, ...data]);
       }
-      formData.append("category", category.toLowerCase());
-      const { data } = await axios.post("/api/images/tags", formData, {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Accept: "application/json",
-        },
-      });
-      setisAddImage(false);
-      setimages((prev) => [...prev, ...data]);
+    } catch (error) {
+      // TODO: Add toast notification for adding image submit
+      console.log(error);
     }
   };
 
@@ -57,9 +62,47 @@ export default function Admin() {
     setisEditImage(!isEditImage);
   };
 
-  const formEditImageSubmit = (e) => {
+  const formEditImageSubmit = async (e) => {
     e.preventDefault();
-    console.log("DEBUG: editing image...");
+    const images = e.target.editFiles.files;
+    const index = e.target.selected.selectedIndex;
+    const category = e.target.selected[index].text;
+    // console.log("DEBUG: image=", images, category, editImageVals.category[0]);
+
+    if (images.length == 0 && category === editImageVals.category[0]) {
+      console.log("DEBUG: Image and category are the same.");
+      toggleIsEditImage();
+    } else {
+      try {
+        const formData = new FormData();
+
+        if (images.length > 0) {
+          for (let image of images) {
+            formData.append("images", image);
+            formData.append("imageNames", image.name);
+          }
+          formData.append("prevImageName", editImageVals.name);
+        }
+
+        formData.append("category", category.toLowerCase());
+        const { data } = await axios.patch(
+          `/api/images/${editImageVals.id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Accept: "application/json",
+            },
+          }
+        );
+        console.log("DEBUG: data=", data);
+        // setisAddImage(false);
+        // setimages((prev) => [...prev, ...data]);
+      } catch (error) {
+        // TODO: Add toast notification for edit image submit
+        console.log(error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -164,8 +207,8 @@ export default function Admin() {
                 <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0">
                   <a
                     onClick={() => {
-                      seteditImageVals(image)
-                      toggleIsEditImage()
+                      seteditImageVals(image);
+                      toggleIsEditImage();
                     }}
                     href="#"
                     className="font-bold uppercase text-[#023e8a] hover:text-[#1b263b] underline decoration-[#023e8a] hover:decoration-[#1b263b]  decoration-1 decoration-solid"

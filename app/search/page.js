@@ -28,7 +28,7 @@ export default function Search() {
     async ({ pageParam = 1 }) => {
       let query = "";
       if (searchParam) {
-        query = `/api/images/tags?limit=${pageLength}&page=${pageParam}&search=${searchParam}`;
+        query = `/api/images/query?limit=${pageLength}&page=${pageParam}&search=${searchParam}`;
       } else {
         query = `/api/images?limit=${pageLength}&page=${pageParam}`;
       }

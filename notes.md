@@ -5,7 +5,9 @@ To-Do:
         - ex: most recent, etc.
 - images page
     - add redis for image caching
-- add edit functionality
+- add edit image functionality
+    - create server route for edit particular image
+- add delete image functionality
 - add useinifinite query for admin image scroll
 - impplement error responses with toast messgaes
 
@@ -28,8 +30,9 @@ Completed
         - implement infinte scrolling of images 
         - store images in upstack
 - create logout functionality 
-
-    
+- add edit image functionality
+    - create edit image popup ui
+    - add default value placeholders
 
 Technologies:
 - upstash: serverless redis

@@ -43,8 +43,7 @@ export default function ImageForm({
               multiple={!isEditForm}
               accept=".pdf, .jpg, .jpeg, .png"
               onChange={(e) => seteditImageName(e.target.files[0].name)}
-              required
-              className="hidden "
+              className="hidden"
             />
             <label
               htmlFor="editFiles"
