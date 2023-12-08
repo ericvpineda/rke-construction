@@ -47,12 +47,12 @@ export default function ImageForm({
             />
             <label
               htmlFor="editFiles"
-              className="max-w-[15rem] pr-4 truncate py-2.5 bg-[#1f2937] mb-3 block w-full text-sm text-gray-900 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              className="max-w-[15rem] pr-4 truncate bg-[#1f2937] mb-3 flex w-full text-sm text-gray-900 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             >
-              <span className="px-3 py-2.5 text-white">Choose file</span>
-              <span className="pr-3 pl-4 py-2.5 bg-gray-50 border-2 border-solid">
+              <div className="px-3 py-2.5 text-white">Choose file</div>
+              <div className="pr-3 pl-4 py-2.5 bg-gray-50 border-2 border-solid min-w-full">
                 {editImageName}
-              </span>
+              </div>
             </label>
           </>
         )}
