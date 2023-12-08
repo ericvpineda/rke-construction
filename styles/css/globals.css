@@ -38,3 +38,11 @@
 .nav_button_selected {
   @apply border-solid border-white border-b-2 hover:text-white
 }
+
+.popup_bg {
+  @apply fixed bg-black bg-opacity-50 left-0 right-0 top-0 bottom-0 flex justify-center items-center
+}
+
+.image_zoom {
+  @apply min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] min-w-[25rem] max-w-[25rem] md:min-w-[40rem] md:max-w-[40rem] xl:min-w-[50rem] xl:max-w-[50rem]
+}

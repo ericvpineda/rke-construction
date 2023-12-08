@@ -6,11 +6,12 @@ import PopUp from "./PopUp";
 import { classNames } from "@lib/utils";
 import { forwardRef } from "react";
 
-const ImageEdit = forwardRef(({storedImage}, ref) => {
+const ImageEdit = forwardRef(({ storedImage }, ref) => {
   const [isEditImage, setisEditImage] = useState(false);
   const [isDeleteImage, setisDeleteImage] = useState(false);
   const [image, setimage] = useState(storedImage);
   const [isRemoved, setisRemoved] = useState(false);
+  const [isZoom, setisZoom] = useState(false);
 
   const formEditImageSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +75,10 @@ const ImageEdit = forwardRef(({storedImage}, ref) => {
     setisDeleteImage(!isDeleteImage);
   };
 
+  const toggleZoom = () => {
+    setisZoom(!isZoom);
+  };
+
   return (
     <div
       ref={ref}
@@ -83,6 +88,22 @@ const ImageEdit = forwardRef(({storedImage}, ref) => {
         isRemoved ? "hidden" : ""
       )}
     >
+      {isZoom && (
+        <div className="popup_bg" onClick={toggleZoom}>
+          <Image
+            onClick={(e) => e.stopPropagation()}
+            src={image.url}
+            height={400}
+            width={400}
+            className="rounded-lg object-cover
+            min-w-[20rem] max-w-[20rem] min-h-[20rem] max-h-[20rem]    
+            md:min-h-[25rem] md:max-h-[25rem] md:min-w-[25rem] md:max-w-[25rem]
+            xl:min-h-[30rem] xl:max-h-[30rem] xl:min-w-[30rem] xl:max-w-[30rem]
+            "
+          />
+        </div>
+      )}
+
       {isEditImage && (
         <ImageForm
           togglePopupHandler={toggleIsEditImage}
@@ -116,6 +137,7 @@ const ImageEdit = forwardRef(({storedImage}, ref) => {
 
       <div className="whitespace-nowrap py-4  text-sm font-medium text-gray-900 sm:pl-0 text-center flex justify-center">
         <Image
+          onClick={toggleZoom}
           src={image.url}
           alt="project"
           height={200}
@@ -153,6 +175,6 @@ const ImageEdit = forwardRef(({storedImage}, ref) => {
       </div>
     </div>
   );
-})
+});
 
 export default ImageEdit;

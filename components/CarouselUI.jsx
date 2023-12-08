@@ -23,7 +23,7 @@ export default function CarouselUI({
         indicators={false}
         slide={isSlide}
         // onSelect={(idx) => (idx === data.length - 1 ? fetchNextPage() : null)}
-        className="mx-auto absolute top-[50%] -translate-y-[50%] sm:left-[50%] sm:-translate-x-[50%] min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] min-w-[25rem] max-w-[25rem] md:min-w-[40rem] md:max-w-[40rem] xl:min-w-[50rem] xl:max-w-[50rem]"
+        className="mx-auto absolute top-[50%] -translate-y-[50%] sm:left-[50%] sm:-translate-x-[50%] image_zoom"
       >
         {data.map((elem, index) => {
           if (elem !== null && elem !== undefined) {

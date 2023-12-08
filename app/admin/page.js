@@ -6,11 +6,12 @@ import ImageEdit from "@components/ImageEdit";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersection } from "@mantine/hooks";
 import LoadingImage from "@components/LoadingImage";
+import PopUp from "@components/PopUp";
 
 export default function Admin() {
   const [isAddImage, setisAddImage] = useState(false);
   const lastPostRef = useRef(null);
-  const pageLength = 1;
+  const pageLength = 12;
 
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
