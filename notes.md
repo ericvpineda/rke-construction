@@ -5,14 +5,13 @@ To-Do:
         - ex: most recent, etc.
 - images page
     - add redis for image caching
-- add useinifinite query for admin image scroll
 - impplement error responses with toast messgaes
 
 Problems:
 - navbar shutters on link press
 - some images resize to different sizes
 - fetch route to login shows username and password in navigation url
-
+- fix mobile navgiation admin image scroll & zoom location
 
 Completed 
 - route/UI for navigation
@@ -31,6 +30,7 @@ Completed
 - add edit image functionality
     - create server route for edit particular image
 - add delete image functionality
+- add useinifinite query for admin image scroll
 
 
 Technologies:

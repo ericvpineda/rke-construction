@@ -6,10 +6,10 @@ import ImageEdit from "@components/ImageEdit";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersection } from "@mantine/hooks";
 import LoadingImage from "@components/LoadingImage";
-import PopUp from "@components/PopUp";
 
 export default function Admin() {
   const [isAddImage, setisAddImage] = useState(false);
+  const [addedImages, setaddedImages] = useState([])
   const lastPostRef = useRef(null);
   const pageLength = 12;
 
@@ -18,7 +18,7 @@ export default function Admin() {
     threshold: 1,
   });
 
-  let { data, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery(
+  let { data, fetchNextPage, isFetchingNextPage, isLoading, isFetching } = useInfiniteQuery(
     [],
     async ({ pageParam = 1 }) => {
       const { data } = await axios.get(
@@ -37,6 +37,7 @@ export default function Admin() {
       initialPageParam: 1,
     }
   );
+  
   const results = data?.pages.flatMap((page) => page) ?? [];
 
   const formAddImageSubmit = async (e) => {
@@ -64,7 +65,7 @@ export default function Admin() {
           },
         });
         setisAddImage(false);
-        results.push(data);
+        setaddedImages(prev => [...prev, ...data])
       }
     } catch (error) {
       // TODO: Add toast notification for adding image submit
@@ -78,7 +79,7 @@ export default function Admin() {
 
   useEffect(() => {
     if (entry?.isIntersecting) {
-      fetchNextPage();
+      !isFetching && fetchNextPage();
     }
   }, [entry]);
 
@@ -145,6 +146,12 @@ export default function Admin() {
           </div>
           <div className="divide-y divide-gray-200 bg-white">
             {results.map((image, index) => (
+              <ImageEdit
+                storedImage={image}
+                ref={index === results.length - 1 ? ref : null}
+              />
+            ))}
+            {addedImages.map((image, index) => (
               <ImageEdit
                 storedImage={image}
                 ref={index === results.length - 1 ? ref : null}
