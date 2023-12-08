@@ -4,8 +4,9 @@ import ImageForm from "./ImageForm";
 import axios from "axios";
 import PopUp from "./PopUp";
 import { classNames } from "@lib/utils";
+import { forwardRef } from "react";
 
-export default function ImageEdit({ storedImage }) {
+const ImageEdit = forwardRef(({storedImage}, ref) => {
   const [isEditImage, setisEditImage] = useState(false);
   const [isDeleteImage, setisDeleteImage] = useState(false);
   const [image, setimage] = useState(storedImage);
@@ -75,6 +76,7 @@ export default function ImageEdit({ storedImage }) {
 
   return (
     <div
+      ref={ref}
       key={image.id}
       className={classNames(
         "grid lg:grid-cols-5 grid-cols-3 items-center justify-center",
@@ -151,4 +153,6 @@ export default function ImageEdit({ storedImage }) {
       </div>
     </div>
   );
-}
+})
+
+export default ImageEdit;

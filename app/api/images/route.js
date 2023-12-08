@@ -9,7 +9,7 @@ export async function GET(req) {
   const url = new URL(req.url);
   const limit = url.searchParams.get("limit");
   const page = url.searchParams.get("page");
-  let results;
+  let results = null;
 
   try {
     if (limit !== null && page !== null) {

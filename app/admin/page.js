@@ -1,23 +1,42 @@
 "use client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ImageForm from "@components/ImageForm";
 import ImageEdit from "@components/ImageEdit";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useIntersection } from "@mantine/hooks";
+import LoadingImage from "@components/LoadingImage";
 
 export default function Admin() {
-  const [allImages, setAllImages] = useState([]);
   const [isAddImage, setisAddImage] = useState(false);
+  const lastPostRef = useRef(null);
+  const pageLength = 1;
 
-  const fetchImages = async () => {
-    try {
-      const { data } = await axios.get("/api/images");
-      setAllImages(data);
-    } catch (error) {
-      // TODO: Add failure response ui
-      console.log("Error: Failure to fetch images.");
-      console.log(error);
+  const { ref, entry } = useIntersection({
+    root: lastPostRef.current,
+    threshold: 1,
+  });
+
+  let { data, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery(
+    [],
+    async ({ pageParam = 1 }) => {
+      const { data } = await axios.get(
+        `/api/images?limit=${pageLength}&page=${pageParam}`
+      );
+      return data;
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.length) {
+          return allPages.length + 1;
+        } else {
+          return false;
+        }
+      },
+      initialPageParam: 1,
     }
-  };
+  );
+  const results = data?.pages.flatMap((page) => page) ?? [];
 
   const formAddImageSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +63,7 @@ export default function Admin() {
           },
         });
         setisAddImage(false);
-        setAllImages((prev) => [...prev, ...data]);
+        results.push(data);
       }
     } catch (error) {
       // TODO: Add toast notification for adding image submit
@@ -57,8 +76,10 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    fetchImages();
-  }, []);
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry]);
 
   return (
     <div className="container-style px-4 sm:px-6 lg:px-8">
@@ -122,14 +143,16 @@ export default function Admin() {
             <div className="py-3.5"></div>
           </div>
           <div className="divide-y divide-gray-200 bg-white">
-            {allImages.map((image, index) => (
+            {results.map((image, index) => (
               <ImageEdit
                 storedImage={image}
+                ref={index === results.length - 1 ? ref : null}
               />
             ))}
           </div>
         </div>
       </div>
+      {(isLoading || isFetchingNextPage) && <LoadingImage />}
     </div>
   );
 }
