@@ -68,7 +68,8 @@ export async function POST(req) {
     if (process.env.NODE_ENV !== "production") {
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
-        const imageName = imageNames[i];
+        let imageName = imageNames[i];
+        const ext = "." + imageName.split('.').pop();
         const bytes = await image.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
@@ -82,8 +83,8 @@ export async function POST(req) {
         if (!existsSync(folder)) {
           mkdirSync(folder);
         }
-
-        const hashedFileName = randomBytes(60).toString("hex");
+        
+        const hashedFileName = randomBytes(60).toString("hex") + ext;
 
         const filePath = join(
           process.cwd(),

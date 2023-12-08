@@ -8,7 +8,7 @@ export default function PopUp({ children, togglePopup }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white p-5 rounded-md flex flex-col items-center justify-center"
+        className="bg-white p-5 roundede-md flex flex-col items-center justify-center rounded-lg"
       >
         {children}
       </div>

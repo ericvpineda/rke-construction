@@ -1,5 +1,5 @@
 "use client";
-import axios, { all } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import ImageForm from "@components/ImageForm";
 import ImageEdit from "@components/ImageEdit";

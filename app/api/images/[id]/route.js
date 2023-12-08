@@ -40,11 +40,12 @@ export async function PATCH(req, { params }) {
         // Update image file path and create new image resource if needed
         for (let i = 0; i < images.length; i++) {
           const image = images[i];
-          const imageName = imageNames[i];
+          let imageName = imageNames[i];
+          const ext = "." + imageName.split('.').pop();
           const bytes = await image.arrayBuffer();
           const buffer = Buffer.from(bytes);
 
-          const hashedFileName = randomBytes(60).toString("hex")
+          const hashedFileName = randomBytes(60).toString("hex") + ext;
 
           // Location to save new image
           const updateFilePath = join(
