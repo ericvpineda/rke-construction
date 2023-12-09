@@ -4,6 +4,7 @@ import { writeFileSync, existsSync, mkdirSync, unlinkSync } from "fs";
 import ExifReader from "exifreader";
 import { mapRoom } from "@lib/utils";
 import { randomBytes } from "crypto";
+import cloudinary from "@lib/cloudinaryConfig";
 
 export async function PATCH(req, { params }) {
   try {
@@ -22,7 +23,7 @@ export async function PATCH(req, { params }) {
     }
 
     let results = [];
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV === "production") {
       // Create category folder (if category updated)
       const folder = join(
         process.cwd(),
@@ -41,7 +42,7 @@ export async function PATCH(req, { params }) {
         for (let i = 0; i < images.length; i++) {
           const image = images[i];
           let imageName = imageNames[i];
-          const ext = "." + imageName.split('.').pop();
+          const ext = "." + imageName.split(".").pop();
           const bytes = await image.arrayBuffer();
           const buffer = Buffer.from(bytes);
 
@@ -128,6 +129,7 @@ export async function PATCH(req, { params }) {
       return new Response(JSON.stringify(updatedImage), {
         status: 201,
       });
+    } else {
     }
 
     return new Response(
@@ -145,7 +147,7 @@ export async function DELETE(req, { params }) {
   try {
     const { id } = params;
 
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV === "production") {
       const folder = join(
         process.cwd(),
         "public",
@@ -172,9 +174,36 @@ export async function DELETE(req, { params }) {
         unlinkSync(deleteFilePath);
       }
 
-      return new Response(JSON.stringify("Success, image deleted."), {
-        status: 200,
+      return new Response(
+        JSON.stringify("Success, image deleted from local."),
+        {
+          status: 200,
+        }
+      );
+    } else {
+      
+      const foundImage = await db.project.findUnique({
+        where: { id: parseInt(id) },
       });
+
+      // Destroy image on cloudinary
+      await cloudinary.uploader.destroy(foundImage.url, async (error, _) => {
+        if (!error) {
+          // Delete image in database
+          await db.project.delete({
+            where: {
+              id: parseInt(id),
+            },
+          });
+        }
+      });
+
+      return new Response(
+        JSON.stringify("Success, image deleted from cloud."),
+        {
+          status: 200,
+        }
+      );
     }
   } catch (error) {
     return new Response(JSON.stringify(error.message), { status: 500 });
