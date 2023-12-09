@@ -9,7 +9,7 @@ import LoadingImage from "@components/LoadingImage";
 
 export default function Admin() {
   const [isAddImage, setisAddImage] = useState(false);
-  const [addedImages, setaddedImages] = useState([])
+  const [addedImages, setaddedImages] = useState([]);
   const lastPostRef = useRef(null);
   const pageLength = 12;
 
@@ -18,27 +18,29 @@ export default function Admin() {
     threshold: 1,
   });
 
-  let { data, fetchNextPage, isFetchingNextPage, isLoading, isFetching } = useInfiniteQuery(
-    [],
-    async ({ pageParam = 1 }) => {
-      const { data } = await axios.get(
-        `/api/images?limit=${pageLength}&page=${pageParam}`
-      );
-      return data;
-    },
-    {
-      getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.length) {
-          return allPages.length + 1;
-        } else {
-          return false;
-        }
+  let { data, fetchNextPage, isFetchingNextPage, isLoading, isFetching } =
+    useInfiniteQuery(
+      [],
+      async ({ pageParam = 1 }) => {
+        const { data } = await axios.get(
+          `/api/images?limit=${pageLength}&page=${pageParam}`
+        );
+        return data;
       },
-      initialPageParam: 1,
-    }
-  );
-  
+      {
+        getNextPageParam: (lastPage, allPages) => {
+          if (lastPage.length) {
+            return allPages.length + 1;
+          } else {
+            return false;
+          }
+        },
+        initialPageParam: 1,
+      }
+    );
+
   const results = data?.pages.flatMap((page) => page) ?? [];
+
 
   const formAddImageSubmit = async (e) => {
     e.preventDefault();
@@ -55,6 +57,7 @@ export default function Admin() {
         for (let image of images) {
           formData.append("images", image);
           formData.append("imageNames", image.name);
+          // formData.append("imageBase64URL", await toBase64(image));
         }
         formData.append("category", category);
         const { data } = await axios.post("/api/images", formData, {
@@ -65,7 +68,8 @@ export default function Admin() {
           },
         });
         setisAddImage(false);
-        setaddedImages(prev => [...prev, ...data])
+        // setaddedImages((prev) => [...prev, ...data]);
+        console.log("DEBUG: post request response=", data);
       }
     } catch (error) {
       // TODO: Add toast notification for adding image submit
@@ -145,13 +149,10 @@ export default function Admin() {
             <div className="py-3.5"></div>
           </div>
           <div className="divide-y divide-gray-200 bg-white">
-            {results.map((image, index) => (
-              <ImageEdit
-                storedImage={image}
-                ref={index === results.length - 1 ? ref : null}
-              />
+            {addedImages.map((image) => (
+              <ImageEdit storedImage={image} />
             ))}
-            {addedImages.map((image, index) => (
+            {results.map((image, index) => (
               <ImageEdit
                 storedImage={image}
                 ref={index === results.length - 1 ? ref : null}
