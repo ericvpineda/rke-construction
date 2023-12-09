@@ -6,6 +6,7 @@ To-Do:
 - images page
     - add redis for image caching
 - impplement error responses with toast messgaes
+- add database CRUD with online cloud storage (cloudinary)
 
 Problems:
 - navbar shutters on link press
@@ -59,6 +60,7 @@ Notes:
         - link: https://stackoverflow.com/questions/76350773/next-js-middleware-not-functioning-correctly-in-typescript-what-am-i-doing-wro
 - prisma.schema file does not allow conditional logic
     - link: https://github.com/prisma/prisma/discussions/20661
+- using next in local development will always have NODE_ENV=development even if set it to production in .env file 
 
 Issues:
 - images that did not upload properly:
@@ -122,6 +124,11 @@ Fixed:
 - patching image with living_room throws error
     - solution: need to remove "_" from request category paramter 
         - since mapRoom in utils does not use "_"
+- using infinite query and adding image does not immediately add image to list
+    - solution:
+        - create new state list with newly added image 
+        - will update state list when fetch request made for new image
+        - will not show duplicates since useinfinite query needs hard refresh to repull all images 
 
 Questions:
 - how to best error handle in middleware 

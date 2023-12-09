@@ -68,8 +68,7 @@ export default function Admin() {
           },
         });
         setisAddImage(false);
-        // setaddedImages((prev) => [...prev, ...data]);
-        console.log("DEBUG: post request response=", data);
+        setaddedImages((prev) => [...prev, ...data]);
       }
     } catch (error) {
       // TODO: Add toast notification for adding image submit
