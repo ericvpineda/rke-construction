@@ -23,7 +23,7 @@ export default function Search() {
     threshold: 1,
   });
 
-  let { data, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery(
+  let { data, fetchNextPage, isFetchingNextPage, isLoading, isFetching } = useInfiniteQuery(
     [searchParam], // Note: allows for search filter functionality
     async ({ pageParam = 1 }) => {
       let query = "";
@@ -49,7 +49,7 @@ export default function Search() {
 
   useEffect(() => {
     if (entry?.isIntersecting) {
-      fetchNextPage();
+      !isFetching && fetchNextPage();
     }
   }, [entry, searchParam, selectedIndex, windowY]);
 
