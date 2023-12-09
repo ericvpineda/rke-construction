@@ -57,7 +57,6 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
 
   const deleteImage = async () => {
     try {
-      console.log("DEBUG: id=", storedImage);
       await axios.delete(`/api/images/${storedImage.id}`);
       setisDeleteImage(false);
       setisRemoved(true);
@@ -91,6 +90,7 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       {isZoom && (
         <div className="popup_bg" onClick={toggleZoom}>
           <Image
+            priority={true}
             onClick={(e) => e.stopPropagation()}
             src={image.url}
             height={400}
