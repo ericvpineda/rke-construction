@@ -89,6 +89,7 @@ export async function POST(req) {
       const buffer = Buffer.from(bytes);
       let newImage = null;
 
+      console.log("DEBUG: env=", process.env.NODE_ENV === "development")
       if (process.env.NODE_ENV === "development") {
         newImage = await postLocal({ imageName, buffer, category, ext });
       } else {
@@ -173,7 +174,7 @@ async function postCloud({ imageName, buffer, category }) {
   // }
 
   // Upload to production cloud storage
-  const cloudImage = await uploadStream(buffer, category);
+  // const cloudImage = await uploadStream(buffer, category);
   // if (cloudImage) {
   //   const newImage = await db.project.create({
   //     data: {
