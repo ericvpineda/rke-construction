@@ -1,6 +1,6 @@
 import { db } from "@lib/db.mjs";
 import { join } from "path";
-import { writeFileSync, existsSync, mkdirSync, readFileSync } from "fs";
+import { writeFileSync, existsSync, mkdirSync } from "fs";
 import ExifReader from "exifreader";
 import { mapRoom } from "@lib/utils";
 import { randomBytes } from "crypto";
@@ -12,6 +12,7 @@ export async function GET(req) {
   const page = url.searchParams.get("page");
   let results = null;
 
+  // TODO: Change back to createdAt desc
   try {
     if (limit !== null && page !== null) {
       results = await db.project.findMany({
@@ -39,6 +40,7 @@ export async function GET(req) {
         orderBy: [
           {
             createdAt: "asc",
+            util,
           },
         ],
         select: {
@@ -136,6 +138,8 @@ export async function POST(req) {
 
         results.push(newImage);
       } else {
+        // Upload to production cloud storage
+
         // Get image information
         let date = null;
         const tags = await ExifReader.load(buffer);
@@ -160,9 +164,6 @@ export async function POST(req) {
           });
           results.push(savedImage);
         }
-        return new Response(JSON.stringify(results), {
-          status: 201,
-        });
       }
     }
     return new Response(JSON.stringify(results), {
@@ -173,7 +174,7 @@ export async function POST(req) {
   }
 }
 
-async function uploadStream(buffer, category) {
+export async function uploadStream(buffer, category) {
   return new Promise(async (resolve, reject) => {
     await cloudinary.uploader
       .upload_stream(

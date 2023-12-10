@@ -6,13 +6,16 @@ To-Do:
 - images page
     - add redis for image caching
 - impplement error responses with toast messgaes
-- add database CRUD with online cloud storage (cloudinary)
+- add database CRUD with online cloud storage (cloudinary)\
+- reupload images to cloudinary
+    - re-assign createdAt information
 
 Problems:
 - navbar shutters on link press
 - some images resize to different sizes
 - fetch route to login shows username and password in navigation url
 - fix mobile navgiation admin image scroll & zoom location
+- fix createdAt text not showing on cloud images 
 
 Completed 
 - route/UI for navigation
@@ -129,6 +132,9 @@ Fixed:
         - create new state list with newly added image 
         - will update state list when fetch request made for new image
         - will not show duplicates since useinfinite query needs hard refresh to repull all images 
+- delete route did not delete images from cloudinary
+    - solution: delete function needed entire publicurl/path from image
+        - ex: image in folder = <folder>/<public_url>
 
 Questions:
 - how to best error handle in middleware 
