@@ -2,7 +2,7 @@ import { db } from "@lib/db.mjs";
 import { join } from "path";
 import { writeFileSync, existsSync, mkdirSync, unlinkSync } from "fs";
 import ExifReader from "exifreader";
-import { mapRoom } from "@lib/utils";
+import { mapRoom, DEVELOPMENT } from "@lib/utils";
 import { randomBytes } from "crypto";
 import cloudinary from "@lib/cloudinaryConfig";
 
@@ -26,7 +26,7 @@ export async function PATCH(req, { params }) {
     }
 
     // Patch images locally
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === DEVELOPMENT) {
       updatedImage = await patchLocal({
         category,
         prevUrl,
@@ -57,7 +57,7 @@ export async function DELETE(req, { params }) {
   try {
     const { id } = params;
 
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === DEVELOPMENT) {
       deleteLocal(id);
     } else {
       deleteCloud(id);

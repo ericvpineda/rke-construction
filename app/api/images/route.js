@@ -2,7 +2,7 @@ import { db } from "@lib/db.mjs";
 import { join } from "path";
 import { writeFileSync, existsSync, mkdirSync } from "fs";
 import ExifReader from "exifreader";
-import { mapRoom } from "@lib/utils";
+import { DEVELOPMENT, mapRoom } from "@lib/utils";
 import { randomBytes } from "crypto";
 import cloudinary from "@lib/cloudinaryConfig";
 
@@ -87,7 +87,7 @@ export async function POST(req) {
       const buffer = Buffer.from(bytes);
       let newImage = null;
 
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.NODE_ENV === DEVELOPMENT) {
         newImage = await postLocal({ imageName, buffer, category, ext });
       } else {
         // Upload to production cloud storage
