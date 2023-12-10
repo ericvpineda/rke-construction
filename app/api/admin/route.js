@@ -76,7 +76,7 @@ export async function POST(req) {
 }
 
 // DELETE current admin authorization 
-export async function DELETE() {
+export async function DELETE(req) {
   try {
     const cookieStore = cookies();
     if (cookieStore.has(USER_TOKEN)) {

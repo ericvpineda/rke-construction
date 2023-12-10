@@ -28,7 +28,9 @@ export default function Nav() {
 
   const logoutHandler = async () => {
     try {
-      await axios.delete("/api/admin");
+      await axios.delete("/api/admin", {
+        headers: { "Content-Type": "application/json" },
+      });
       window.location.replace("/login");
     } catch (error) {
       // TODO: Add error toast message
@@ -48,7 +50,7 @@ export default function Nav() {
 
   if (isverified) {
     navigation.push({ name: "Admin", href: "/admin" });
-    navigation.push({ name: "Logout", href: "" });
+    navigation.push({ name: "Logout", href: "#" });
   } else {
     navigation.push({ name: "Login", href: "/login" });
   }
@@ -179,7 +181,7 @@ export default function Nav() {
                         href={item.href}
                         onClick={isverified ? logoutHandler : null}
                         className="nav_mobile_dropdown auth_button auth_button_hover"
-                        aria-current={item.current ? "page" : undefined}
+                        aria-current="page"
                       >
                         {item.name}
                       </Disclosure.Button>
