@@ -89,7 +89,7 @@ export async function POST(req) {
       const buffer = Buffer.from(bytes);
       let newImage = null;
 
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.NODE_ENV === "production") {
         newImage = await postLocal({ imageName, buffer, category, ext });
       } else {
         // Upload to production cloud storage
@@ -164,27 +164,27 @@ async function postLocal({ imageName, buffer, category, ext }) {
 // Controller to save image to database and cloud. 
 async function postCloud({ imageName, buffer, category }) {
   // Get image information
-  let date = null;
-  const tags = await ExifReader.load(buffer);
-  if (tags && tags["DateTimeOriginal"]) {
-    const imageDate = tags["DateTimeOriginal"].description;
-    date =
-      imageDate.slice(0, 10).replaceAll(":", "-") + "T" + imageDate.slice(11);
-  }
+  // let date = null;
+  // const tags = await ExifReader.load(buffer);
+  // if (tags && tags["DateTimeOriginal"]) {
+  //   const imageDate = tags["DateTimeOriginal"].description;
+  //   date =
+  //     imageDate.slice(0, 10).replaceAll(":", "-") + "T" + imageDate.slice(11);
+  // }
 
   // Upload to production cloud storage
   const cloudImage = await uploadStream(buffer, category);
-  if (cloudImage) {
-    const newImage = await db.project.create({
-      data: {
-        name: imageName,
-        url: cloudImage["secure_url"],
-        category: [mapRoom[category]],
-        dateTaken: date ? new Date(date) : null,
-      },
-    });
-    return newImage;
-  }
+  // if (cloudImage) {
+  //   const newImage = await db.project.create({
+  //     data: {
+  //       name: imageName,
+  //       url: cloudImage["secure_url"],
+  //       category: [mapRoom[category]],
+  //       dateTaken: date ? new Date(date) : null,
+  //     },
+  //   });
+  //   return newImage;
+  // }
   return null;
 }
 
