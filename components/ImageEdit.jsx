@@ -119,18 +119,18 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
             Are you sure?
           </h1>
           <div className="flex gap-2">
-            <button
+            <a
               onClick={deleteImage}
               className="bg-[#0a9396] hover:bg-[#005f73] button_custom_skeleton"
             >
               Yes
-            </button>
-            <button
+            </a>
+            <a
               onClick={toggleIsDeleteImage}
               className="bg-[#ae2012] hover:bg-[#9b2226] button_custom_skeleton"
             >
               No
-            </button>
+            </a>
           </div>
         </PopUp>
       )}
@@ -155,23 +155,23 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center hidden lg:block">
         {image.createdAt}
       </div>
-      <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0 flex flex-col gap-2">
-        <button
+      <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0 flex flex-col gap-2 items-center">
+        <a
           onClick={() => {
             toggleIsEditImage();
           }}
-          className="font-bold uppercase text-[#023e8a] hover:text-[#1b263b] underline decoration-[#023e8a] hover:decoration-[#1b263b]  decoration-1 decoration-solid"
+          className="cursor-pointer block font-bold uppercase text-[#023e8a] hover:text-[#1b263b] underline decoration-[#023e8a] hover:decoration-[#1b263b]  decoration-1 decoration-solid"
         >
           Edit
-        </button>
-        <button
+        </a>
+        <a
           onClick={() => {
             toggleIsDeleteImage();
           }}
-          className="font-bold uppercase text-[#c1121f] hover:text-[#780000] underline decoration-[#c1121f] hover:decoration-[#780000]  decoration-1 decoration-solid"
+          className="cursor-pointer font-bold uppercase text-[#c1121f] hover:text-[#780000] underline decoration-[#c1121f] hover:decoration-[#780000]  decoration-1 decoration-solid"
         >
           Delete
-        </button>
+        </a>
       </div>
     </div>
   );

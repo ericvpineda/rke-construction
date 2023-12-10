@@ -16,11 +16,11 @@
 }
 
 .button_custom {
-  @apply text-white font-bold uppercase shadow-[inset_0_0_0_2px_#585858] tracking-[0.35em] rounded-md text-[0.8em] leading-[3.45em] h-[3.5rem] block rounded-md bg-[#023e8a] px-3 text-center !text-sm !font-semibold text-white shadow-sm hover:bg-[#1b263b] focus-visible:outline-[#1b263b];
+  @apply cursor-pointer text-white font-bold uppercase shadow-[inset_0_0_0_2px_#585858] tracking-[0.35em] rounded-md text-[0.8em] leading-[3.45em] py-[1rem] block rounded-md bg-[#023e8a] px-3 text-center !text-sm !font-semibold text-white shadow-sm hover:bg-[#1b263b] focus-visible:outline-[#1b263b];
 }
 
 .button_custom_skeleton {
-  @apply font-bold uppercase shadow-[inset_0_0_0_2px_#585858] tracking-[0.35em] rounded-md text-[0.8em] leading-[3.45em] h-[3.5rem] block rounded-md px-8 text-center !text-sm !font-semibold text-white shadow-sm
+  @apply cursor-pointer font-bold uppercase shadow-[inset_0_0_0_2px_#585858] tracking-[0.35em] rounded-md text-[0.8em] leading-[3.45em] py-[1rem] block rounded-md px-8 text-center !text-sm !font-semibold text-white shadow-sm
 }
 
 .carousel_image {

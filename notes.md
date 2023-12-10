@@ -17,9 +17,7 @@ Problems:
 - fix mobile navgiation admin image scroll & zoom location
 - fix createdAt text not showing on cloud images 
 - production mode image CRUD routes returns html error
-- moving from another link to admin link does not load css correctly on admin page
-    - attempts:
-        - removed flowbite styling package
+
 
 Completed 
 - route/UI for navigation
@@ -147,6 +145,13 @@ Fixed:
     - IMPORTANT:
         - make sure mimetype is correct
         - ex: "data:image/" + ext
+- moving from another link to admin link does not load css correctly on admin page
+    - attempts:
+        - removed flowbite styling package
+        - removing bootstrap styles (but unable to since carousel relies on bootstrap)
+    - solution:
+        - convert buttons into anchor tags
+    
 
 Questions:
 - how to best error handle in middleware 

@@ -65,11 +65,11 @@ export default function ImageForm({
 
         <select
           id="categories"
-          class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          class="cursor-pointer mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
           name="selected"
           required
         >
-          <option selected={!isEditForm} disabled className="lowercase">
+          <option selected={!isEditForm} disabled className="lowercase cursor-pointer">
             Choose a category
           </option>
           {Object.keys(Room).map((room) => (
@@ -82,7 +82,7 @@ export default function ImageForm({
             </option>
           ))}
         </select>
-        <button className="button_custom w-full min-w-[15rem]">{action}</button>
+        <a className="button_custom w-full min-w-[15rem]">{action}</a>
       </form>
     </PopUp>
   );
