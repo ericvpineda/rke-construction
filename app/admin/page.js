@@ -128,7 +128,7 @@ export default function Admin() {
             </div>
             <div
               scope="col"
-              className="py-3.5 font-semibold text-gray-900 text-center"
+              className="py-3.5 pl-7 sm:pl-0 font-semibold text-gray-900 text-center"
             >
               Category
             </div>

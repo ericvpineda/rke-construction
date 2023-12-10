@@ -83,7 +83,7 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       ref={ref}
       key={image.id}
       className={classNames(
-        "grid lg:grid-cols-5 grid-cols-3 items-center justify-center",
+        "grid lg:grid-cols-5 grid-cols-3 items-center justify-around",
         isRemoved ? "hidden" : ""
       )}
     >
@@ -145,17 +145,17 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
           className="object-cover ml-5 sm:ml-0 xl:ml-10 rounded-md shadow-sm min-h-[7rem] max-h-[7rem] md:min-h-[10rem] md:max-h-[10rem] xl:min-h-[14rem] xl:max-h-[14rem] min-w-[7rem] max-w-[7rem] md:min-w-[10rem] md:max-w-[10rem] xl:min-w-[14rem] xl:max-w-[14rem]"
         />
       </div>
-      <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+      <div className="whitespace-nowrap pl-7 sm:pl-0 py-4 text-sm text-gray-500 text-center">
         {image.category}
       </div>
 
-      <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center hidden lg:block">
+      <div className="whitespace-nowrap py-4 text-sm text-gray-500 text-center hidden lg:block">
         {image.dateTaken}
       </div>
-      <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center hidden lg:block">
+      <div className="whitespace-nowrap py-4 text-sm text-gray-500 text-center hidden lg:block">
         {image.createdAt}
       </div>
-      <div className="whitespace-nowrap py-4 pl-3 !pr-20 text-right text- font-medium sm:pr-0 flex flex-col gap-2 items-center">
+      <div className="whitespace-nowrap py-4 font-medium sm:pr-0 flex flex-col gap-2 items-center p-0">
         <a
           onClick={() => {
             toggleIsEditImage();
