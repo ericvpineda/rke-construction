@@ -3,16 +3,16 @@ import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { nanoid } from "nanoid";
 
-const userToken = "user-token";
+const USER_TOKEN = "user-token";
 
-// Authorize admin access
+// GET authorize admin access
 export async function GET() {
   try {
     const cookieStore = cookies();
     let token = "";
 
-    if (cookieStore.has(userToken)) {
-      token = cookieStore.get(userToken).value;
+    if (cookieStore.has(USER_TOKEN)) {
+      token = cookieStore.get(USER_TOKEN).value;
     }
 
     const result = await verifyAuth(token)
@@ -36,7 +36,7 @@ export async function GET() {
   }
 }
 
-// Authenticate admin access
+// POST authenticate admin access
 export async function POST(req) {
   const cookieStore = cookies();
   try {
@@ -53,7 +53,7 @@ export async function POST(req) {
         .setExpirationTime("1h")
         .sign(new TextEncoder().encode(getJwtSecretKey()));
 
-      cookieStore.set(userToken, token);
+      cookieStore.set(USER_TOKEN, token);
       cookieStore.set({
         httpOnly: true,
         path: "/",
@@ -75,11 +75,12 @@ export async function POST(req) {
   }
 }
 
+// DELETE current admin authorization 
 export async function DELETE() {
   try {
     const cookieStore = cookies();
-    if (cookieStore.has(userToken)) {
-      cookieStore.delete(userToken);
+    if (cookieStore.has(USER_TOKEN)) {
+      cookieStore.delete(USER_TOKEN);
     }
     return new Response(JSON.stringify("Successfully logged out."), {
       status: 200,
