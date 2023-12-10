@@ -17,13 +17,13 @@ export default function Login() {
     setinput((prev) => ({ ...prev, [name]: value }));
   };
 
-  const submitHandler = async (e) => {
-    e.stopPropagation();
+  const submitHandler = async () => {
 
     try {
       await axios.post("/api/admin", input, {
         headers: {
           "Content-Type": "application/json",
+          credentials: "omit",
         },
       });
 
@@ -49,7 +49,7 @@ export default function Login() {
       </div>
 
       <div className="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={submitHandler}>
+        <form className="space-y-6" action={submitHandler} method="post">
           <div>
             <div className="mt-2">
               <input
