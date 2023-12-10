@@ -71,6 +71,8 @@ export async function POST(req) {
     const imageNames = formData.getAll("imageNames");
     const category = formData.get("category").toLowerCase().replace("_", "");
 
+    console.log("DEBUG: post request data=", images, imageNames, category);
+
     if (images.length === 0) {
       return new Response(
         JSON.stringify({ message: "No image(s) attached." }),

@@ -16,6 +16,7 @@ Problems:
 - fetch route to login shows username and password in navigation url
 - fix mobile navgiation admin image scroll & zoom location
 - fix createdAt text not showing on cloud images 
+- production mode image CRUD routes returns html error
 
 Completed 
 - route/UI for navigation

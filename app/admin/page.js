@@ -64,7 +64,7 @@ export default function Admin() {
           method: "POST",
           headers: {
             "Content-Type": "multipart/form-data",
-            Accept: "application/json",
+            "Accept": "application/json",
           },
         });
         setisAddImage(false);
@@ -112,7 +112,7 @@ export default function Admin() {
             onClick={() => toggleIsAddImage()}
             className="button_custom"
           >
-            Add image
+            Add images
           </button>
         </div>
       </div>
