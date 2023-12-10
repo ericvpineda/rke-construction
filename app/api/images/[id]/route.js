@@ -186,12 +186,16 @@ async function patchCloud({ category, images, imageNames, id }) {
       let imageName = imageNames[i];
       const bytes = await image.arrayBuffer();
       const buffer = Buffer.from(bytes);
-
+      
       // Destroy image on cloudinary
       await _deleteImageCloud(id);
-
+      
       // Write new image to folder command
-      const cloudImage = await uploadStream(buffer, category);
+      const base64Data = Buffer.from(bytes).toString("base64");
+      const ext = imageName.split(".").pop();
+      const fileUri = "data:image/" + ext + ";" + "base64" + "," + base64Data;
+    
+      const cloudImage = await uploadStream(fileUri, category);
       if (cloudImage) {
         // Assign createdAt property if exists
         let date = null;
@@ -303,20 +307,20 @@ async function deleteCloud(id) {
   });
 }
 
-// Upload file stream with given category to cloud server
-async function uploadStream(buffer, category) {
-  return new Promise(async (resolve, reject) => {
-    await cloudinary.uploader
-      .upload_stream(
-        { resource_type: "image", folder: category },
-        async (error, result) => {
-          if (!error) {
-            resolve(result);
-          } else {
-            reject(error);
-          }
-        }
-      )
-      .end(buffer);
+// Upload image to cloud storage and return result image
+async function uploadStream(fileUri, category) {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload(
+      fileUri,
+      {
+        folder: category,
+        resource_type: "image",
+      },
+      (err, url) => {
+        if (err) return reject(err);
+        return resolve(url);
+      }
+    );
   });
 }
+

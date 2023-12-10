@@ -87,7 +87,7 @@ export async function POST(req) {
       const buffer = Buffer.from(bytes);
       let newImage = null;
 
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.NODE_ENV === "production") {
         newImage = await postLocal({ imageName, buffer, category, ext });
       } else {
         // Upload to production cloud storage
