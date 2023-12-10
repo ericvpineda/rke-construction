@@ -51,7 +51,7 @@ export default function Search() {
     if (entry?.isIntersecting) {
       !isFetching && fetchNextPage();
     }
-  }, [entry, searchParam, selectedIndex, windowY]);
+  }, [entry, searchParam, selectedIndex]);
 
   const results = data?.pages.flatMap((page) => page) ?? [];
 
@@ -77,6 +77,7 @@ export default function Search() {
   };
 
   function toggleZoom(e, index) {
+
     const carousel = document.querySelector("#searchCarousel");
     const searchBar = document.querySelector("#searchBar");
     const verticalScroll = document.querySelector("#verticalScroll");
@@ -100,6 +101,8 @@ export default function Search() {
         pageIndex = selectedIndex - 1;
         setSelectedIndex(pageIndex);
       }
+    } else if (!isNaN(index)) {
+      setSelectedIndex(index)
     }
 
     // Fetch next page if at end of page block
