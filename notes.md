@@ -16,7 +16,7 @@ Problems:
 - fetch route to login shows username and password in navigation url
 - fix mobile navgiation admin image scroll & zoom location
 - fix createdAt text not showing on cloud images 
-- search functionality not working
+- after logging in, nav still shows login button (only on production websites)
 
 
 Completed 
@@ -151,7 +151,9 @@ Fixed:
         - removing bootstrap styles (but unable to since carousel relies on bootstrap)
     - solution:
         - convert buttons into anchor tags
-    
+- search functionality not working
+    - solution: query route needed to remove mapping dictionary 
+        - since query is already an instance of Room enum
 
 Questions:
 - how to best error handle in middleware 

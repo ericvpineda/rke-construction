@@ -1,5 +1,4 @@
 import { db } from "@lib/db.mjs";
-import { mapRoom } from "@lib/utils";
 
 export async function GET(req) {
   const url = new URL(req.url);
@@ -16,7 +15,7 @@ export async function GET(req) {
       },
       where: {
         category: {
-          has: mapRoom[search],
+          has: search,
         },
       },
     });
