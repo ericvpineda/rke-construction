@@ -17,6 +17,9 @@ Problems:
 - fix mobile navgiation admin image scroll & zoom location
 - fix createdAt text not showing on cloud images 
 - production mode image CRUD routes returns html error
+- moving from another link to admin link does not load css correctly on admin page
+    - attempts:
+        - removed flowbite styling package
 
 Completed 
 - route/UI for navigation
@@ -136,8 +139,14 @@ Fixed:
 - delete route did not delete images from cloudinary
     - solution: delete function needed entire publicurl/path from image
         - ex: image in folder = <folder>/<public_url>
-- moving from another link to admin link does not load css correctly on admin page
-    - solution: removed flowbite styling package
+- cloudinary returns html instead of expecting json
+    - cloudinary does not formally support nextjs library since community supported  
+    - issue: unhandled error when method invoked in nextjs build
+    - solution: use upload method 
+        - link: https://community.cloudinary.com/discussion/432/image-upload-from-api-route-on-cloudinary-works-on-localhost-but-not-on-vercel-production
+    - IMPORTANT:
+        - make sure mimetype is correct
+        - ex: "data:image/" + ext
 
 Questions:
 - how to best error handle in middleware 

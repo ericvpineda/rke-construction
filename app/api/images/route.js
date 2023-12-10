@@ -6,9 +6,9 @@ import { mapRoom } from "@lib/utils";
 import { randomBytes } from "crypto";
 import cloudinary from "@lib/cloudinaryConfig";
 
-// -- Routes -- 
+// -- Routes --
 
-// GET all images 
+// GET all images
 export async function GET(req) {
   const url = new URL(req.url);
   const limit = url.searchParams.get("limit");
@@ -71,8 +71,6 @@ export async function POST(req) {
     const imageNames = formData.getAll("imageNames");
     const category = formData.get("category").toLowerCase().replace("_", "");
 
-    console.log("DEBUG: post request data=", images, imageNames, category);
-
     if (images.length === 0) {
       return new Response(
         JSON.stringify({ message: "No image(s) attached." }),
@@ -89,12 +87,17 @@ export async function POST(req) {
       const buffer = Buffer.from(bytes);
       let newImage = null;
 
-      console.log("DEBUG: env=", process.env.NODE_ENV === "development")
       if (process.env.NODE_ENV === "development") {
         newImage = await postLocal({ imageName, buffer, category, ext });
       } else {
         // Upload to production cloud storage
-        newImage = await postCloud({ imageName, buffer, category });
+        newImage = await postCloud({
+          imageName,
+          bytes,
+          buffer,
+          category,
+          ext: imageName.split(".").pop(),
+        });
       }
       if (newImage) {
         results.push(newImage);
@@ -162,47 +165,49 @@ async function postLocal({ imageName, buffer, category, ext }) {
   return newImage;
 }
 
-// Controller to save image to database and cloud. 
-async function postCloud({ imageName, buffer, category }) {
+// Controller to save image to database and cloud.
+async function postCloud({ imageName, buffer, bytes, category, ext }) {
+  const base64Data = Buffer.from(bytes).toString("base64");
+  const fileUri = "data:image/" + ext + ";" + "base64" + "," + base64Data;
+
   // Get image information
-  // let date = null;
-  // const tags = await ExifReader.load(buffer);
-  // if (tags && tags["DateTimeOriginal"]) {
-  //   const imageDate = tags["DateTimeOriginal"].description;
-  //   date =
-  //     imageDate.slice(0, 10).replaceAll(":", "-") + "T" + imageDate.slice(11);
-  // }
+  let date = null;
+  const tags = await ExifReader.load(buffer);
+  if (tags && tags["DateTimeOriginal"]) {
+    const imageDate = tags["DateTimeOriginal"].description;
+    date =
+      imageDate.slice(0, 10).replaceAll(":", "-") + "T" + imageDate.slice(11);
+  }
 
   // Upload to production cloud storage
-  // const cloudImage = await uploadStream(buffer, category);
-  // if (cloudImage) {
-  //   const newImage = await db.project.create({
-  //     data: {
-  //       name: imageName,
-  //       url: cloudImage["secure_url"],
-  //       category: [mapRoom[category]],
-  //       dateTaken: date ? new Date(date) : null,
-  //     },
-  //   });
-  //   return newImage;
-  // }
+  const cloudImage = await uploadStream(fileUri, category);
+  if (cloudImage) {
+    const newImage = await db.project.create({
+      data: {
+        name: imageName,
+        url: cloudImage["secure_url"],
+        category: [mapRoom[category]],
+        dateTaken: date ? new Date(date) : null,
+      },
+    });
+    return newImage;
+  }
   return null;
 }
 
-// Upload image to cloud storage and return result image 
-async function uploadStream(buffer, category) {
-  return new Promise(async (resolve, reject) => {
-    await cloudinary.uploader
-      .upload_stream(
-        { resource_type: "image", folder: category },
-        async (error, result) => {
-          if (!error) {
-            resolve(result);
-          } else {
-            reject(error);
-          }
-        }
-      )
-      .end(buffer);
+// Upload image to cloud storage and return result image
+async function uploadStream(fileUri, category) {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload(
+      fileUri,
+      {
+        folder: category,
+        resource_type: "image",
+      },
+      (err, url) => {
+        if (err) return reject(err);
+        return resolve(url);
+      }
+    );
   });
 }
