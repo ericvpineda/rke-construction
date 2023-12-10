@@ -26,7 +26,7 @@ export async function PATCH(req, { params }) {
     }
 
     // Patch images locally
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === "development") {
       updatedImage = await patchLocal({
         category,
         prevUrl,
@@ -57,7 +57,7 @@ export async function DELETE(req, { params }) {
   try {
     const { id } = params;
 
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === "development") {
       deleteLocal(id);
     } else {
       deleteCloud(id);
