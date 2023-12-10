@@ -6,6 +6,9 @@ import { mapRoom } from "@lib/utils";
 import { randomBytes } from "crypto";
 import cloudinary from "@lib/cloudinaryConfig";
 
+// -- Routes -- 
+
+// PATCH image of given id
 export async function PATCH(req, { params }) {
   try {
     const { id } = params;
@@ -49,6 +52,27 @@ export async function PATCH(req, { params }) {
   }
 }
 
+// DELETE image of given id
+export async function DELETE(req, { params }) {
+  try {
+    const { id } = params;
+
+    if (process.env.NODE_ENV === "production") {
+      deleteLocal(id);
+    } else {
+      deleteCloud(id);
+    }
+    return new Response(JSON.stringify("Success, image deleted from local."), {
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify(error.message), { status: 500 });
+  }
+}
+
+// -- Helper functions -- 
+
+// Update image on local file storage
 async function patchLocal({ category, prevUrl, images, imageNames, id }) {
   let updatedImage = null;
 
@@ -151,15 +175,9 @@ async function patchLocal({ category, prevUrl, images, imageNames, id }) {
   return updatedImage;
 }
 
+// Update image on cloud storage 
 async function patchCloud({ category, images, imageNames, id }) {
   let updatedImage = null;
-
-  // Notes:
-  // - update image
-  //  - delete previous image on cloud
-  //  - upload new image on cloud
-  // - update category
-  //  - update path of current image on cloud (cloudinary: rename api)
 
   // Update image(s) and/or category
   if (images.length > 0) {
@@ -170,7 +188,7 @@ async function patchCloud({ category, images, imageNames, id }) {
       const buffer = Buffer.from(bytes);
 
       // Destroy image on cloudinary
-      await deleteImageCloud(id);
+      await _deleteImageCloud(id);
 
       // Write new image to folder command
       const cloudImage = await uploadStream(buffer, category);
@@ -209,7 +227,10 @@ async function patchCloud({ category, images, imageNames, id }) {
     const updatedPublicId = category + "/" + publicIdList[1].split(".")[0];
 
     // Update/rename image path on cloud
-    const cloudImage = await cloudinary.uploader.rename(prevPublicId, updatedPublicId)
+    const cloudImage = await cloudinary.uploader.rename(
+      prevPublicId,
+      updatedPublicId
+    );
 
     updatedImage = await db.project.update({
       data: {
@@ -222,75 +243,8 @@ async function patchCloud({ category, images, imageNames, id }) {
   return updatedImage;
 }
 
-export async function DELETE(req, { params }) {
-  try {
-    const { id } = params;
-
-    if (process.env.NODE_ENV === "production") {
-      const folder = join(
-        process.cwd(),
-        "public",
-        "images",
-        "seed-construction-test"
-      );
-
-      // Check if test folder exists
-      if (!existsSync(folder)) {
-        return new Response(
-          JSON.stringify("Error: seed-construction-test folder does not exist"),
-          { status: 500 }
-        );
-      } else {
-        // Update database with new category only
-        const deletedImage = await db.project.delete({
-          where: {
-            id: parseInt(id),
-          },
-        });
-
-        let deleteFilePath = join(process.cwd(), "public") + deletedImage.url;
-        deleteFilePath = deleteFilePath.replaceAll("/", "\\");
-        unlinkSync(deleteFilePath);
-      }
-
-      return new Response(
-        JSON.stringify("Success, image deleted from local."),
-        {
-          status: 200,
-        }
-      );
-    } else {
-      const foundImage = await db.project.findUnique({
-        where: { id: parseInt(id) },
-      });
-
-      // Destroy image on cloudinary
-      const publicUrl = foundImage.url.split("/").slice(-2).join("/");
-      const path = publicUrl.split(".")[0];
-      await cloudinary.uploader.destroy(path, async (error, _) => {
-        if (!error) {
-          // Delete image in database
-          await db.project.delete({
-            where: {
-              id: parseInt(id),
-            },
-          });
-        }
-      });
-
-      return new Response(
-        JSON.stringify("Success, image deleted from cloud."),
-        {
-          status: 200,
-        }
-      );
-    }
-  } catch (error) {
-    return new Response(JSON.stringify(error.message), { status: 500 });
-  }
-}
-
-async function deleteImageCloud(id) {
+// Helper function for patchCloud to ONLY delete image on cloud server
+async function _deleteImageCloud(id) {
   const foundImage = await db.project.findUnique({
     where: { id: parseInt(id) },
   });
@@ -299,7 +253,58 @@ async function deleteImageCloud(id) {
   await cloudinary.uploader.destroy(path);
 }
 
-export async function uploadStream(buffer, category) {
+// Delete image from local file storage
+async function deleteLocal(id) {
+  const folder = join(
+    process.cwd(),
+    "public",
+    "images",
+    "seed-construction-test"
+  );
+
+  // Check if test folder exists
+  if (!existsSync(folder)) {
+    return new Response(
+      JSON.stringify("Error: seed-construction-test folder does not exist"),
+      { status: 500 }
+    );
+  } else {
+    // Update database with new category only
+    const deletedImage = await db.project.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    let deleteFilePath = join(process.cwd(), "public") + deletedImage.url;
+    deleteFilePath = deleteFilePath.replaceAll("/", "\\");
+    unlinkSync(deleteFilePath);
+  }
+}
+
+// Delete image on cloud storage 
+async function deleteCloud(id) {
+  const foundImage = await db.project.findUnique({
+    where: { id: parseInt(id) },
+  });
+
+  // Destroy image on cloudinary
+  const publicUrl = foundImage.url.split("/").slice(-2).join("/");
+  const path = publicUrl.split(".")[0];
+  await cloudinary.uploader.destroy(path, async (error, _) => {
+    if (!error) {
+      // Delete image in database
+      await db.project.delete({
+        where: {
+          id: parseInt(id),
+        },
+      });
+    }
+  });
+}
+
+// Upload file stream with given category to cloud server
+async function uploadStream(buffer, category) {
   return new Promise(async (resolve, reject) => {
     await cloudinary.uploader
       .upload_stream(
