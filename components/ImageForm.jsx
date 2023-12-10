@@ -30,7 +30,13 @@ export default function ImageForm({
             multiple={!isEditForm}
             accept=".pdf, .jpg, .jpeg, .png"
             required
-            className="mb-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            className="cursor-pointer mb-3 block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600
+            file:bg-gray-50 file:border-0
+            file:bg-gray-100 file:me-4
+            file:py-3 file:px-4
+            file:bg-gray-500
+            file:text-white
+            dark:file:bg-gray-700 dark:file:text-gray-400 file:font-bold"
           />
         )}
 

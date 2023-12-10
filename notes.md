@@ -6,7 +6,7 @@ To-Do:
 - images page
     - add redis for image caching
 - impplement error responses with toast messgaes
-- add database CRUD with online cloud storage (cloudinary)\
+- add database CRUD with online cloud storage (cloudinary)
 - reupload images to cloudinary
     - re-assign createdAt information
 
@@ -135,6 +135,8 @@ Fixed:
 - delete route did not delete images from cloudinary
     - solution: delete function needed entire publicurl/path from image
         - ex: image in folder = <folder>/<public_url>
+- moving from another link to admin link does not load css correctly on admin page
+    - solution: removed flowbite styling package
 
 Questions:
 - how to best error handle in middleware 
