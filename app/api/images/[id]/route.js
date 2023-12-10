@@ -154,16 +154,22 @@ async function patchLocal({ category, prevUrl, images, imageNames, id }) {
 async function patchCloud({ category, images, imageNames, id }) {
   let updatedImage = null;
 
-  // Update image resource and category (if need)
+  // Notes:
+  // - update image
+  //  - delete previous image on cloud
+  //  - upload new image on cloud
+  // - update category
+  //  - update path of current image on cloud (cloudinary: rename api)
+
+  // Update image(s) and/or category
   if (images.length > 0) {
-    // Update category only
     for (let i = 0; i < images.length; i++) {
       const image = images[i];
       let imageName = imageNames[i];
       const bytes = await image.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      // Delete image from cloud
+      // Destroy image on cloudinary
       await deleteImageCloud(id);
 
       // Write new image to folder command
@@ -180,36 +186,39 @@ async function patchCloud({ category, images, imageNames, id }) {
             imageDate.slice(11);
         }
 
-        updatedImage = await db.project.create({
+        updatedImage = await db.project.update({
           data: {
             name: imageName,
             url: cloudImage["secure_url"],
             category: [mapRoom[category]],
             dateTaken: date ? new Date(date) : null,
           },
+          where: { id: parseInt(id) },
         });
       }
     }
   } else {
-    // Update database with new category only
+    // Update category ONLY
+
+    // Get previous and updated public id
+    const foundImage = await db.project.findUnique({
+      where: { id: parseInt(id) },
+    });
+    const publicIdList = foundImage.url.split("/").slice(-2);
+    const prevPublicId = publicIdList.join("/").split(".")[0];
+    const updatedPublicId = category + "/" + publicIdList[1].split(".")[0];
+
+    // Update/rename image path on cloud
+    const cloudImage = await cloudinary.uploader.rename(prevPublicId, updatedPublicId)
+
     updatedImage = await db.project.update({
       data: {
-        category: [mapRoom[category.replace("_", "")]],
+        url: cloudImage["secure_url"],
+        category: [mapRoom[category]],
       },
-      where: {
-        id: parseInt(id),
-      },
-      select: {
-        id: true,
-        name: true,
-        url: true,
-        category: true,
-        createdAt: true,
-        dateTaken: true,
-      },
+      where: { id: parseInt(id) },
     });
   }
-
   return updatedImage;
 }
 
@@ -251,7 +260,23 @@ export async function DELETE(req, { params }) {
         }
       );
     } else {
-      await deleteImageCloud(id);
+      const foundImage = await db.project.findUnique({
+        where: { id: parseInt(id) },
+      });
+
+      // Destroy image on cloudinary
+      const publicUrl = foundImage.url.split("/").slice(-2).join("/");
+      const path = publicUrl.split(".")[0];
+      await cloudinary.uploader.destroy(path, async (error, _) => {
+        if (!error) {
+          // Delete image in database
+          await db.project.delete({
+            where: {
+              id: parseInt(id),
+            },
+          });
+        }
+      });
 
       return new Response(
         JSON.stringify("Success, image deleted from cloud."),
@@ -269,20 +294,9 @@ async function deleteImageCloud(id) {
   const foundImage = await db.project.findUnique({
     where: { id: parseInt(id) },
   });
-
-  // Destroy image on cloudinary
-  const publicUrl = foundImage.url.split("/").slice(-2).join("/")
+  const publicUrl = foundImage.url.split("/").slice(-2).join("/");
   const path = publicUrl.split(".")[0];
-  await cloudinary.uploader.destroy(path, async (error, _) => {
-    if (!error) {
-      // Delete image in database
-      await db.project.delete({
-        where: {
-          id: parseInt(id),
-        },
-      });
-    }
-  });
+  await cloudinary.uploader.destroy(path);
 }
 
 export async function uploadStream(buffer, category) {
