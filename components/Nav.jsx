@@ -39,7 +39,7 @@ export default function Nav() {
   };
 
   // Note: Will run on every render to
-  useEffect(() => verifyAdminAuth, [isverified]);
+  useEffect(() => verifyAdminAuth);
 
   const navigation = [
     { name: "Home", href: "/" },
