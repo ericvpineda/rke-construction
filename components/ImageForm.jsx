@@ -30,13 +30,13 @@ export default function ImageForm({
             multiple={!isEditForm}
             accept=".pdf, .jpg, .jpeg, .png"
             required
-            className="cursor-pointer mb-3 block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600
+            className="file:py-3 max-w-[15rem] cursor-pointer mb-3 block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600
             file:bg-gray-50 file:border-0
             file:bg-gray-100 file:me-4
             file:py-3 file:px-4
-            file:bg-[#1f2937]
+            file:!bg-[#1f2937]
             file:text-white
-            dark:file:bg-gray-700 dark:file:text-gray-400 file:font-bold"
+            dark:file:bg-gray-700 dark:file:text-gray-400 file:!font-bold"
           />
         )}
 
@@ -69,13 +69,13 @@ export default function ImageForm({
           name="selected"
           required
         >
-          <option selected={!isEditForm} disabled className="lowercase cursor-pointer">
+          <option selected={!isEditForm} disabled className="lowercase cursor-pointer py-3">
             Choose a category
           </option>
           {Object.keys(Room).map((room) => (
             <option
               value={room}
-              className="p-2"
+              className="p-3"
               selected={isEditForm && defaultVals.category.includes(room)}
             >
               {room}
