@@ -62,7 +62,7 @@ export async function DELETE(req, { params }) {
     } else {
       deleteCloud(id);
     }
-    return new Response(JSON.stringify("Success, image deleted from local."), {
+    return new Response(JSON.stringify("Success, image deleted from database and file storage."), {
       status: 200,
     });
   } catch (error) {
