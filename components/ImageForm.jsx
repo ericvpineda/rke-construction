@@ -34,7 +34,7 @@ export default function ImageForm({
             file:bg-gray-50 file:border-0
             file:bg-gray-100 file:me-4
             file:py-3 file:px-4
-            file:bg-gray-500
+            file:bg-[#1f2937]
             file:text-white
             dark:file:bg-gray-700 dark:file:text-gray-400 file:font-bold"
           />
@@ -55,8 +55,8 @@ export default function ImageForm({
               htmlFor="editFiles"
               className="max-w-[15rem] pr-4 truncate bg-[#1f2937] mb-3 flex w-full text-sm text-gray-900 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             >
-              <div className="px-3 py-2.5 text-white">Choose file</div>
-              <div className="pr-3 pl-4 py-2.5 bg-gray-50 border-2 border-solid min-w-full">
+              <div className="px-3 py-2.5 text-white font-normal">Choose file</div>
+              <div className="pr-3 pl-4 py-2.5 bg-gray-50 border-2 border-solid min-w-full font-normal">
                 {editImageName}
               </div>
             </label>
@@ -82,7 +82,7 @@ export default function ImageForm({
             </option>
           ))}
         </select>
-        <a className="button_custom w-full min-w-[15rem]">{action}</a>
+        <button className="button_custom w-full min-w-[15rem] !text-white" >{action}</button>
       </form>
     </PopUp>
   );

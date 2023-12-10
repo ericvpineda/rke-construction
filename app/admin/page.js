@@ -107,13 +107,13 @@ export default function Admin() {
           </p>
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <a
+          <button
             type="button"
             onClick={() => toggleIsAddImage()}
             className="button_custom"
           >
             Add images
-          </a>
+          </button>
         </div>
       </div>
       {/* Table  */}

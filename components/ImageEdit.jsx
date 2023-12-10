@@ -119,18 +119,18 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
             Are you sure?
           </h1>
           <div className="flex gap-2">
-            <a
+            <button
               onClick={deleteImage}
               className="bg-[#0a9396] hover:bg-[#005f73] button_custom_skeleton"
             >
               Yes
-            </a>
-            <a
+            </button>
+            <button
               onClick={toggleIsDeleteImage}
               className="bg-[#ae2012] hover:bg-[#9b2226] button_custom_skeleton"
             >
               No
-            </a>
+            </button>
           </div>
         </PopUp>
       )}
