@@ -7,19 +7,44 @@ import { usePathname } from "next/navigation";
 import { classNames } from "@lib/utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Rss } from "lucide-react";
+
+const loggedOutLinks = [
+  { name: "Home", href: "/" },
+  { name: "Images", href: "/search" },
+  { name: "Projects", href: "/projects" },
+  { name: "About", href: "/about" },
+  { name: "Login", href: "/login" },
+];
+
+const loggedInLinks = [
+  { name: "Home", href: "/" },
+  { name: "Images", href: "/search" },
+  { name: "Projects", href: "/projects" },
+  { name: "About", href: "/about" },
+  { name: "Admin", href: "/admin" },
+  { name: "Logout", href: "#" },
+]
 
 export default function Nav() {
   const pathname = usePathname();
   const [isverified, setisverified] = useState(false);
+  const [navigation, setnavigation] = useState(loggedOutLinks);
 
   const verifyAdminAuth = async () => {
     try {
       const { data } = await axios.get("/api/admin", {
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
       });
-      setisverified(data["isVerified"]);
+      setisverified(data.isVerified);
+      if (data.isVerified) {
+        setnavigation(loggedInLinks);
+      } else {
+        setnavigation(loggedOutLinks);
+      }
     } catch (error) {
       // TODO: Add error toast message
       setisverified(false);
@@ -32,6 +57,8 @@ export default function Nav() {
         headers: { "Content-Type": "application/json" },
       });
       window.location.replace("/login");
+      setnavigation(loggedOutLinks);
+      setisverified(false);
     } catch (error) {
       // TODO: Add error toast message
       console.log(error);
@@ -39,21 +66,9 @@ export default function Nav() {
   };
 
   // Note: Will run on every render to
-  useEffect(() => verifyAdminAuth);
-
-  const navigation = [
-    { name: "Home", href: "/" },
-    { name: "Images", href: "/search" },
-    { name: "Projects", href: "/projects" },
-    { name: "About", href: "/about" },
-  ];
-
-  if (isverified) {
-    navigation.push({ name: "Admin", href: "/admin" });
-    navigation.push({ name: "Logout", href: "#" });
-  } else {
-    navigation.push({ name: "Login", href: "/login" });
-  }
+  useEffect(() => {
+    verifyAdminAuth();
+  }, [isverified]);
 
   return (
     <Disclosure as="nav" className="theme_blue">
