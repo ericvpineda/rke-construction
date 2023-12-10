@@ -46,3 +46,15 @@
 .image_zoom {
   @apply min-h-[25rem] max-h-[25rem] md:min-h-[40rem] md:max-h-[40rem] xl:min-h-[50rem] xl:max-h-[50rem] min-w-[25rem] max-w-[25rem] md:min-w-[40rem] md:max-w-[40rem] xl:min-w-[50rem] xl:max-w-[50rem]
 }
+
+.auth_button {
+  @apply px-3 py-2 text-base font-medium text-white bg-[#fc7622] !rounded-lg
+}
+
+.auth_button_hover {
+  @apply  hover:bg-[#ca6702];
+}
+
+.nav_mobile_dropdown {
+  @apply block rounded-md px-3 py-2 text-base font-medium !ring-0 outline-none focus:ring-0 focus:ring-offset-0
+}

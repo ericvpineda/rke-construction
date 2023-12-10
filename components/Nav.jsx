@@ -21,23 +21,23 @@ export default function Nav() {
       });
       setisverified(data["isVerified"]);
     } catch (error) {
-      // TODO: Add error toast message 
+      // TODO: Add error toast message
       setisverified(false);
     }
   };
 
   const logoutHandler = async () => {
     try {
-      await axios.delete("/api/admin")
-      window.location.replace('/login')
+      await axios.delete("/api/admin");
+      window.location.replace("/login");
     } catch (error) {
-      // TODO: Add error toast message 
-      console.log(error)
+      // TODO: Add error toast message
+      console.log(error);
     }
   };
 
   // Note: Will run on every render to
-  useEffect(() => verifyAdminAuth);
+  useEffect(() => verifyAdminAuth, [isverified]);
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -48,6 +48,7 @@ export default function Nav() {
 
   if (isverified) {
     navigation.push({ name: "Admin", href: "/admin" });
+    navigation.push({ name: "Logout", href: "" });
   } else {
     navigation.push({ name: "Login", href: "/login" });
   }
@@ -88,31 +89,40 @@ export default function Nav() {
                 <div className="flex flex-1 items-center justify-center sm:justify-between sm:items-center">
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
-                      {navigation.map((item) => (
-                        <Link
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            pathname == item.href
-                              ? "nav_button_selected"
-                              : "nav_button_hover",
-                            "nav_button"
-                          )}
-                          aria-current={item.current ? "page" : undefined}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                      {isverified && (
-                        <Link
-                          key="logout"
-                          href="#"
-                          className="nav_button_hover nav_button"
-                          onClick={logoutHandler}
-                        >
-                          Logout
-                        </Link>
-                      )}
+                      {navigation.map((item) => {
+                        if (item.name !== "Login" && item.name !== "Logout") {
+                          return (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              className={classNames(
+                                pathname == item.href
+                                  ? "nav_button_selected"
+                                  : "nav_button_hover",
+                                "nav_button"
+                              )}
+                              prefetch={
+                                item.name === "Images" || item.name === "Admin"
+                              }
+                              aria-current={item.current ? "page" : undefined}
+                            >
+                              {item.name}
+                            </Link>
+                          );
+                        } else {
+                          return (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              className="auth_button_hover auth_button"
+                              onClick={isverified ? logoutHandler : null}
+                              aria-current="page"
+                            >
+                              {item.name}
+                            </Link>
+                          );
+                        }
+                      })}
                     </div>
                   </div>
                 </div>
@@ -143,22 +153,39 @@ export default function Nav() {
             {/* Mobile Buttons  */}
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 px-2 pb-3 pt-2">
-                {navigation.map((item) => (
-                  <Disclosure.Button
-                    key={item.name}
-                    as="a"
-                    href={item.href}
-                    className={classNames(
-                      pathname == item.href
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "block rounded-md px-3 py-2 text-base font-medium !ring-0 outline-none focus:ring-0 focus:ring-offset-0"
-                    )}
-                    aria-current={item.current ? "page" : undefined}
-                  >
-                    {item.name}
-                  </Disclosure.Button>
-                ))}
+                {navigation.map((item) => {
+                  if (item.name !== "Login" && item.name !== "Logout") {
+                    return (
+                      <Disclosure.Button
+                        key={item.name}
+                        as="a"
+                        href={item.href}
+                        className={classNames(
+                          pathname == item.href
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "nav_mobile_dropdown"
+                        )}
+                        aria-current={item.current ? "page" : undefined}
+                      >
+                        {item.name}
+                      </Disclosure.Button>
+                    );
+                  } else {
+                    return (
+                      <Disclosure.Button
+                        key={item.name}
+                        as="a"
+                        href={item.href}
+                        onClick={isverified ? logoutHandler : null}
+                        className="nav_mobile_dropdown auth_button auth_button_hover"
+                        aria-current={item.current ? "page" : undefined}
+                      >
+                        {item.name}
+                      </Disclosure.Button>
+                    );
+                  }
+                })}
               </div>
             </Disclosure.Panel>
           </Transition>
