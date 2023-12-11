@@ -16,7 +16,6 @@ Problems:
 - fix mobile navgiation admin image scroll & zoom location
 - fix createdAt text not showing on cloud images 
 
-
 Completed 
 - route/UI for navigation
 - routes/pages:
@@ -160,6 +159,11 @@ Fixed:
     - solution: 
         - form element needs action={handler}, method="post"
         - cannot just use useSubmit attribute
+- search for "living room" cannot be found, needs to be living...
+    - need to reformat prisma images schema + reupload to cloud  
+    - solution:
+        - replaceall " " with no space in userinput
+        - replaceAll "_" with no underline in prisma schema variable
 
 Questions:
 - how to best error handle in middleware 

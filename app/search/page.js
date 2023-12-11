@@ -60,12 +60,12 @@ export default function Search() {
   const searchImages = (e) => {
     clearTimeout(id);
     id = setTimeout(() => {
-      const userInput = e.target.value;
+      const userInput = e.target.value.replaceAll(" ", "");
 
       if (userInput.length) {
         const regex = new RegExp(userInput, "i");
         for (let target of Object.keys(Room)) {
-          if (regex.test(target)) {
+          if (regex.test(target.replaceAll("_", ""))) {
             setSearchParam(target);
             break;
           }
