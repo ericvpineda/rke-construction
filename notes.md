@@ -1,20 +1,14 @@
 To-Do:
-- update projects page to allow for image close up view
 - add admin login to allow for image CRUD 
     - add tabs/buttons for image data filtering
         - ex: most recent, etc.
 - images page
     - add redis for image caching
-- impplement error responses with toast messgaes
-- add database CRUD with online cloud storage (cloudinary)
-- reupload images to cloudinary
-    - re-assign createdAt information
+
 
 Problems:
-- navbar shutters on link press
-- some images resize to different sizes
-- fix mobile navgiation admin image scroll & zoom location
 - fix createdAt text not showing on cloud images 
+    - need to reformat prisma images schema + reupload to cloud  
 
 Completed 
 - route/UI for navigation
@@ -34,7 +28,9 @@ Completed
     - create server route for edit particular image
 - add delete image functionality
 - add useinifinite query for admin image scroll
-
+- impplement error responses with toast messgaes
+- add database CRUD with online cloud storage (cloudinary)
+- update projects page to allow for image close up view
 
 Technologies:
 - upstash: serverless redis
@@ -160,7 +156,6 @@ Fixed:
         - form element needs action={handler}, method="post"
         - cannot just use useSubmit attribute
 - search for "living room" cannot be found, needs to be living...
-    - need to reformat prisma images schema + reupload to cloud  
     - solution:
         - replaceall " " with no space in userinput
         - replaceAll "_" with no underline in prisma schema variable

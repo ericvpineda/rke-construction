@@ -24,7 +24,7 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       toggleIsEditImage();
     } else {
       try {
-        const toastId = toast.loading('Editing image...');
+        const toastId = toast.loading("Editing image...");
         const formData = new FormData();
 
         if (images.length > 0) {
@@ -46,13 +46,13 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
             },
           }
         );
-        toast.dismiss(toastId)
+        toast.dismiss(toastId);
         setisEditImage(false);
         setimage(data);
-        toast.success("Success, image edited!")
+        toast.success("Success, image edited!");
       } catch (error) {
-        toast.dismiss()
-        toast.error("Unable to edit image. Please try again.")
+        toast.dismiss();
+        toast.error("Unable to edit image. Please try again.");
       }
     }
   };
@@ -62,9 +62,9 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       await axios.delete(`/api/images/${storedImage.id}`);
       setisDeleteImage(false);
       setisRemoved(true);
-      toast.success("Success, image deleted!")
+      toast.success("Success, image deleted!");
     } catch (error) {
-      toast.error("Unable to delete image. Please try again.")
+      toast.error("Unable to delete image. Please try again.");
     }
   };
 
@@ -152,10 +152,10 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       </div>
 
       <div className="whitespace-nowrap py-4 text-sm text-gray-500 text-center hidden lg:block">
-        {image.dateTaken}
+        {image.dateTaken ? new Date(image.dateTaken).toDateString() : "N/A"}
       </div>
       <div className="whitespace-nowrap py-4 text-sm text-gray-500 text-center hidden lg:block">
-        {image.createdAt}
+        {image.createdAt ? new Date(image.createdAt).toDateString() : "N/A"}
       </div>
       <div className="whitespace-nowrap py-4 font-medium sm:pr-0 flex flex-col gap-2 items-center p-0">
         <a
