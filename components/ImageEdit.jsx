@@ -5,6 +5,7 @@ import axios from "axios";
 import PopUp from "./PopUp";
 import { classNames } from "@lib/utils";
 import { forwardRef } from "react";
+import toast from "react-hot-toast";
 
 const ImageEdit = forwardRef(({ storedImage }, ref) => {
   const [isEditImage, setisEditImage] = useState(false);
@@ -20,7 +21,6 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
     const category = e.target.selected[index].text;
 
     if (images.length == 0 && category === image.category[0]) {
-      console.log("DEBUG: Image and category are the same.");
       toggleIsEditImage();
     } else {
       try {
@@ -48,9 +48,9 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
 
         setisEditImage(false);
         setimage(data);
+        toast.success("Success, image edited!")
       } catch (error) {
-        // TODO: Add toast notification for edit image submit
-        console.log(error);
+        toast.error("Unable to edit image. Please try again.")
       }
     }
   };
@@ -60,9 +60,9 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       await axios.delete(`/api/images/${storedImage.id}`);
       setisDeleteImage(false);
       setisRemoved(true);
+      toast.success("Success, image deleted!")
     } catch (error) {
-      // TODO: Add toast notification for delete image submit
-      console.log(error);
+      toast.error("Unable to delete image. Please try again.")
     }
   };
 

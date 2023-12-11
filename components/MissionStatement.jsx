@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function MissionStatement() {
   return (
     <div className='container-style pb-12 flex flex-col justify-center text-center tracking-light'>

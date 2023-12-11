@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Nav from "@components/Nav";
 import { classNames } from "@lib/utils";
 import Providers from "@components/Providers";
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       <Providers>
         <body className="min-h-screen bg-slate-50 antialiased">
           <Nav />
+          <Toaster/>
           {children}
         </body>
       </Providers>

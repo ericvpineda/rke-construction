@@ -13,10 +13,8 @@ To-Do:
 Problems:
 - navbar shutters on link press
 - some images resize to different sizes
-- fetch route to login shows username and password in navigation url
 - fix mobile navgiation admin image scroll & zoom location
 - fix createdAt text not showing on cloud images 
-- after logging in, nav still shows login button (only on production websites)
 
 
 Completed 
@@ -154,6 +152,14 @@ Fixed:
 - search functionality not working
     - solution: query route needed to remove mapping dictionary 
         - since query is already an instance of Room enum
+- after logging in, nav still shows login button (only on production websites)
+    - problem: links did no rerender on success login
+    - solution:
+        - make links stateful
+- fetch route to login shows username and password in navigation url
+    - solution: 
+        - form element needs action={handler}, method="post"
+        - cannot just use useSubmit attribute
 
 Questions:
 - how to best error handle in middleware 

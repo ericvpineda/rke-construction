@@ -2,11 +2,10 @@
 import { Icons } from "@components/Icons";
 import { useState } from "react";
 import axios from "axios";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Login() {
-  
-  const router = useRouter()
   const [input, setinput] = useState({
     email: "",
     password: "",
@@ -18,7 +17,6 @@ export default function Login() {
   };
 
   const submitHandler = async () => {
-
     try {
       await axios.post("/api/admin", input, {
         headers: {
@@ -31,15 +29,11 @@ export default function Login() {
         email: "",
         password: "",
       });
-
-      window.location.replace('/admin')
-      // TODO: add toast notifications for login success
-    } catch (err) {
-      // TODO: add toast notifications for login failure
-      console.log(err);
+      window.location.replace("/admin");
+      toast.success("Login success!");
+    } catch (error) {
+      toast.error("Invalid credientials.");
     }
-
-
   };
 
   return (

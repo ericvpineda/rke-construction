@@ -6,6 +6,7 @@ import ImageEdit from "@components/ImageEdit";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersection } from "@mantine/hooks";
 import LoadingImage from "@components/LoadingImage";
+import toast from "react-hot-toast";
 
 export default function Admin() {
   const [isAddImage, setisAddImage] = useState(false);
@@ -50,14 +51,12 @@ export default function Admin() {
       const category = e.target.selected[index].text;
 
       if (index === 0) {
-        // TODO: Create error toast notification
-        console.log("Error: Please select cateogry.");
+        toast.error("Please select a category.")
       } else {
         const formData = new FormData();
         for (let image of images) {
           formData.append("images", image);
           formData.append("imageNames", image.name);
-          // formData.append("imageBase64URL", await toBase64(image));
         }
         formData.append("category", category);
         const { data } = await axios.post("/api/images", formData, {
@@ -69,10 +68,10 @@ export default function Admin() {
         });
         setisAddImage(false);
         setaddedImages((prev) => [...prev, ...data]);
+        toast.success("Success image(s) added.")
       }
     } catch (error) {
-      // TODO: Add toast notification for adding image submit
-      console.log(error);
+      toast.error("Failure to add image. Please try again.")
     }
   };
 

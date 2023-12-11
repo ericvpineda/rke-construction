@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { classNames } from "@lib/utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Rss } from "lucide-react";
+import toast from "react-hot-toast";
 
 const loggedOutLinks = [
   { name: "Home", href: "/" },
@@ -47,6 +47,7 @@ export default function Nav() {
       }
     } catch (error) {
       // TODO: Add error toast message
+      setnavigation(loggedOutLinks);
       setisverified(false);
     }
   };
@@ -57,11 +58,12 @@ export default function Nav() {
         headers: { "Content-Type": "application/json" },
       });
       window.location.replace("/login");
+      toast.success("Logout success!");
       setnavigation(loggedOutLinks);
       setisverified(false);
     } catch (error) {
-      // TODO: Add error toast message
-      console.log(error);
+      toast.error("Logout failure.");
+      setnavigation(loggedOutLinks);
     }
   };
 
