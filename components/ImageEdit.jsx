@@ -85,7 +85,7 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       ref={ref}
       key={image.id}
       className={classNames(
-        "grid lg:grid-cols-5 grid-cols-3 items-center justify-around",
+        "grid lg:grid-cols-5 sm:grid-cols-4 grid-cols-3 items-center justify-around",
         isRemoved ? "hidden" : ""
       )}
     >
@@ -151,7 +151,7 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
         {image.category}
       </div>
 
-      <div className="whitespace-nowrap py-4 text-sm text-gray-500 text-center hidden lg:block">
+      <div className="whitespace-nowrap py-4 text-sm text-gray-500 text-center hidden sm:block">
         {image.dateTaken ? new Date(image.dateTaken).toDateString() : "N/A"}
       </div>
       <div className="whitespace-nowrap py-4 text-sm text-gray-500 text-center hidden lg:block">

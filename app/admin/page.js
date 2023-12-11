@@ -121,7 +121,7 @@ export default function Admin() {
       {/* Table  */}
       <div className="-mx-4 mt-8 sm:-mx-0 shadow-sm rounded-md">
         <div className="min-w-full divide-y divide-gray-300">
-          <div className="grid lg:grid-cols-5 grid-cols-3 text-md">
+          <div className="grid lg:grid-cols-5 sm:grid-cols-4 grid-cols-3 text-md">
             <div
               scope="col"
               className="py-3.5 font-semibold text-gray-900 sm:pl-0 text-center"
@@ -137,7 +137,7 @@ export default function Admin() {
 
             <div
               scope="col"
-              className="py-3.5 font-semibold text-gray-900 text-center hidden lg:block"
+              className="py-3.5 font-semibold text-gray-900 text-center hidden sm:block"
             >
               Created At
             </div>
