@@ -24,7 +24,7 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       toggleIsEditImage();
     } else {
       try {
-        const toastId = toast.loading('Uploading image...');
+        const toastId = toast.loading('Editing image...');
         const formData = new FormData();
 
         if (images.length > 0) {

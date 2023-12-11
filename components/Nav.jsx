@@ -46,7 +46,6 @@ export default function Nav() {
         setnavigation(loggedOutLinks);
       }
     } catch (error) {
-      // TODO: Add error toast message
       setnavigation(loggedOutLinks);
       setisverified(false);
     }
