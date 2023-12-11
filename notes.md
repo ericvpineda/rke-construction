@@ -1,14 +1,10 @@
 To-Do:
-- add admin login to allow for image CRUD 
-    - add tabs/buttons for image data filtering
-        - ex: most recent, etc.
+- add tabs/buttons for image data filtering
+    - ex: most recent, etc.
 - images page
     - add redis for image caching
 
-
 Problems:
-- fix createdAt text not showing on cloud images 
-    - need to reformat prisma images schema + reupload to cloud  
 
 Completed 
 - route/UI for navigation
@@ -31,6 +27,7 @@ Completed
 - impplement error responses with toast messgaes
 - add database CRUD with online cloud storage (cloudinary)
 - update projects page to allow for image close up view
+- add admin login to allow for image CRUD 
 
 Technologies:
 - upstash: serverless redis
@@ -69,7 +66,6 @@ Issues:
     - ERROR: IMG_1711.JPG upload to cloudinary failure.
     - ERROR: IMG_1216.JPG upload to cloudinary failure.
     - ERROR: IMG_1755.JPG upload to cloudinary failure.
-
 
 Fixed:
 - post request to login with middleware does infinite pending request
@@ -159,6 +155,8 @@ Fixed:
     - solution:
         - replaceall " " with no space in userinput
         - replaceAll "_" with no underline in prisma schema variable
+- fix createdAt text not showing on cloud images 
+    - need to reformat prisma images schema + reupload to cloud  
 
 Questions:
 - how to best error handle in middleware 
