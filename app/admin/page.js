@@ -53,6 +53,7 @@ export default function Admin() {
       if (index === 0) {
         toast.error("Please select a category.")
       } else {
+        const toastId = toast.loading('Uploading image...');
         const formData = new FormData();
         for (let image of images) {
           formData.append("images", image);
@@ -66,11 +67,13 @@ export default function Admin() {
             "Accept": "application/json",
           },
         });
+        toast.dismiss(toastId)
         setisAddImage(false);
         setaddedImages((prev) => [...prev, ...data]);
         toast.success("Success image(s) added.")
       }
     } catch (error) {
+      toast.dismiss()
       toast.error("Failure to add image. Please try again.")
     }
   };

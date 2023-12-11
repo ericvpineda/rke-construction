@@ -24,6 +24,7 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
       toggleIsEditImage();
     } else {
       try {
+        const toastId = toast.loading('Uploading image...');
         const formData = new FormData();
 
         if (images.length > 0) {
@@ -45,11 +46,12 @@ const ImageEdit = forwardRef(({ storedImage }, ref) => {
             },
           }
         );
-
+        toast.dismiss(toastId)
         setisEditImage(false);
         setimage(data);
         toast.success("Success, image edited!")
       } catch (error) {
+        toast.dismiss()
         toast.error("Unable to edit image. Please try again.")
       }
     }
