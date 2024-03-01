@@ -23,3 +23,6 @@
 - Access Management: [Jwt](https://jwt.io/) 
 - Hosting Server: [Vercel](https://vercel.com/)
 
+## Todo
+- Update image descriptions under projects tab
+
